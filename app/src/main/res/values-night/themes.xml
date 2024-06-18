@@ -1,7 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AstraShineLaundry" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.AstraShineLaundry" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">#407BFF</item>
+        <item name="colorSecondary">#2FABE2</item>
+        <item name="colorOnPrimary">#03AED2</item>
+        <item name="colorOnBackground">#FFFFFF</item>
+        <item name="colorPrimaryVariant">#000000</item>
     </style>
 </resources>
