@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.AstraShineLaundry" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Base.Theme.AstraShineLaundry" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#407BFF</item>
         <item name="colorSecondary">#2FABE2</item>
         <item name="colorOnPrimary">#03AED2</item>
