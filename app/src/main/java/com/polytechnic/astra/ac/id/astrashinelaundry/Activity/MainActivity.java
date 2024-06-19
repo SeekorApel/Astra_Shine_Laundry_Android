@@ -2,6 +2,8 @@ package com.polytechnic.astra.ac.id.astrashinelaundry.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
@@ -18,16 +20,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Check if the fragment container is available
-        if (findViewById(R.id.fragment_login) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
-            // Create a new instance of LoginFragment
-            LoginFragment loginFragment = new LoginFragment();
+
+        //Panggil Fragment Login Pada saat di jalankan
+        if (savedInstanceState == null) {
+            LoginFragment fragmentLogin = new LoginFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_login, loginFragment).commit();
+                    .add(R.id.fragment_login, fragmentLogin)
+                    .commit();
         }
+
+        //Clear Field edittext email dan password
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Fragment loginFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_login);
+                if (loginFragment instanceof LoginFragment) {
+                    ((LoginFragment) loginFragment).clearFields();
+                }
+            }
+        });
+
+
     }
 
 }
