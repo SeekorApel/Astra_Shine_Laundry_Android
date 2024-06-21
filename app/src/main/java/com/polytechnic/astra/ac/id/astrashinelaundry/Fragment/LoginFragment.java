@@ -1,14 +1,20 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +24,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.LoginVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.TestCusActivity;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
+import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.LoginViewModel;
 
 import org.w3c.dom.Text;
 
@@ -30,13 +42,17 @@ public class LoginFragment extends Fragment {
 
     private Button mBtnLogin;
 
+    private LoginViewModel loginViewModel;
+
     public LoginFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserRepository.initialize(requireContext());
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
     }
 
     @Override
@@ -73,7 +89,38 @@ public class LoginFragment extends Fragment {
                     return;
                 }
 
-                Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
+                loginViewModel.login(email, password);
+
+                // Observe the login response
+                loginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), new Observer<LoginVO>() {
+                    @Override
+                    public void onChanged(LoginVO loginVO) {
+                        if (loginVO != null) {
+                            Integer idUser = loginVO.getData().getIdUser();
+                            String namaUser = loginVO.getData().getNamaUser();
+                            String noTelp = loginVO.getData().getNoTelp();
+                            String role = loginVO.getData().getRole();
+                            String status = loginVO.getData().getStatus();
+                            UserModel dataLogin = new UserModel(idUser,namaUser, noTelp, role, status);
+
+                            //Simpan Ke dalam session
+                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            Gson gson = new Gson();
+                            String userJson = gson.toJson(dataLogin);
+                            editor.putString("dataUser", userJson);
+                            editor.apply();
+
+                            Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
+
+                            //Pindah ke activity Sesuai Role
+                            navigateToNewActivity(role);
+                        } else {
+                            // Handle login failure
+                            Toast.makeText(getActivity(), "Login failed", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 
@@ -117,6 +164,9 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        //Pengecekan Session Login
+        checkSession();
+
         return view;
     }
 
@@ -132,4 +182,27 @@ public class LoginFragment extends Fragment {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         return email.matches(emailPattern);
     }
+
+    private void checkSession() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
+        String userJson = sharedPreferences.getString("dataUser", null);
+        if (userJson != null) {
+            Gson gson = new Gson();
+            UserModel userModel = gson.fromJson(userJson, UserModel.class);
+            navigateToNewActivity(userModel.getRole());
+        } else {
+            // Tidak ada sesi
+            Log.d("LoginFragment", "No session found");
+        }
+    }
+
+    private void navigateToNewActivity (String role){
+        if (role.equals("Customer")) {
+            Intent intent = new Intent(getActivity(), TestCusActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        }
+    }
+
+
 }

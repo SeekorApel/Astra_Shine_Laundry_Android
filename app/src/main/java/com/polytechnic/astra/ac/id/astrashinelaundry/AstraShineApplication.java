@@ -13,6 +13,5 @@ public class AstraShineApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "AstraShineLaundryApplication.onCreate() called");
-        UserRepository.initialize(this);
     }
 }

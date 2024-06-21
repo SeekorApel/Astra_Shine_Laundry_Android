@@ -33,11 +33,16 @@ public class UserModel {
     @Expose
     private String status;
 
-    public UserModel(String email, String password, String namaUser, String noTelp) {
-        this.email = email;
-        this.password = password;
+    public UserModel() {
+    }
+
+
+    public UserModel(Integer idUser, String namaUser, String noTelp, String role, String status) {
+        this.idUser = idUser;
         this.namaUser = namaUser;
         this.noTelp = noTelp;
+        this.role = role;
+        this.status = status;
     }
 
     public Integer getIdUser() {
@@ -94,5 +99,18 @@ public class UserModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "idUser=" + idUser +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", namaUser='" + namaUser + '\'' +
+                ", noTelp='" + noTelp + '\'' +
+                ", role='" + role + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
 }
