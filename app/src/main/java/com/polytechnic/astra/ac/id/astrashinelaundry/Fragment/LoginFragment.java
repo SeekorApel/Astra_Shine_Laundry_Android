@@ -9,9 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +38,7 @@ public class LoginFragment extends Fragment {
 
     private Button mBtnLogin;
 
-    private LoginViewModel loginViewModel;
+    private LoginViewModel mLoginViewModel;
 
     public LoginFragment() {
 
@@ -52,7 +48,7 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UserRepository.initialize(requireContext());
-        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        mLoginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
     }
 
     @Override
@@ -89,10 +85,10 @@ public class LoginFragment extends Fragment {
                     return;
                 }
 
-                loginViewModel.login(email, password);
+                mLoginViewModel.login(email, password);
 
                 // Observe the login response
-                loginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), new Observer<LoginVO>() {
+                mLoginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), new Observer<LoginVO>() {
                     @Override
                     public void onChanged(LoginVO loginVO) {
                         if (loginVO != null) {
@@ -198,6 +194,10 @@ public class LoginFragment extends Fragment {
 
     private void navigateToNewActivity (String role){
         if (role.equals("Customer")) {
+            Intent intent = new Intent(getActivity(), TestCusActivity.class);
+            startActivity(intent);
+            getActivity().finish();
+        } else if (role.equals("Kurir")) {
             Intent intent = new Intent(getActivity(), TestCusActivity.class);
             startActivity(intent);
             getActivity().finish();

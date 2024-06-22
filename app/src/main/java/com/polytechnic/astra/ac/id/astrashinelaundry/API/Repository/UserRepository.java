@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.ApiUtils;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.UserService;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.LoginVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.RegisterVO;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,10 +48,37 @@ public class UserRepository {
 
             @Override
             public void onFailure(Call<LoginVO> call, Throwable throwable) {
-                Log.e("Error API Call Login : ", throwable.getMessage());
+                Log.e("Error API Call : ", throwable.getMessage());
             }
         });
 
         return dataLogin;
+    }
+
+    public void resetPassword(String email, final ResetPasswordCallback callback) {
+        Log.i(TAG, "resetPassword() called");
+        Call<RegisterVO> call = mUserService.resetPasswordByEmail(email);
+        call.enqueue(new Callback<RegisterVO>() {
+            @Override
+            public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
+                Log.d(TAG, "resetPassword.onResponse() called");
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getMessage());
+                } else {
+                    callback.onError("Failed to reset password");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterVO> call, Throwable throwable) {
+                Log.e("Error API Call : ", throwable.getMessage());
+                callback.onError(throwable.getMessage());
+            }
+        });
+    }
+
+    public interface ResetPasswordCallback {
+        void onSuccess(String message);
+        void onError(String error);
     }
 }
