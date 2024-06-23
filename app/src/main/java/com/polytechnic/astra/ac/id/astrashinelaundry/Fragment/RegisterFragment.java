@@ -1,8 +1,10 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,7 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
+import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.LoginViewModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.RegisterViewModel;
 
 public class RegisterFragment extends Fragment {
 
@@ -20,12 +27,16 @@ public class RegisterFragment extends Fragment {
 
     private Button mBtnDaftar, mBtnKembali;
 
+    private RegisterViewModel mRegisterViewModel;
+
     public RegisterFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserRepository.initialize(requireContext());
+        mRegisterViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
     }
 
     @Override
@@ -46,6 +57,12 @@ public class RegisterFragment extends Fragment {
                 String password = mEdtPassword.getText().toString().trim();
                 String nama = mEdtNama.getText().toString().trim();
                 String noTelp = mEdtNoTelephone.getText().toString().trim();
+
+                UserModel registerUser = new UserModel();
+                registerUser.setEmail(email);
+                registerUser.setPassword(password);
+                registerUser.setNamaUser(nama);
+                registerUser.setNoTelp(noTelp);
 
                 if (TextUtils.isEmpty(email)) {
                     mEdtEmail.setError("Email wajib Di isi");
@@ -77,8 +94,16 @@ public class RegisterFragment extends Fragment {
                     return;
                 }
 
-                Toast.makeText(getActivity(), "Register successful", Toast.LENGTH_SHORT).show();
+                mRegisterViewModel.registerUser(registerUser);
 
+                mRegisterViewModel.getRegisterMessage().observe(getViewLifecycleOwner(), message -> {
+                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+                    navigateToMainActivity();
+                });
+
+                mRegisterViewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
+                    Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+                });
             }
         });
 
@@ -94,5 +119,11 @@ public class RegisterFragment extends Fragment {
     private boolean isValidEmail(String email) {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         return email.matches(emailPattern);
+    }
+
+    private void navigateToMainActivity(){
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 }

@@ -1,10 +1,12 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.API.VO;
 
-public class RegisterVO {
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
+
+public class UserVO {
 
     private int status;
 
-    private String data;
+    private UserModel data;
 
     private String message;
 
@@ -16,11 +18,11 @@ public class RegisterVO {
         this.status = status;
     }
 
-    public String getData() {
+    public UserModel getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(UserModel data) {
         this.data = data;
     }
 
@@ -31,4 +33,5 @@ public class RegisterVO {
     public void setMessage(String message) {
         this.message = message;
     }
+
 }

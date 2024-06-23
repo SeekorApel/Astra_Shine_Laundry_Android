@@ -22,13 +22,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
-import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.LoginVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.TestCusActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.LoginViewModel;
-
-import org.w3c.dom.Text;
 
 public class LoginFragment extends Fragment {
 
@@ -88,15 +86,15 @@ public class LoginFragment extends Fragment {
                 mLoginViewModel.login(email, password);
 
                 // Observe the login response
-                mLoginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), new Observer<LoginVO>() {
+                mLoginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), new Observer<UserVO>() {
                     @Override
-                    public void onChanged(LoginVO loginVO) {
-                        if (loginVO != null) {
-                            Integer idUser = loginVO.getData().getIdUser();
-                            String namaUser = loginVO.getData().getNamaUser();
-                            String noTelp = loginVO.getData().getNoTelp();
-                            String role = loginVO.getData().getRole();
-                            String status = loginVO.getData().getStatus();
+                    public void onChanged(UserVO userVO) {
+                        if (userVO != null) {
+                            Integer idUser = userVO.getData().getIdUser();
+                            String namaUser = userVO.getData().getNamaUser();
+                            String noTelp = userVO.getData().getNoTelp();
+                            String role = userVO.getData().getRole();
+                            String status = userVO.getData().getStatus();
                             UserModel dataLogin = new UserModel(idUser,namaUser, noTelp, role, status);
 
                             //Simpan Ke dalam session

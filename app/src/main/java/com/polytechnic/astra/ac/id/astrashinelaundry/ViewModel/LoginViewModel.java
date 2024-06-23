@@ -7,13 +7,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
-import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.LoginVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 
 public class LoginViewModel extends ViewModel {
 
     private static final String TAG = "LoginViewModel";
 
-    private MutableLiveData<LoginVO> loginResponse = new MutableLiveData<>();
+    private MutableLiveData<UserVO> loginResponse = new MutableLiveData<>();
 
     private final UserRepository mUserRepository;
 
@@ -21,7 +21,7 @@ public class LoginViewModel extends ViewModel {
         mUserRepository = UserRepository.get();
     }
 
-    public LiveData<LoginVO> getLoginResponse() {
+    public LiveData<UserVO> getLoginResponse() {
         return loginResponse;
     }
 
