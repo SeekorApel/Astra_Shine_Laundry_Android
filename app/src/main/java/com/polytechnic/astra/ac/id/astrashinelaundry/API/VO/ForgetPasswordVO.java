@@ -1,12 +1,10 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.API.VO;
 
-import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
-
-public class LoginVO {
+public class ForgetPasswordVO {
 
     private int status;
 
-    private UserModel data;
+    private String data;
 
     private String message;
 
@@ -18,11 +16,11 @@ public class LoginVO {
         this.status = status;
     }
 
-    public UserModel getData() {
+    public String getData() {
         return data;
     }
 
-    public void setData(UserModel data) {
+    public void setData(String data) {
         this.data = data;
     }
 
@@ -33,5 +31,4 @@ public class LoginVO {
     public void setMessage(String message) {
         this.message = message;
     }
-
 }
