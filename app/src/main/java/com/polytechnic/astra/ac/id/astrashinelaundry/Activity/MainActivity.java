@@ -14,7 +14,6 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.Fragment.LoginFragment;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 
 public class MainActivity extends AppCompatActivity {
-    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

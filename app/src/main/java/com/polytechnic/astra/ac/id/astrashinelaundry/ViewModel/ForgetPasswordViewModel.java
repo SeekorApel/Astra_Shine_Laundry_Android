@@ -29,9 +29,24 @@ public class ForgetPasswordViewModel extends ViewModel {
         return errorMessage;
     }
 
-    public void resetPassword(String email) {
-        Log.i(TAG, "resetPassword() called");
+    public void resetPasswordByEmail(String email) {
+        Log.i(TAG, "resetPasswordByEmail() called");
         mUserRepository.resetPasswordByEmail(email, new UserRepository.messageCallback() {
+            @Override
+            public void onSuccess(String message) {
+                resetPasswordMessage.postValue(message);
+            }
+
+            @Override
+            public void onError(String error) {
+                errorMessage.postValue(error);
+            }
+        });
+    }
+
+    public void resetPasswordById(Integer idUser, String newPassword){
+        Log.i(TAG, "resetPasswordById() called");
+        mUserRepository.resetPasswordById(idUser, newPassword, new UserRepository.messageCallback() {
             @Override
             public void onSuccess(String message) {
                 resetPasswordMessage.postValue(message);

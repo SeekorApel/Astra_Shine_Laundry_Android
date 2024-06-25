@@ -20,4 +20,7 @@ public interface UserService {
 
     @POST("user/registerUser")
     Call<UserVO> registerUser(@Body UserModel user);
+
+    @POST("user/resetPassword")
+    Call<ForgetPasswordVO> resetPasswordById(@Query("idUser") Integer idUser, @Query("password") String password);
 }

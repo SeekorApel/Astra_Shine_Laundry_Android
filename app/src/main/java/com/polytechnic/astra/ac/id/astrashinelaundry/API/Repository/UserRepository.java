@@ -57,12 +57,12 @@ public class UserRepository {
     }
 
     public void resetPasswordByEmail(String email, final messageCallback callback) {
-        Log.i(TAG, "resetPassword() called");
+        Log.i(TAG, "resetPasswordByEmail() called");
         Call<ForgetPasswordVO> call = mUserService.resetPasswordByEmail(email);
         call.enqueue(new Callback<ForgetPasswordVO>() {
             @Override
             public void onResponse(Call<ForgetPasswordVO> call, Response<ForgetPasswordVO> response) {
-                Log.d(TAG, "resetPassword.onResponse() called");
+                Log.d(TAG, "resetPasswordByEmail.onResponse() called");
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body().getMessage());
                 } else {
@@ -96,6 +96,28 @@ public class UserRepository {
             @Override
             public void onFailure(Call<UserVO> call, Throwable throwable) {
                 Log.e("Error API Call : ", throwable.getMessage());
+            }
+        });
+    }
+
+    public void resetPasswordById(Integer idUser, String newPassword, final messageCallback callback){
+        Log.i(TAG, "resetPasswordById() called");
+        Call<ForgetPasswordVO> call = mUserService.resetPasswordById(idUser, newPassword);
+        call.enqueue(new Callback<ForgetPasswordVO>() {
+            @Override
+            public void onResponse(Call<ForgetPasswordVO> call, Response<ForgetPasswordVO> response) {
+                Log.d(TAG, "resetPasswordById.onResponse() called");
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getMessage());
+                } else {
+                    callback.onError("Failed to reset password");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ForgetPasswordVO> call, Throwable throwable) {
+                Log.e("Error API Call : ", throwable.getMessage());
+                callback.onError(throwable.getMessage());
             }
         });
     }
