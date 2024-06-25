@@ -33,8 +33,6 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.LoginViewModel;
 
 public class LoginFragment extends Fragment {
 
-    private static final String TAG = "LoginFragment";
-
     private TextView mTxtForgetPassword, mTxtSignIn1, mTextSignIn2;
 
     private EditText mEdtEmail, mEdtPassword;
@@ -89,8 +87,9 @@ public class LoginFragment extends Fragment {
                 }
 
                 mLoginViewModel.login(email, password);
-                observeLoginResponse();
 
+                // Observe the login response
+                observeLoginResponse();
             }
         });
 
@@ -161,7 +160,7 @@ public class LoginFragment extends Fragment {
             navigateToNewActivity(userModel.getRole());
         } else {
             // Tidak ada sesi
-            Log.d(TAG, "No session found");
+            Log.d("LoginFragment", "No session found");
         }
     }
 
@@ -181,7 +180,7 @@ public class LoginFragment extends Fragment {
         mLoginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), new Observer<UserVO>() {
             @Override
             public void onChanged(UserVO userVO) {
-                if (userVO != null && userVO.getData() != null) {
+                if (userVO != null) {
                     Integer idUser = userVO.getData().getIdUser();
                     String namaUser = userVO.getData().getNamaUser();
                     String noTelp = userVO.getData().getNoTelp();
