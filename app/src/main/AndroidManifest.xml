@@ -20,10 +20,13 @@
         <activity
             android:name=".Activity.DetailTransaksi"
             android:exported="true" >
-
         </activity>
         <activity
             android:name=".Activity.CustomerActivity"
+            android:name=".Activity.PengaturanActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.TestKurActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.PengaturanActivity"

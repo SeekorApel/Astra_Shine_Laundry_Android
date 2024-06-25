@@ -8,6 +8,9 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
+
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 
 public class PengaturanFragment extends Fragment {
@@ -81,5 +85,7 @@ public class PengaturanFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         getActivity().finish();
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_pengaturan, container, false);
     }
 }
