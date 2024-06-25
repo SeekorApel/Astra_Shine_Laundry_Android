@@ -11,7 +11,10 @@ import android.widget.Button;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Fragment.LoginFragment;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Fragment.PengaturanFragment;
 import android.os.Bundle;
+import android.widget.Button;
 
+import com.polytechnic.astra.ac.id.astrashinelaundry.Fragment.LoginFragment;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Fragment.PengaturanFragment;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 
 public class PengaturanActivity extends AppCompatActivity {

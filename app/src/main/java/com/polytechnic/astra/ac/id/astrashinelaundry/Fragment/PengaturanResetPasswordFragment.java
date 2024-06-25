@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,7 +99,5 @@ public class PengaturanResetPasswordFragment extends Fragment {
         transaction.replace(R.id.fragment_pengaturan, pengaturanFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pengaturan_reset_password, container, false);
     }
 }

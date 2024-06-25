@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +21,14 @@ import android.widget.Button;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
 
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.TestCusActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 
 public class PengaturanFragment extends Fragment {
 
     private Button mBtnLogout, mBtnKembali;
+    private Button mButtonLogout;
 
     private ConstraintLayout cl1, cl2;
 
@@ -68,6 +73,8 @@ public class PengaturanFragment extends Fragment {
 
         mBtnKembali = view.findViewById(R.id.btn_kembali);
         mBtnKembali.setOnClickListener(new View.OnClickListener() {
+        mButtonLogout = view.findViewById(R.id.btn_kembali);
+        mButtonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logout();
@@ -85,7 +92,5 @@ public class PengaturanFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         getActivity().finish();
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pengaturan, container, false);
     }
 }
