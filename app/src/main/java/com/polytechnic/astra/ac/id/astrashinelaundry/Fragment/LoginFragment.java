@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.PengaturanActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.TestCusActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
@@ -57,7 +58,7 @@ public class LoginFragment extends Fragment {
         mEdtPassword = view.findViewById(R.id.edt_password);
 
 
-        mBtnLogin = view.findViewById(R.id.btn_login);
+        mBtnLogin = view.findViewById(R.id.btn_logout);
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,11 +72,11 @@ public class LoginFragment extends Fragment {
                     return;
                 }
 
-                if (!isValidEmail(email)) {
-                    mEdtEmail.setError("Format Email Tidak Valid abc@gmail.com");
-                    mEdtEmail.requestFocus();
-                    return;
-                }
+//                if (!isValidEmail(email)) {
+//                    mEdtEmail.setError("Format Email Tidak Valid abc@gmail.com");
+//                    mEdtEmail.requestFocus();
+//                    return;
+//                }
 
                 if (TextUtils.isEmpty(password)) {
                     mEdtPassword.setError("Password Wajib di isi");
@@ -86,38 +87,9 @@ public class LoginFragment extends Fragment {
                 mLoginViewModel.login(email, password);
 
                 // Observe the login response
-                mLoginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), new Observer<UserVO>() {
-                    @Override
-                    public void onChanged(UserVO userVO) {
-                        if (userVO != null) {
-                            Integer idUser = userVO.getData().getIdUser();
-                            String namaUser = userVO.getData().getNamaUser();
-                            String noTelp = userVO.getData().getNoTelp();
-                            String role = userVO.getData().getRole();
-                            String status = userVO.getData().getStatus();
-                            UserModel dataLogin = new UserModel(idUser,namaUser, noTelp, role, status);
-
-                            //Simpan Ke dalam session
-                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            Gson gson = new Gson();
-                            String userJson = gson.toJson(dataLogin);
-                            editor.putString("dataUser", userJson);
-                            editor.apply();
-
-                            Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
-
-                            //Pindah ke activity Sesuai Role
-                            navigateToNewActivity(role);
-                        } else {
-                            // Handle login failure
-                            Toast.makeText(getActivity(), "Login failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                observeLoginResponse();
             }
         });
-
 
         //Pindah Fragment Forget Password
         mTxtForgetPassword = view.findViewById(R.id.txt_lupa_password);
@@ -132,7 +104,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        //Pindah Fragment Sign In
+        //Pindah Fragment Sign In 1
         mTxtSignIn1 = view.findViewById(R.id.txt_sign_up_1);
         mTxtSignIn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +117,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        //Pindah Fragment Sign In
+        //Pindah Fragment Sign In 2
         mTextSignIn2 = view.findViewById(R.id.txt_sign_up_2);
         mTextSignIn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +164,7 @@ public class LoginFragment extends Fragment {
 
     private void navigateToNewActivity (String role){
         if (role.equals("Customer")) {
-            Intent intent = new Intent(getActivity(), TestCusActivity.class);
+            Intent intent = new Intent(getActivity(), PengaturanActivity.class);
             startActivity(intent);
             getActivity().finish();
         } else if (role.equals("Kurir")) {
@@ -200,6 +172,34 @@ public class LoginFragment extends Fragment {
             startActivity(intent);
             getActivity().finish();
         }
+    }
+
+    private void observeLoginResponse() {
+        mLoginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), new Observer<UserVO>() {
+            @Override
+            public void onChanged(UserVO userVO) {
+                if (userVO != null) {
+                    Integer idUser = userVO.getData().getIdUser();
+                    String namaUser = userVO.getData().getNamaUser();
+                    String noTelp = userVO.getData().getNoTelp();
+                    String role = userVO.getData().getRole();
+                    String status = userVO.getData().getStatus();
+                    UserModel dataLogin = new UserModel(idUser, namaUser, noTelp, role, status);
+
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Gson gson = new Gson();
+                    String userJson = gson.toJson(dataLogin);
+                    editor.putString("dataUser", userJson);
+                    editor.apply();
+
+                    Toast.makeText(getActivity(), "Login Berhasil", Toast.LENGTH_SHORT).show();
+                    navigateToNewActivity(role);
+                } else {
+                    Toast.makeText(getActivity(), "Email dan password Salah", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
