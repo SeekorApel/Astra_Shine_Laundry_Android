@@ -23,6 +23,9 @@
 
         </activity>
         <activity
+            android:name=".Activity.CustomerActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.PengaturanActivity"
             android:exported="false" />
         <activity
