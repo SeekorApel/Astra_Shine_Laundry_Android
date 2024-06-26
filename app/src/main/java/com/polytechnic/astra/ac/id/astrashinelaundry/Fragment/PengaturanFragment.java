@@ -15,12 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
-import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.TestCusActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 
 public class PengaturanFragment extends Fragment {
 
-    private Button mButtonLogout;
+    private Button mBtnLogout, mBtnKembali;
 
     private ConstraintLayout cl1, cl2;
 
@@ -55,8 +54,8 @@ public class PengaturanFragment extends Fragment {
             }
         });
 
-        mButtonLogout = view.findViewById(R.id.btn_kembali);
-        mButtonLogout.setOnClickListener(new View.OnClickListener() {
+        mBtnLogout = view.findViewById(R.id.btn_logout);
+        mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logout();

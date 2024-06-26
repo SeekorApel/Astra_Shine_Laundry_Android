@@ -58,7 +58,7 @@ public class LoginFragment extends Fragment {
         mEdtPassword = view.findViewById(R.id.edt_password);
 
 
-        mBtnLogin = view.findViewById(R.id.btn_login);
+        mBtnLogin = view.findViewById(R.id.btn_logout);
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
