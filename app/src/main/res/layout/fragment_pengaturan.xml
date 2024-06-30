@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/header_layout"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView10"
+            android:id="@+id/img_background"
             android:layout_width="419dp"
             android:layout_height="166dp"
             android:layout_marginBottom="16dp"
@@ -40,7 +40,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/txt_lokasi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
@@ -48,10 +48,10 @@
             android:text="Pengaturan"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+            app:layout_constraintBottom_toBottomOf="@+id/img_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView10" />
+            app:layout_constraintTop_toTopOf="@+id/img_background" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +62,7 @@
         android:background="?android:selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/header_layout">
 
         <ImageView
             android:id="@+id/img_user"
