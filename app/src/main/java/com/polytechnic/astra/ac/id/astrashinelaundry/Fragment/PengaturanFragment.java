@@ -48,18 +48,14 @@ public class PengaturanFragment extends Fragment {
         cl1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PengaturanResetPasswordFragment fragmentForgetPassword = new PengaturanResetPasswordFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_pengaturan, fragmentForgetPassword);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                navigateToFragmentForgetPassword();
             }
         });
 
         cl2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                navigateToFragmentAlamat();
             }
         });
 
@@ -92,5 +88,21 @@ public class PengaturanFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    private void navigateToFragmentAlamat(){
+        AlamatFragment fragmentAlamat = new AlamatFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_pengaturan, fragmentAlamat);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void navigateToFragmentForgetPassword(){
+        PengaturanResetPasswordFragment fragmentForgetPassword = new PengaturanResetPasswordFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_pengaturan, fragmentForgetPassword);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
