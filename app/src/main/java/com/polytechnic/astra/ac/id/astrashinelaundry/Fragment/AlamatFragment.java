@@ -51,6 +51,7 @@ public class AlamatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alamat, container, false);
 
+        mListAlamatRecyclerView = view.findViewById(R.id.list_view_item_alamat);
         mListAlamatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mListAlamatAdapter = new ListAlamatAdapter();
