@@ -42,13 +42,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_view_item_location"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="185dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/fragment_list_item_alamat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
