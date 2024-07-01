@@ -58,4 +58,31 @@ public class TransaksiRepository {
 
         return dataLogin;
     }
+
+    public MutableLiveData<TransaksiListVO> getTransaksiCustPickUp(String idUser) {
+        Log.i(TAG, "getTransaksiCustPickUp() called");
+        MutableLiveData<TransaksiListVO> dataLogin = new MutableLiveData<>();
+
+        Call<TransaksiListVO> call = mTransaksiService.getTransaksiCustPickUp(idUser);
+        call.enqueue(new Callback<TransaksiListVO>() {
+            @Override
+            public void onResponse(Call<TransaksiListVO> call, Response<TransaksiListVO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    dataLogin.setValue(response.body());
+                    Log.d(TAG, "getUserLogin.onResponse() called");
+                    Log.d(TAG, response.body().getData().toString());
+                } else {
+                    // Logika untuk menangani kasus ketika response body null atau response tidak sukses
+                    Log.e(TAG, "Response unsuccessful or body is null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiListVO> call, Throwable throwable) {
+                Log.e("Error API Call : ", throwable.getMessage());
+            }
+        });
+
+        return dataLogin;
+    }
 }

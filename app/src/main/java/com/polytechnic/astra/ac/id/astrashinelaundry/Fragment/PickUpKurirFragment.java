@@ -7,14 +7,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -39,6 +43,8 @@ public class PickUpKurirFragment extends Fragment {
     private RecyclerView mTransaksiRecyclerView;
     private TransaksiAdapter mAdapter;
     private TabLayout mTabLayout;
+    private View mViewBackground;
+    private LinearLayout mHeaderLayout;
 
     public PickUpKurirFragment() {
     }
@@ -62,15 +68,22 @@ public class PickUpKurirFragment extends Fragment {
         mTransaksiRecyclerView.setAdapter(mAdapter);
 
         mTabLayout = view.findViewById(R.id.tabLayout);
+        mViewBackground = view.findViewById(R.id.viewBackground);
+        mHeaderLayout = view.findViewById(R.id.headerLayout);
+
+        mTabLayout.setVisibility(View.VISIBLE);
+        mViewBackground.setVisibility(View.VISIBLE);
+        mHeaderLayout.setVisibility(View.VISIBLE);
+
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0: // Tab "PickUp"
-                        mTransaksiListViewModel.getDataTransaksi("pick up");
+                        mTransaksiListViewModel.getDataTransaksi("Pick Up");
                         break;
                     case 1: // Tab "Antar"
-                        mTransaksiListViewModel.getDataTransaksi("proses");
+                        mTransaksiListViewModel.getDataTransaksi("Proses");
                         break;
                 }
             }
@@ -87,8 +100,7 @@ public class PickUpKurirFragment extends Fragment {
         });
 
         // Initial data load
-        mTransaksiListViewModel.getDataTransaksi("pick up");
-
+        mTransaksiListViewModel.getDataTransaksi("Pick Up");
         mTransaksiListViewModel.getAllTransaksiResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiListVO>() {
             @Override
             public void onChanged(TransaksiListVO transaksiListVO) {
@@ -118,6 +130,22 @@ public class PickUpKurirFragment extends Fragment {
         public void onBindViewHolder(@NonNull TransaksiViewHolder holder, int position) {
             TransaksiModel transaksi = transaksiList.get(position);
             holder.bind(transaksi);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Open the detail fragment with the selected transaction
+                    KurirRincianFragment kurirRincianFragment = new KurirRincianFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("transaksi", transaksi);
+                    kurirRincianFragment.setArguments(bundle);
+
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.PickUpKurir, kurirRincianFragment)  // Make sure R.id.PickUpKurir is correct
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
         }
 
         @Override
@@ -144,11 +172,10 @@ public class PickUpKurirFragment extends Fragment {
             }
 
             public void bind(TransaksiModel transaksi) {
-                mCustomer.setText(String.valueOf(transaksi.getIdUser()));
+                mCustomer.setText(transaksi.getNamaUser());
                 mTanggalPesanan.setText("Tanggal Pesanan: " + dateFormat.format(transaksi.getTanggalPesanan()));
                 mTanggalSelesai.setText("Estimasi Selesai: " + dateFormat.format(transaksi.getTanggalPengiriman()));
             }
         }
     }
 }
-

@@ -30,4 +30,9 @@ public class TransaksiListViewModel extends ViewModel {
         Log.i(TAG, "getDataTransaksiLiveData() called");
         transaksiResponse = mTransaksiRepository.getAllTransaksiByStatus(status);
     }
+
+    public void getDataTransaksibyUser(String idUser) {
+        Log.i(TAG, "getDataTransaksiLiveData() called");
+        transaksiResponse = mTransaksiRepository.getTransaksiCustPickUp(idUser);
+    }
 }

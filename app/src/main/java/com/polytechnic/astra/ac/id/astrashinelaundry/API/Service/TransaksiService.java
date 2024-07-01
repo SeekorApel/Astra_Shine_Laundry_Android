@@ -9,4 +9,7 @@ import retrofit2.http.Query;
 public interface TransaksiService {
     @GET("transaksi/getAllTransaksiByStatus")
     Call<TransaksiListVO> getAllTransaksiByStatus(@Query("status") String status);
+
+    @GET("transaksi/getTransaksiCustPickUp")
+    Call<TransaksiListVO> getTransaksiCustPickUp(@Query("idUser") String idUser);
 }
