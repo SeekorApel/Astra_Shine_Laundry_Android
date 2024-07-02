@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edt_email"
+        android:id="@+id/edt_title_alamat"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_marginStart="32dp"
@@ -55,7 +55,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_email" />
+        app:layout_constraintTop_toBottomOf="@+id/edt_title_alamat" />
 
     <EditText
         android:id="@+id/edt_nama"

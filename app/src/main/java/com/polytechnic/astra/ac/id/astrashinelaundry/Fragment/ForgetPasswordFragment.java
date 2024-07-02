@@ -44,7 +44,7 @@ public class ForgetPasswordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_forget_password, container, false);
         mBtnKirim = view.findViewById(R.id.btn_kirim);
         mBtnKembali = view.findViewById(R.id.btn_kembali);
-        mEdtEmail = view.findViewById(R.id.edt_email);
+        mEdtEmail = view.findViewById(R.id.edt_title_alamat);
 
         mBtnKirim.setOnClickListener(new View.OnClickListener() {
             @Override

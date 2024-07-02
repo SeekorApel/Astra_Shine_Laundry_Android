@@ -59,7 +59,7 @@ public class PengaturanFragment extends Fragment {
             }
         });
 
-        mBtnLogout = view.findViewById(R.id.btn_logout);
+        mBtnLogout = view.findViewById(R.id.btn_get_location);
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

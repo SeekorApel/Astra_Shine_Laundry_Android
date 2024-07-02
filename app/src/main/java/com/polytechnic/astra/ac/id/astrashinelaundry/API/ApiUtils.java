@@ -7,7 +7,7 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.UserService;
 
 public class ApiUtils {
 
-    public static final String API_BASE_URL = "http://192.168.1.5:8080/";
+    public static final String API_BASE_URL = "http://192.168.53.27:8080/";
 
     public ApiUtils() {
     }

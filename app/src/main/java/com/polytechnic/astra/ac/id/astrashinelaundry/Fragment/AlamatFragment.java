@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.AlamatRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.AlamatListVO;
@@ -31,6 +32,8 @@ import java.util.List;
 
 
 public class AlamatFragment extends Fragment {
+
+    private FloatingActionButton mBtnAdd;
 
     private AlamatListViewModel mAlamatListViewModel;
 
@@ -51,6 +54,7 @@ public class AlamatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alamat, container, false);
 
+        mBtnAdd = view.findViewById(R.id.btn_add);
         mListAlamatRecyclerView = view.findViewById(R.id.list_view_item_alamat);
         mListAlamatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
