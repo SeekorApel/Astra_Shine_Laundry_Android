@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
@@ -68,8 +69,32 @@ public class KurirRincianFragment extends Fragment {
             }
             txtStatusPembayaran.setTextColor(color);
             txtStatusPembayaran.setText(paymentStatus);
-
         }
+
+        mBtnKembali = view.findViewById(R.id.btn_kembali);
+        mBtnKembali.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Replace the current fragment with fragment_kurir_pickup
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.PickUpKurir, new PickUpKurirFragment());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        mBtnBatal = view.findViewById(R.id.btn_batal);
+//        mBtnBatal.setEnabled(transaksi != null && transaksi.getCatatan() == null);
+        mBtnBatal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KurirBatalFragment kurirBatal = new KurirBatalFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("transaksi", transaksi);
+                kurirBatal.setArguments(bundle);
+                kurirBatal.show(getParentFragmentManager(), "KurirBatalFragment");
+            }
+        });
 
         return view;
     }
