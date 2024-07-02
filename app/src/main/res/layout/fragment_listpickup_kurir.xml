@@ -1,46 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="8dp"
+    android:id="@+id/list_pickup">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
+        android:layout_marginStart="15dp"
         android:background="@drawable/rounded_button_login"
         android:padding="8dp"
         android:src="@drawable/ic_shopping_cart" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/linear"
+        android:layout_width="202dp"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/imageView"
         android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/imageView"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/Customer"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Customer"
-            android:textStyle="bold"
-            android:textSize="16sp"/>
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tanggal_pesanan"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Tanggal Pesanan: 04/06/2024"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="2dp"
+
+            android:text="Tanggal Pesanan: 04/06/2024" />
 
         <TextView
             android:id="@+id/tanggal_selesai"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Estimasi Selesai: 07/06/2024"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="2dp"
+            android:text="Estimasi Selesai: 07/06/2024" />
+
     </LinearLayout>
+
+    <View
+        android:layout_width="500dp"
+        android:layout_height="1dp"
+        android:layout_below="@id/linear"
+        android:layout_marginTop="11dp"
+        android:background="@color/grey"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </RelativeLayout>

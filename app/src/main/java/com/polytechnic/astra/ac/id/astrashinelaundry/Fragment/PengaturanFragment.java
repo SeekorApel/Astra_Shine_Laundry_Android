@@ -61,6 +61,14 @@ public class PengaturanFragment extends Fragment {
                 logout();
             }
         });
+
+        mBtnKembali = view.findViewById(R.id.btn_kembali);
+        mBtnKembali.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
         return view;
     }
 

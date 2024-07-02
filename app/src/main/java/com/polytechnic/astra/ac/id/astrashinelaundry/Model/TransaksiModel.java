@@ -3,9 +3,10 @@ package com.polytechnic.astra.ac.id.astrashinelaundry.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class TransaksiModel {
+public class TransaksiModel implements Serializable {
     @SerializedName("idTransaksi")
     @Expose
     private Integer idTransaksi;
@@ -13,6 +14,15 @@ public class TransaksiModel {
     @SerializedName("idUser")
     @Expose
     private Integer idUser;
+
+    @SerializedName("namaUser")
+    @Expose
+    private String namaUser;
+
+    @SerializedName("noTelp")
+    @Expose
+    private String noTelp;
+
     @SerializedName("idAlamat")
     @Expose
     private Integer idAlamat;
@@ -20,6 +30,10 @@ public class TransaksiModel {
     @SerializedName("idDurasi")
     @Expose
     private Integer idDurasi;
+
+    @SerializedName("namaDurasi")
+    @Expose
+    private String namaDurasi;
 
     @SerializedName("catatan")
     @Expose
@@ -52,11 +66,14 @@ public class TransaksiModel {
     public TransaksiModel() {
     }
 
-    public TransaksiModel(Integer idTransaksi, Integer idUser, Integer idAlamat, Integer idDurasi, String catatan, Date tanggalPesanan, Date tanggalPengiriman, String statusPembayaran, String statusPesanan, Integer ongkir, Integer totalHarga) {
+    public TransaksiModel(Integer idTransaksi, Integer idUser, String namaUser, String noTelp, Integer idAlamat, Integer idDurasi, String namaDurasi, String catatan, Date tanggalPesanan, Date tanggalPengiriman, String statusPembayaran, String statusPesanan, Integer ongkir, Integer totalHarga) {
         this.idTransaksi = idTransaksi;
         this.idUser = idUser;
+        this.namaUser = namaUser;
+        this.noTelp = noTelp;
         this.idAlamat = idAlamat;
         this.idDurasi = idDurasi;
+        this.namaDurasi = namaDurasi;
         this.catatan = catatan;
         this.tanggalPesanan = tanggalPesanan;
         this.tanggalPengiriman = tanggalPengiriman;
@@ -64,6 +81,30 @@ public class TransaksiModel {
         this.statusPesanan = statusPesanan;
         this.ongkir = ongkir;
         this.totalHarga = totalHarga;
+    }
+
+    public String getNoTelp() {
+        return noTelp;
+    }
+
+    public void setNoTelp(String noTelp) {
+        this.noTelp = noTelp;
+    }
+
+    public String getNamaUser() {
+        return namaUser;
+    }
+
+    public void setNamaUser(String namaUser) {
+        this.namaUser = namaUser;
+    }
+
+    public String getNamaDurasi() {
+        return namaDurasi;
+    }
+
+    public void setNamaDurasi(String namaDurasi) {
+        this.namaDurasi = namaDurasi;
     }
 
     public Integer getIdTransaksi() {
