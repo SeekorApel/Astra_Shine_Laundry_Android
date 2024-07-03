@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_layanan"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/layanan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kiloan"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="30dp"/>
+
+        <TextView
+            android:id="@+id/harga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rp. 7000"
+            android:textSize="20dp"
+            android:layout_marginTop="1dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="260dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/border_qty"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/minus"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_minus"/>
+
+        <TextView
+            android:id="@+id/qty"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="1"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/plus"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/ic_plus"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
