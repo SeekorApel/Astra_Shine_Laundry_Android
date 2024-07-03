@@ -1,6 +1,8 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +95,23 @@ public class KurirRincianFragment extends Fragment {
                 bundle.putSerializable("transaksi", transaksi);
                 kurirBatal.setArguments(bundle);
                 kurirBatal.show(getParentFragmentManager(), "KurirBatalFragment");
+            }
+        });
+
+        mBtnLokasi = view.findViewById(R.id.btn_location);
+        mBtnLokasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (transaksi != null) {
+                    String latitude = transaksi.getLatitude();
+                    String longitude = transaksi.getLongitude();
+                    if (latitude != null && longitude != null) {
+                        Uri gmmIntentUri = Uri.parse("geo:" + longitude + "," + latitude + "?q=" + longitude + "," + latitude + "(Lokasi+Pelanggan)");
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        startActivity(mapIntent);
+                    }
+                }
             }
         });
 
