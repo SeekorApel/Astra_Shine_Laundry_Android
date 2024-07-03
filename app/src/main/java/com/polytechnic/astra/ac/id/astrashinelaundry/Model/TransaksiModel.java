@@ -74,7 +74,9 @@ public class TransaksiModel implements Serializable {
     public TransaksiModel() {
     }
 
+
     public TransaksiModel(Integer idTransaksi, Integer idUser, String namaUser, String noTelp, Integer idAlamat, String longitude, String latitude, Integer idDurasi, String namaDurasi, String catatan, Date tanggalPesanan, Date tanggalPengiriman, String statusPembayaran, String statusPesanan, Integer ongkir, Integer totalHarga) {
+
         this.idTransaksi = idTransaksi;
         this.idUser = idUser;
         this.namaUser = namaUser;
@@ -92,6 +94,7 @@ public class TransaksiModel implements Serializable {
         this.ongkir = ongkir;
         this.totalHarga = totalHarga;
     }
+
 
     public String getLongitude() {
         return longitude;

@@ -3,6 +3,7 @@ package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -63,7 +63,9 @@ public class KurirBatalFragment extends BottomSheetDialogFragment {
                     transaction.addToBackStack(null);
                     transaction.commit();
                 } else {
+
                     Toast.makeText(getContext(), "Catatan tidak boleh kosong", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
