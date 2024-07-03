@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,6 +64,13 @@ public class AlamatFragment extends Fragment {
 
         //Mendapatkan Session Login
         UserModel user = getUserModel();
+
+        mBtnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToFragmentAddAlamat();
+            }
+        });
 
         //Mengambil data dari database
         mAlamatListViewModel.getDataAlamat(user.getIdUser());
@@ -138,5 +146,13 @@ public class AlamatFragment extends Fragment {
            this.alamatList.addAll(alamatList);
            notifyDataSetChanged();
         }
+    }
+
+    private void navigateToFragmentAddAlamat(){
+        TambahAlamatFragment fragmentTambahAlamat = new TambahAlamatFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_pengaturan, fragmentTambahAlamat);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
