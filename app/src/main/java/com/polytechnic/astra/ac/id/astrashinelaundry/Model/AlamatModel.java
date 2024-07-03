@@ -3,7 +3,9 @@ package com.polytechnic.astra.ac.id.astrashinelaundry.Model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AlamatModel {
+import java.io.Serializable;
+
+public class AlamatModel implements Serializable {
 
     @SerializedName("idAlamat")
     @Expose

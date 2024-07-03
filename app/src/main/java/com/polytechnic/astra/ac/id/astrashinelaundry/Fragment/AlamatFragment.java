@@ -134,6 +134,22 @@ public class AlamatFragment extends Fragment {
         public void onBindViewHolder(@NonNull ListAlamatAdapter.ListAlamatViewHolder holder, int position) {
             AlamatModel alamat = alamatList.get(position);
             holder.bind(alamat);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Open the detail fragment with the selected transaction
+                    EditAlamatFragment editAlamatFragment = new EditAlamatFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("alamat", alamat);
+                    editAlamatFragment.setArguments(bundle);
+
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_pengaturan, editAlamatFragment)  // Make sure R.id.PickUpKurir is correct
+                            .addToBackStack(null)
+                            .commit();
+                }
+            });
         }
 
         @Override
@@ -155,4 +171,5 @@ public class AlamatFragment extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 }
