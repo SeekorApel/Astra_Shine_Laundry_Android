@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".Activity.CustomerActivity">
 
+    <FrameLayout
+        android:id="@+id/fragment_view_transaksi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

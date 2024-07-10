@@ -29,25 +29,27 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Customer"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/maison_neue_bold"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/tanggal_pesanan"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-
-            android:text="Tanggal Pesanan: 04/06/2024" />
+            android:text="Tanggal Pesanan: 04/06/2024"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/maison_neue_bold"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/tanggal_selesai"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="Estimasi Selesai: 07/06/2024" />
-
+            android:text="Estimasi Selesai: 07/06/2024"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/maison_neue_bold"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
     <View
