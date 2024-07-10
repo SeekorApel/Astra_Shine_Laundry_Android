@@ -20,6 +20,7 @@ public class TransaksiListViewModel extends ViewModel {
     private MutableLiveData<TransaksiListVO> transaksiResponse = new MutableLiveData<>();
 
     private MutableLiveData<DetailTransaksiVo> detailResponse = new MutableLiveData<>();
+    private LiveData<TransaksiListVO> transaksiRspns = new MutableLiveData<>();
 
     private final TransaksiRepository mTransaksiRepository;
 
@@ -37,11 +38,6 @@ public class TransaksiListViewModel extends ViewModel {
     public void getDataTransaksi(String status) {
         Log.i(TAG, "getDataTransaksiLiveData() called");
         transaksiResponse = mTransaksiRepository.getAllTransaksiByStatus(status);
-    }
-
-    public void getDataTransaksibyUser(String idUser) {
-        Log.i(TAG, "getDataTransaksiLiveData() called");
-        transaksiResponse = mTransaksiRepository.getTransaksiCustPickUp(idUser);
     }
 
     public void batalkanTrsKurir(String idTransaksi, String catatan) {
