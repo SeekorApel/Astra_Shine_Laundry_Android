@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="25dp">
+
+    <TextView
+        android:id="@+id/pesanan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Pesanan"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:fontFamily="@font/maison_neue_bold"/>
+
+    <Spinner
+        android:id="@+id/cb_durasi"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_border"/>
+
+    <Button
+        android:id="@+id/tanggal_pickup"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_border"
+        android:drawableStart="@drawable/ic_calendar"
+        android:fontFamily="@font/maison_neue_bold"
+        android:hint="Tanggal Pick Up"
+        android:paddingStart="20dp"
+        android:paddingEnd="55dp"
+        android:textAllCaps="false"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/alamat"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_border"
+        android:hint="Pilih Alamat"
+        android:textAllCaps="false"
+        android:paddingStart="25dp"
+        android:paddingEnd="55dp"
+        android:drawableLeft="@drawable/ic_maps"
+        android:fontFamily="@font/maison_neue_bold"/>
+
+    <Button
+        android:id="@+id/btn_pesan"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_button_login"
+        android:textColor="@color/white"
+        android:text="Pesan"
+        android:fontFamily="@font/maison_neue_bold"/>
+
+    <Button
+        android:id="@+id/btn_kembali"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_button_kembali"
+        android:textColor="@color/biru_tua"
+        android:text="Kembali"
+        android:fontFamily="@font/maison_neue_bold"/>
+</LinearLayout>
