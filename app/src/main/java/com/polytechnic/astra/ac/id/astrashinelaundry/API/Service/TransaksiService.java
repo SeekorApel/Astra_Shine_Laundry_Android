@@ -6,11 +6,6 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
-
-import java.util.List;
-
-import java.util.List;
-
 import java.util.List;
 
 import retrofit2.Call;

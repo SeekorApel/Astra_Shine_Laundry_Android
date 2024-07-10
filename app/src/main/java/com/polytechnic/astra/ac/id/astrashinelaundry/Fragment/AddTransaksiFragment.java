@@ -63,7 +63,38 @@ public class AddTransaksiFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_transaksi, container, false);
 
+        mButtonDate = view.findViewById(R.id.tanggal_pickup);
+        mButtonDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimePicker();
+            }
+        });
+
+
         return view;
     }
 
+
+    private void showDateTimePicker() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                requireContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        // Tampilkan tanggal yang dipilih di button
+                        String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                        mButtonDate.setText(selectedDate);
+                    }
+                },
+                year, month, dayOfMonth);
+
+        // Tampilkan DatePickerDialog
+        datePickerDialog.show();
+    }
 }
