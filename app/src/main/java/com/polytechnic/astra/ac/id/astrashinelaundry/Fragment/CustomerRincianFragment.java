@@ -169,5 +169,4 @@ public class CustomerRincianFragment extends Fragment {
             }
         }
     }
-
 }
