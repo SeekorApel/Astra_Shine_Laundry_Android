@@ -1,30 +1,24 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
+import com.polytechnic.astra.ac.id.astrashinelaundry.Fragment.DetailTransaksiKurirFragment;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Fragment.PickUpKurirFragment;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
-import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.TransaksiListViewModel;
 
-public class KurirActivity extends AppCompatActivity {
-
-    private TransaksiListViewModel mTransaksiListViewModel;
+public class DetailTransaksi extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kurir);
-
+        setContentView(R.layout.fragment_detail_transaksi_kurir);
 
         if (savedInstanceState == null) {
-            PickUpKurirFragment fragmentPickUpKurir = new PickUpKurirFragment();
+            DetailTransaksiKurirFragment fragmentPickUpKurir = new DetailTransaksiKurirFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container_kurir, fragmentPickUpKurir)
+                    .add(R.id.DetailPickUpKurir, fragmentPickUpKurir)
                     .commit();
         }
     }

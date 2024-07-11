@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.KurirActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.PengaturanActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.TestCusActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
@@ -168,7 +169,7 @@ public class LoginFragment extends Fragment {
             startActivity(intent);
             getActivity().finish();
         } else if (role.equals("Kurir")) {
-            Intent intent = new Intent(getActivity(), TestCusActivity.class);
+            Intent intent = new Intent(getActivity(), KurirActivity.class);
             startActivity(intent);
             getActivity().finish();
         }

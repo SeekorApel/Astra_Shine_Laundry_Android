@@ -141,7 +141,7 @@ public class PickUpKurirFragment extends Fragment {
                     kurirRincianFragment.setArguments(bundle);
 
                     getParentFragmentManager().beginTransaction()
-                            .replace(R.id.PickUpKurir, kurirRincianFragment)  // Make sure R.id.PickUpKurir is correct
+                            .replace(R.id.fragment_container_kurir, kurirRincianFragment)  // Make sure R.id.PickUpKurir is correct
                             .addToBackStack(null)
                             .commit();
                 }

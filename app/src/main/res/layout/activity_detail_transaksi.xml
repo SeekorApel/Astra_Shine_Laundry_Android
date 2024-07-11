@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.KurirActivity">
+    tools:context=".Activity.DetailTransaksi">
 
     <FrameLayout
-        android:id="@+id/fragment_container_kurir"
+        android:id="@+id/fragment_detail_transaksi"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
