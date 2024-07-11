@@ -8,7 +8,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.ApiUtils;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.TransaksiService;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -110,6 +116,37 @@ public class TransaksiRepository {
 
         return dataTransaksi;
     }
+    public void createDetailTransaksi(List<DetailTransaksiModel> detailTransaksi,final TransaksiRepository.messageCallback callback) {
+        Log.i(TAG, "createDetailTransaksi() called");
+        Call<DetailTransaksiVO> call = mTransaksiService.createDetailTransaksi(detailTransaksi);
+        for(int i = 0;i < detailTransaksi.size();i++){
+            Log.d(TAG,"ID Transaksi :"+detailTransaksi.get(i).getIdTransaksi().toString());
+            Log.d(TAG,"ID Layanan :"+detailTransaksi.get(i).getIdLayanan().toString());
+            Log.d(TAG,"Nama Layanan :"+detailTransaksi.get(i).getNamaLayanan().toString());
+            Log.d(TAG,"Qty Layanan :"+detailTransaksi.get(i).getQty().toString());
+        }
+        call.enqueue(new Callback<DetailTransaksiVO>() {
+            @Override
+            public void onResponse(Call<DetailTransaksiVO> call, Response<DetailTransaksiVO> response) {
+                Log.d(TAG, "createDetailTransaksi.onResponse() called");
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getMessage());
+                    Log.d(TAG, response.message());
+                } else {
+                    callback.onError("Create Detail Transaksi Gagal");
+                }
+            }
 
+            @Override
+            public void onFailure(Call<DetailTransaksiVO> call, Throwable throwable) {
+                Log.e(TAG, "Error API Call: " + throwable.getMessage());
+            }
+        });
+    }
+
+    public interface messageCallback {
+        void onSuccess(String message);
+        void onError(String error);
+    }
 
 }

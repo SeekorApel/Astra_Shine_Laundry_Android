@@ -1,11 +1,13 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.LayananRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.LayananVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.LayananModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
@@ -41,10 +45,15 @@ public class DetailTransaksiKurirFragment extends Fragment {
     private DetailTransaksiKurirViewModel mViewModel;
     private RecyclerView mLayananRecyclerView;
     private LayananAdapter mAdapter;
+    private TransaksiModel transaksi;
+    private TextView txtNamaCustomer,txtNoTelp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            transaksi = (TransaksiModel) getArguments().getSerializable("transaksi");
+        }
         LayananRepository.initialize(requireContext());
         mViewModel = new ViewModelProvider(this).get(DetailTransaksiKurirViewModel.class);
     }
@@ -58,6 +67,13 @@ public class DetailTransaksiKurirFragment extends Fragment {
         TextView mPcs = view.findViewById(R.id.pcs);
         TextView mTotal = view.findViewById(R.id.total_price);
         Button mLanjut = view.findViewById(R.id.lanjut);
+        txtNamaCustomer = view.findViewById(R.id.nama_customer);
+        txtNoTelp = view.findViewById(R.id.no_telp);
+
+        if (transaksi != null) {
+            txtNamaCustomer.setText(transaksi.getNamaUser());
+            txtNoTelp.setText(transaksi.getNoTelp());
+        }
 
         mViewModel.getTotalKg().observe(getViewLifecycleOwner(), new Observer<Double>() {
             @Override
@@ -85,13 +101,23 @@ public class DetailTransaksiKurirFragment extends Fragment {
         });
         mLanjut.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {if (mViewModel.getTotalKg().getValue() > 0.9) {
-                // Lakukan navigasi ke fragment selanjutnya
-//                ForgetPasswordFragment fragmentForgetPassword = new ForgetPasswordFragment();
-//                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_login, fragmentForgetPassword);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
+            public void onClick(View v) {
+                if (mViewModel.getTotalKg().getValue() > 0.9) {
+                    List<DetailTransaksiModel> selectedLayananList = mViewModel.getSelectedLayananList().getValue();
+                    Log.d("Cek Data","Halooooo : "+selectedLayananList.get(1).getIdLayanan().toString());
+                    if (selectedLayananList != null && !selectedLayananList.isEmpty()) {
+                        mViewModel.createDetailTransaksi(selectedLayananList);
+                    }
+                    RincianTransaksiFragment rincianTransaksiFragment = new RincianTransaksiFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("transaksi", transaksi);
+                    rincianTransaksiFragment.setArguments(bundle);
+
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container_kurir, rincianTransaksiFragment)  // Make sure R.id.PickUpKurir is correct
+                            .addToBackStack(null)
+                            .commit();
+
             } else {
                 // Tampilkan pesan bahwa minimal Kg harus 1
                 // Misalnya:
@@ -119,6 +145,9 @@ public class DetailTransaksiKurirFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void show(FragmentManager parentFragmentManager, String kurirBatalFragment) {
     }
 
     public class LayananAdapter extends RecyclerView.Adapter<LayananAdapter.LayananViewHolder> {
@@ -156,6 +185,7 @@ public class DetailTransaksiKurirFragment extends Fragment {
             private Button mMinus;
             private Double quantity;
             private double total;
+            private DetailTransaksiModel currentLayananModel;
 
             public LayananViewHolder(@NonNull View itemView) {
                 super(itemView);
@@ -172,6 +202,10 @@ public class DetailTransaksiKurirFragment extends Fragment {
                 mLayanan.setText(layanan.getNamaLayanan());
                 mHarga.setText("Rp. " + layanan.getHargaLayanan());
                 mQty.setText(String.format("%.1f", quantity));
+                currentLayananModel = new DetailTransaksiModel();
+                currentLayananModel.setIdTransaksi(transaksi.getIdTransaksi());
+                currentLayananModel.setIdLayanan(layanan.getIdLayanan());
+                currentLayananModel.setNamaLayanan(layanan.getNamaLayanan());
 
                 mPlus.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -194,7 +228,8 @@ public class DetailTransaksiKurirFragment extends Fragment {
                             }
                         }
 
-                        // Hitung ulang total berdasarkan quantity yang baru
+                        currentLayananModel.setQty(quantity);
+                        mViewModel.addLayanan(currentLayananModel);
 
 
                         // Update text qty
@@ -245,6 +280,9 @@ public class DetailTransaksiKurirFragment extends Fragment {
 //                                mViewModel.addHargaPcs((int) totalPcs);
                             }
                         }
+
+                        currentLayananModel.setQty(quantity);
+                        mViewModel.removeLayanan(currentLayananModel);
 
                         // Update text qty
                         mQty.setText(String.format("%.1f", quantity));

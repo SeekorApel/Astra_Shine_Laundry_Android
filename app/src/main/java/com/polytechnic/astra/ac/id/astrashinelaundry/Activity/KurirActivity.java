@@ -18,13 +18,13 @@ public class KurirActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_kurir_pickup);
+        setContentView(R.layout.activity_kurir);
 
 
         if (savedInstanceState == null) {
             PickUpKurirFragment fragmentPickUpKurir = new PickUpKurirFragment();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.PickUpKurir, fragmentPickUpKurir)
+                    .add(R.id.fragment_container_kurir, fragmentPickUpKurir)
                     .commit();
         }
     }

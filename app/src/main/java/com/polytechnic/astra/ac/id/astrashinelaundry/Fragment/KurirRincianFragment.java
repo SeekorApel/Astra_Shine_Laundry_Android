@@ -96,6 +96,22 @@ public class KurirRincianFragment extends Fragment {
             }
         });
 
+        mBtnCekPesanan = view.findViewById(R.id.btn_cek_pesanan);
+        mBtnCekPesanan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DetailTransaksiKurirFragment detailTransaksiKurirFragment = new DetailTransaksiKurirFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("transaksi", transaksi);
+                detailTransaksiKurirFragment.setArguments(bundle);
+
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container_kurir, detailTransaksiKurirFragment)  // Make sure R.id.PickUpKurir is correct
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
         return view;
     }
 
