@@ -7,22 +7,6 @@
     android:id="@+id/rincianKurir"
     tools:context=".Fragment.CustomerRincianFragment">
 
-
-    <Button
-        android:id="@+id/btn_batal_pesanan"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/rounded_button_login"
-        android:fontFamily="@font/maison_neue_bold"
-        android:text="Batalkan pesanan"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_kembali"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/btn_kembali"
         android:layout_width="320dp"
