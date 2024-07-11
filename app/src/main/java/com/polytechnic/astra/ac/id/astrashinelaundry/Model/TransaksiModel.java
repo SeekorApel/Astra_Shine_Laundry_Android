@@ -27,6 +27,14 @@ public class TransaksiModel implements Serializable {
     @Expose
     private Integer idAlamat;
 
+    @SerializedName("longitude")
+    @Expose
+    private String longitude;
+
+    @SerializedName("latitude")
+    @Expose
+    private String latitude;
+
     @SerializedName("idDurasi")
     @Expose
     private Integer idDurasi;
@@ -66,12 +74,16 @@ public class TransaksiModel implements Serializable {
     public TransaksiModel() {
     }
 
-    public TransaksiModel(Integer idTransaksi, Integer idUser, String namaUser, String noTelp, Integer idAlamat, Integer idDurasi, String namaDurasi, String catatan, Date tanggalPesanan, Date tanggalPengiriman, String statusPembayaran, String statusPesanan, Integer ongkir, Integer totalHarga) {
+
+    public TransaksiModel(Integer idTransaksi, Integer idUser, String namaUser, String noTelp, Integer idAlamat, String longitude, String latitude, Integer idDurasi, String namaDurasi, String catatan, Date tanggalPesanan, Date tanggalPengiriman, String statusPembayaran, String statusPesanan, Integer ongkir, Integer totalHarga) {
+
         this.idTransaksi = idTransaksi;
         this.idUser = idUser;
         this.namaUser = namaUser;
         this.noTelp = noTelp;
         this.idAlamat = idAlamat;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.idDurasi = idDurasi;
         this.namaDurasi = namaDurasi;
         this.catatan = catatan;
@@ -81,6 +93,23 @@ public class TransaksiModel implements Serializable {
         this.statusPesanan = statusPesanan;
         this.ongkir = ongkir;
         this.totalHarga = totalHarga;
+    }
+
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     public String getNoTelp() {
