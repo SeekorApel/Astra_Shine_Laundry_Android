@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
@@ -127,14 +129,6 @@ public class CustomerRincianFragment extends Fragment {
 
             mTextViewTotal.setText("Rp. "+String.valueOf(mTransaksiModel.getTotalHarga()));
         }
-
-        mButtonBatal = view.findViewById(R.id.btn_batal_pesanan);
-        mButtonBatal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         mButtonKembali = view.findViewById(R.id.btn_kembali);
         mButtonKembali.setOnClickListener(new View.OnClickListener() {
