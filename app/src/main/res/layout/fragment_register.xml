@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,23 +8,24 @@
 
     <ImageView
         android:id="@+id/logo_astra_shine"
-        android:layout_width="254dp"
-        android:layout_height="237dp"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="58dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="45dp"
         android:src="@drawable/logo_astra_shine_1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edt_title_alamat"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="45dp"
         android:background="@drawable/rounded_border"
         android:ems="10"
         android:fontFamily="@font/maison_neue_medium"
@@ -40,11 +40,11 @@
 
     <EditText
         android:id="@+id/edt_password"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="45dp"
         android:background="@drawable/rounded_border"
         android:ems="10"
         android:fontFamily="@font/maison_neue_medium"
@@ -59,11 +59,11 @@
 
     <EditText
         android:id="@+id/edt_nama"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="45dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="45dp"
         android:background="@drawable/rounded_border"
         android:ems="10"
         android:fontFamily="@font/maison_neue_medium"
@@ -78,11 +78,11 @@
 
     <EditText
         android:id="@+id/edt_no_telp"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="45dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="45dp"
         android:background="@drawable/rounded_border"
         android:ems="10"
         android:fontFamily="@font/maison_neue_medium"
@@ -98,9 +98,11 @@
 
     <Button
         android:id="@+id/btn_daftar"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="45dp"
         android:background="@drawable/rounded_button_login"
         android:fontFamily="@font/maison_neue_bold"
         android:text="Daftar"
@@ -112,9 +114,11 @@
 
     <Button
         android:id="@+id/btn_kembali"
-        android:layout_width="320dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="45dp"
         android:background="@drawable/rounded_button_kembali"
         android:fontFamily="@font/maison_neue_bold"
         android:text="Kembali"
