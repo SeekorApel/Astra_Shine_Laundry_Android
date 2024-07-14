@@ -61,7 +61,6 @@ public class EditAlamatFragment extends Fragment implements OnMapReadyCallback {
     private EditText mEdtNamaAlamat, mEdtAlamat;
     private FusedLocationProviderClient mFusedLocationClient;
     private double mLaTitude, mLaTitudeTemp, mLongTitude, mLongTitudeTemp, mLaTLaundry, mLongLaundry;
-
     private static final int REQUEST_LOCATION_SETTINGS = 1001;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private AlamatViewModel mAlamatViewModel;
