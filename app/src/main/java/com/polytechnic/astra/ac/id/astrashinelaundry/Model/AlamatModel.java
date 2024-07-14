@@ -2,7 +2,6 @@ package com.polytechnic.astra.ac.id.astrashinelaundry.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 public class AlamatModel implements Serializable {
@@ -23,17 +22,17 @@ public class AlamatModel implements Serializable {
     @Expose
     private String alamat;
 
-    @SerializedName("langtitude")
-    @Expose
-    private String langtitude;
-
     @SerializedName("latitude")
     @Expose
-    private String latitude;
+    private Double latitude;
+
+    @SerializedName("longtitude")
+    @Expose
+    private Double longtitude;
 
     @SerializedName("jarak")
     @Expose
-    private Integer jarak;
+    private Double jarak;
 
     @SerializedName("status")
     @Expose
@@ -42,15 +41,13 @@ public class AlamatModel implements Serializable {
     public AlamatModel() {
     }
 
-    public AlamatModel(Integer idAlamat, Integer idUser, String namaAlamat, String alamat, String langtitude, String latitude, Integer jarak, String status) {
-        this.idAlamat = idAlamat;
+    public AlamatModel(Integer idUser, String namaAlamat, String alamat, Double latitude, Double longtitude, Double jarak) {
         this.idUser = idUser;
         this.namaAlamat = namaAlamat;
         this.alamat = alamat;
-        this.langtitude = langtitude;
         this.latitude = latitude;
+        this.longtitude = longtitude;
         this.jarak = jarak;
-        this.status = status;
     }
 
     public Integer getIdAlamat() {
@@ -85,27 +82,27 @@ public class AlamatModel implements Serializable {
         this.alamat = alamat;
     }
 
-    public String getLangtitude() {
-        return langtitude;
+    public Double getLongtitude() {
+        return longtitude;
     }
 
-    public void setLangtitude(String langtitude) {
-        this.langtitude = langtitude;
+    public void setLongtitude(Double longtitude) {
+        this.longtitude = longtitude;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Integer getJarak() {
+    public Double getJarak() {
         return jarak;
     }
 
-    public void setJarak(Integer jarak) {
+    public void setJarak(Double jarak) {
         this.jarak = jarak;
     }
 
@@ -124,7 +121,7 @@ public class AlamatModel implements Serializable {
                 ", idUser=" + idUser +
                 ", namaAlamat='" + namaAlamat + '\'' +
                 ", alamat='" + alamat + '\'' +
-                ", langtitude='" + langtitude + '\'' +
+                ", langtitude='" + longtitude + '\'' +
                 ", latitude='" + latitude + '\'' +
                 ", jarak=" + jarak +
                 ", status='" + status + '\'' +

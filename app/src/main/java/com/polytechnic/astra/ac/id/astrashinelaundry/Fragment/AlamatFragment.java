@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,8 +24,7 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.AlamatListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.AlamatModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
-import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.AlamatListViewModel;
-import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.TransaksiListViewModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.AlamatViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +34,7 @@ public class AlamatFragment extends Fragment {
 
     private FloatingActionButton mBtnAdd;
 
-    private AlamatListViewModel mAlamatListViewModel;
+    private AlamatViewModel mAlamatViewModel;
 
     private RecyclerView mListAlamatRecyclerView;
 
@@ -47,7 +45,7 @@ public class AlamatFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AlamatRepository.initialize(requireContext());
-        mAlamatListViewModel = new ViewModelProvider(this).get(AlamatListViewModel.class);
+        mAlamatViewModel = new ViewModelProvider(this).get(AlamatViewModel.class);
     }
 
     @Override
@@ -73,8 +71,8 @@ public class AlamatFragment extends Fragment {
         });
 
         //Mengambil data dari database
-        mAlamatListViewModel.getDataAlamat(user.getIdUser());
-        mAlamatListViewModel.getAllAlamatResponse().observe(getViewLifecycleOwner(), new Observer<AlamatListVO>() {
+        mAlamatViewModel.getDataAlamat(user.getIdUser());
+        mAlamatViewModel.getAllAlamatResponse().observe(getViewLifecycleOwner(), new Observer<AlamatListVO>() {
             @Override
             public void onChanged(AlamatListVO alamatListVO) {
 

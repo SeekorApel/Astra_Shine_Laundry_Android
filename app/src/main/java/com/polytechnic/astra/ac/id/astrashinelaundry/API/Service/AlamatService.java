@@ -12,6 +12,9 @@ import retrofit2.http.Query;
 
 public interface AlamatService {
 
+    @GET("alamat/getAlamatLaundry")
+    Call<AlamatVO> getAlamatLaundry();
+
     @GET("alamat/getAlamatUser")
     Call<AlamatListVO> getAlamatByUserId(@Query("idUser") Integer idUser);
 

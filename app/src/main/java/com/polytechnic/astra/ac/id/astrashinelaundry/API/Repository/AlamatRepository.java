@@ -59,6 +59,30 @@ public class AlamatRepository {
         return dataAlamat;
     }
 
+    public MutableLiveData<AlamatVO> getAlamatLaundry(){
+        Log.i(TAG, "getAlamatLaundry() called");
+        MutableLiveData<AlamatVO> dataAlamatLaundry = new MutableLiveData<>();
+        Call<AlamatVO> call = mAlamatService.getAlamatLaundry();
+        call.enqueue(new Callback<AlamatVO>() {
+            @Override
+            public void onResponse(Call<AlamatVO> call, Response<AlamatVO> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    dataAlamatLaundry.setValue(response.body());
+                    Log.d(TAG, "getAlamatLaundry.onResponse() called");
+                }else{
+                    Log.e(TAG, "Response unsuccessful or body is null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AlamatVO> call, Throwable throwable) {
+                Log.e("Error API Call : ", throwable.getMessage());
+            }
+        });
+
+        return dataAlamatLaundry;
+    }
+
     public void saveAlamat(AlamatModel alamat, final messageCallback callback){
         Log.i(TAG, "saveAlamat() called");
         Call<AlamatVO> call = mAlamatService.saveAlamat(alamat);
