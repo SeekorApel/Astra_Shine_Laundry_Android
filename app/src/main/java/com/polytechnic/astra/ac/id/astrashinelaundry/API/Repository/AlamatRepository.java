@@ -105,6 +105,28 @@ public class AlamatRepository {
         });
     }
 
+    public void updateAlamat(AlamatModel updateAlamat, final messageCallback callback){
+        Log.i(TAG, "updateAlamat() called");
+        Call<AlamatVO> call = mAlamatService.updateAlamat(updateAlamat);
+        call.enqueue(new Callback<AlamatVO>() {
+            @Override
+            public void onResponse(Call<AlamatVO> call, Response<AlamatVO> response) {
+                Log.d(TAG, "updateAlamat.onResponse() called");
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getMessage());
+                    Log.d(TAG, response.message());
+                } else {
+                    callback.onError("Update Alamat Gagal");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AlamatVO> call, Throwable throwable) {
+                Log.e("Error API Call : ", throwable.getMessage());
+            }
+        });
+    }
+
     public void deleteAlamat(Integer idAlamat, final messageCallback callback){
         Log.i(TAG, "deleteAlamat() called");
         Call<AlamatVO> call = mAlamatService.deleteAlamat(idAlamat);

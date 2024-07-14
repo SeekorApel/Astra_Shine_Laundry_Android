@@ -67,6 +67,21 @@ public class AlamatViewModel extends ViewModel {
         });
     }
 
+    public void updateAlamat(AlamatModel updateAlamat){
+        Log.i(TAG, "updateAlamat() called");
+        mAlamatRepository.updateAlamat(updateAlamat, new AlamatRepository.messageCallback() {
+            @Override
+            public void onSuccess(String message) {
+                successMessage.postValue(message);
+            }
+
+            @Override
+            public void onError(String error) {
+                errorMessage.postValue(error);
+            }
+        });
+    }
+
     public void deleteAlamat(Integer idAlamat){
         Log.i(TAG, "deleteAlamat() called");
         mAlamatRepository.deleteAlamat(idAlamat, new AlamatRepository.messageCallback() {

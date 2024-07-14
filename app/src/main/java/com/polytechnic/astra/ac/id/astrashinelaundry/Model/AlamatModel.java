@@ -41,6 +41,18 @@ public class AlamatModel implements Serializable {
     public AlamatModel() {
     }
 
+
+    public AlamatModel(Integer idAlamat, Integer idUser, String namaAlamat, String alamat, Double latitude, Double longtitude, Double jarak, String status) {
+        this.idAlamat = idAlamat;
+        this.idUser = idUser;
+        this.namaAlamat = namaAlamat;
+        this.alamat = alamat;
+        this.latitude = latitude;
+        this.longtitude = longtitude;
+        this.jarak = jarak;
+        this.status = status;
+    }
+
     public AlamatModel(Integer idUser, String namaAlamat, String alamat, Double latitude, Double longtitude, Double jarak) {
         this.idUser = idUser;
         this.namaAlamat = namaAlamat;

@@ -67,7 +67,6 @@ public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback
     private double mLaTitude, mLongTitude, mLaTLaundry, mLongLaundry;
     private AlamatViewModel mAlamatViewModel;
 
-
     private static final String TAG = "TambahAlamatFragment";
 
     public TambahAlamatFragment() {
@@ -101,7 +100,7 @@ public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
 
-        getLatAndLongAlamat();
+        getAlamatLaundry();
 
         mBtnGetLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,11 +131,6 @@ public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback
                 mAlamatViewModel.getErrorResponse().observe(getViewLifecycleOwner(), error -> {
                     Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
                 });
-
-//                // Tampilkan dalam toast
-//                String distanceText = String.format("%.2f km", resultJarak);
-//                Toast.makeText(getContext(), "Jarak ke alamat laundry: " + distanceText, Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -173,7 +167,7 @@ public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback
         });
     }
 
-    private void getLatAndLongAlamat(){
+    private void getAlamatLaundry(){
         mAlamatViewModel.getDataAlamatLaundry();
         mAlamatViewModel.getAlamatLaundryResponse().observe(getViewLifecycleOwner(), new Observer<AlamatVO>() {
             @Override

@@ -21,6 +21,9 @@ public interface AlamatService {
     @POST("alamat/saveAlamatUser")
     Call<AlamatVO> saveAlamat(@Body AlamatModel alamat);
 
+    @POST("alamat/updateAlamatUser")
+    Call<AlamatVO> updateAlamat(@Body AlamatModel updateAlamat);
+
     @POST("alamat/deleteAlamat")
     Call<AlamatVO> deleteAlamat(@Query("idAlamat") Integer idAlamat);
 
