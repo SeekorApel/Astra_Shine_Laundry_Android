@@ -7,6 +7,11 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,7 +96,7 @@ public class PengaturanResetPasswordFragment extends Fragment {
     private void navigateToFragment(){
         Fragment pengaturanFragment = new PengaturanFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_pengaturan, pengaturanFragment);
+        transaction.replace(R.id.fragment_view_transaksi, pengaturanFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
