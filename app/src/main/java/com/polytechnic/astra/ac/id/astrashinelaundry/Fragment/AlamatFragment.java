@@ -143,7 +143,7 @@ public class AlamatFragment extends Fragment {
                     editAlamatFragment.setArguments(bundle);
 
                     getParentFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_pengaturan, editAlamatFragment)  // Make sure R.id.PickUpKurir is correct
+                            .replace(R.id.fragment_view_transaksi, editAlamatFragment)  // Make sure R.id.PickUpKurir is correct
                             .addToBackStack(null)
                             .commit();
                 }
@@ -165,7 +165,7 @@ public class AlamatFragment extends Fragment {
     private void navigateToFragmentAddAlamat(){
         TambahAlamatFragment fragmentTambahAlamat = new TambahAlamatFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_pengaturan, fragmentTambahAlamat);
+        transaction.replace(R.id.fragment_view_transaksi, fragmentTambahAlamat);
         transaction.addToBackStack(null);
         transaction.commit();
     }

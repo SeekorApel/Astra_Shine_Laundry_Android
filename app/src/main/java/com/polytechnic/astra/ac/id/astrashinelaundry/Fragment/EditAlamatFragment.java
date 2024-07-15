@@ -306,7 +306,7 @@ public class EditAlamatFragment extends Fragment implements OnMapReadyCallback {
     private void navigateToFragmentAlamat(){
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_pengaturan, new AlamatFragment());
+        fragmentTransaction.replace(R.id.fragment_view_transaksi, new AlamatFragment());
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

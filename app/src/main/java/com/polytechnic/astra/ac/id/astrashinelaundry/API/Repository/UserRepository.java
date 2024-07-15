@@ -43,8 +43,12 @@ public class UserRepository {
         call.enqueue(new Callback<UserVO>() {
             @Override
             public void onResponse(Call<UserVO> call, Response<UserVO> response) {
-                dataLogin.setValue(response.body());
-                Log.d(TAG, "getUserLogin.onResponse() called");
+                if(response.isSuccessful() && response.body() != null){
+                    dataLogin.setValue(response.body());
+                    Log.d(TAG, "getUserLogin.onResponse() called");
+                }else {
+                    Log.e(TAG, "Terjadi kesalahan");
+                }
             }
 
             @Override

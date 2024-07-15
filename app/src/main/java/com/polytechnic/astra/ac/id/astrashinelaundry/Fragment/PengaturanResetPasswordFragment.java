@@ -96,7 +96,7 @@ public class PengaturanResetPasswordFragment extends Fragment {
     private void navigateToFragment(){
         Fragment pengaturanFragment = new PengaturanFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_pengaturan, pengaturanFragment);
+        transaction.replace(R.id.fragment_view_transaksi, pengaturanFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
