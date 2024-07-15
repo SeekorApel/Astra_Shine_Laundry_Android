@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.CustomerActivity;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.KurirActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.PengaturanActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.TestCusActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;

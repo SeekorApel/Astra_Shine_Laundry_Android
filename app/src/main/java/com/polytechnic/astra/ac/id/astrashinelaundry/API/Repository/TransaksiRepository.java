@@ -132,16 +132,16 @@ public class TransaksiRepository {
     }
     public void createDetailTransaksi(List<DetailTransaksiModel> detailTransaksi,final TransaksiRepository.messageCallback callback) {
         Log.i(TAG, "createDetailTransaksi() called");
-        Call<DetailTransaksiVO> call = mTransaksiService.createDetailTransaksi(detailTransaksi);
+        Call<DetailTransaksiVo> call = mTransaksiService.createDetailTransaksi(detailTransaksi);
         for(int i = 0;i < detailTransaksi.size();i++){
             Log.d(TAG,"ID Transaksi :"+detailTransaksi.get(i).getIdTransaksi().toString());
             Log.d(TAG,"ID Layanan :"+detailTransaksi.get(i).getIdLayanan().toString());
             Log.d(TAG,"Nama Layanan :"+detailTransaksi.get(i).getNamaLayanan().toString());
             Log.d(TAG,"Qty Layanan :"+detailTransaksi.get(i).getQty().toString());
         }
-        call.enqueue(new Callback<DetailTransaksiVO>() {
+        call.enqueue(new Callback<DetailTransaksiVo>() {
             @Override
-            public void onResponse(Call<DetailTransaksiVO> call, Response<DetailTransaksiVO> response) {
+            public void onResponse(Call<DetailTransaksiVo> call, Response<DetailTransaksiVo> response) {
                 Log.d(TAG, "createDetailTransaksi.onResponse() called");
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body().getMessage());
@@ -152,7 +152,7 @@ public class TransaksiRepository {
             }
 
             @Override
-            public void onFailure(Call<DetailTransaksiVO> call, Throwable throwable) {
+            public void onFailure(Call<DetailTransaksiVo> call, Throwable throwable) {
                 Log.e(TAG, "Error API Call: " + throwable.getMessage());
             }
         });
@@ -233,6 +233,31 @@ public class TransaksiRepository {
 
             @Override
             public void onFailure(Call<DetailTransaksiVo> call, Throwable t) {
+                Log.e("TransaksiRepository", "Kesalahan panggilan API: " + t.getMessage());
+            }
+        });
+
+        return dataTransaksi;
+    }
+
+    public MutableLiveData<TransaksiListVO> getHargaTotal(Integer idTransaksi) {
+        Log.i(TAG, "getHargaTotal() called");
+        MutableLiveData<TransaksiListVO> dataTransaksi = new MutableLiveData<>();
+
+        Call<TransaksiListVO> call = mTransaksiService.getTotalHarga(idTransaksi);
+        call.enqueue(new Callback<TransaksiListVO>() {
+            @Override
+            public void onResponse(Call<TransaksiListVO> call, Response<TransaksiListVO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    System.out.println("sigma");
+                    dataTransaksi.setValue(response.body());
+                } else {
+                    Log.e("TransaksiRepository", "Respon tidak berhasil atau body null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiListVO> call, Throwable t) {
                 Log.e("TransaksiRepository", "Kesalahan panggilan API: " + t.getMessage());
             }
         });

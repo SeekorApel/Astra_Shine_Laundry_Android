@@ -1,12 +1,10 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,20 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DurasiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
-import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DurasiViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.TransaksiListViewModel;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -39,9 +36,10 @@ public class CustomerRincianFragment extends Fragment {
     private Button mButtonBatal, mButtonKembali;
     private TextView mTextViewStatus, mTextViewTanggal, mTextViewEstimasi, mTextViewDurasi, mTextViewStatusBayar, mTextViewLayanan, mTextViewOngkir, mTextViewTotal;
     private TransaksiModel mTransaksiModel;
-    private DurasiModel mDurasiModel;
     private DurasiViewModel mDurasiViewModel;
     private TransaksiListViewModel mTransaksiListViewModel;
+    Double totalHarga;
+
     SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
     @Override
@@ -50,6 +48,7 @@ public class CustomerRincianFragment extends Fragment {
         if (getArguments() != null) {
             mTransaksiModel = (TransaksiModel) getArguments().getSerializable("transaksi");
         }
+        TransaksiRepository.initialize(requireContext());
         mTransaksiListViewModel = new ViewModelProvider(this).get(TransaksiListViewModel.class);
     }
 
@@ -69,14 +68,21 @@ public class CustomerRincianFragment extends Fragment {
         mTextViewTotal = view.findViewById(R.id.total_pembayaran);
 
         Integer idDurasi = mTransaksiModel.getIdDurasi();
-        Log.d("sigma", String.valueOf(idDurasi));
         mDurasiViewModel = new ViewModelProvider(this).get(DurasiViewModel.class);
 
         mDurasiViewModel.getDataDurasiById(idDurasi);
         mDurasiViewModel.getAllDurasiResponse().observe(getViewLifecycleOwner(), new Observer<DurasiVo>() {
             @Override
             public void onChanged(DurasiVo durasiVo) {
-                mTextViewDurasi.setText(durasiVo.getData().getNamaDurasi());
+                List<DurasiModel> dataList = durasiVo.getData();
+                if (dataList != null && !dataList.isEmpty()) {
+                    for (DurasiModel model : dataList) {
+                        mTextViewDurasi.setText(model.getNamaDurasi());
+
+                    }
+                } else {
+                    Log.d("Detail Name", "Daftar data detail transaksi kosong atau null");
+                }
             }
         });
 
@@ -84,27 +90,21 @@ public class CustomerRincianFragment extends Fragment {
             mTextViewLayanan.setText("Rp. 0");
         } else {
             Integer idTransaksi = mTransaksiModel.getIdTransaksi();
-            Log.d("woiii", "ini idtransaksi bg " + idTransaksi);
-            mTransaksiListViewModel.getTransaksiDetail(idTransaksi);
-            mTransaksiListViewModel.getAllDetailResponse().observe(getViewLifecycleOwner(), new Observer<DetailTransaksiVo>() {
+            mTransaksiListViewModel.getHargaTotal(idTransaksi);
+            mTransaksiListViewModel.getAllTransaksiResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiListVO>() {
                 @Override
-                public void onChanged(DetailTransaksiVo detailTransaksiVos) {
-                    if (detailTransaksiVos == null) {
-                        Log.d("Detail Name", "Daftar detail transaksi kosong atau null");
-                        // Tambahkan logika lain jika perlu, misalnya menampilkan pesan ke pengguna
-                    } else {
-                        List<DetailTransaksiModel> dataList = detailTransaksiVos.getData();
-                        if (dataList != null && !dataList.isEmpty()) {
-                            for (DetailTransaksiModel model : dataList) {
-                                Integer qty = model.getQty();
-
-                            }
-                        } else {
-                            Log.d("Detail Name", "Daftar data detail transaksi kosong atau null");
+                public void onChanged(TransaksiListVO transaksiListVO) {
+                    List<TransaksiModel> dataList = transaksiListVO.getData();
+                    if (dataList != null && !dataList.isEmpty()) {
+                        for (TransaksiModel model : dataList) {
+                            mTextViewLayanan.setText("Rp. "+String.valueOf(model.getTotalHarga()));
                         }
+                    } else {
+                        Log.d("Detail Name", "Daftar data detail transaksi kosong atau null");
                     }
                 }
             });
+
         }
 
         if (mTransaksiModel != null){
@@ -122,6 +122,9 @@ public class CustomerRincianFragment extends Fragment {
             mTextViewTanggal.setText(mDateFormat.format(mTransaksiModel.getTanggalPesanan()));
             mTextViewEstimasi.setText(mDateFormat.format(mTransaksiModel.getTanggalPengiriman()));
             mTextViewStatusBayar.setText(statusPembayaran);
+
+            String totalHargaText = (totalHarga == null) ? "Rp. 0" : "Rp. " + totalHarga;
+            mTextViewLayanan.setText(String.valueOf(totalHargaText));
 
             Integer ongkir = mTransaksiModel.getOngkir();
             String ongkirText = (ongkir == null) ? "Rp. 0" : "Rp. " + ongkir;
@@ -166,4 +169,5 @@ public class CustomerRincianFragment extends Fragment {
             }
         }
     }
+
 }

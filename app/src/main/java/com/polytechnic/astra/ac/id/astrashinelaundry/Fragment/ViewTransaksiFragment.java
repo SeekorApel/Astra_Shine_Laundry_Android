@@ -1,5 +1,6 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,21 +19,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DurasiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
+import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DurasiViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.TransaksiListViewModel;
 
 import java.text.SimpleDateFormat;
@@ -48,8 +57,12 @@ public class ViewTransaksiFragment extends Fragment {
     private TransaksiAdapter mAdapter;
     private TabLayout mTabLayout;
     private String status = "Pick Up";
-    private Button mButtonSetting;
+    private Button mButtonSetting, mAddButtonEmpty;
     private FloatingActionButton mButtonAdd;
+    private EditText mEditTextTanggal;
+    private Spinner mSpinnerDurasi, mSpinnerAlamat;
+    private ArrayAdapter<String> mDropDownAdapter;
+    private DurasiViewModel mDurasiViewModel;
 
     public ViewTransaksiFragment() {
         // Required empty public constructor
@@ -61,6 +74,7 @@ public class ViewTransaksiFragment extends Fragment {
 
         TransaksiRepository.initialize(requireContext());
         mTransaksiListViewModel = new ViewModelProvider(this).get(TransaksiListViewModel.class);
+        mDurasiViewModel = new ViewModelProvider(this).get(DurasiViewModel.class);
     }
 
     @Override
@@ -102,7 +116,8 @@ public class ViewTransaksiFragment extends Fragment {
         ImageView imgDataEmpty = view.findViewById(R.id.img_data_empty);
         TextView txtEmptyMessage = view.findViewById(R.id.txt_empty_message);
         TextView txtEmptyMessage2 = view.findViewById(R.id.txt_empty_message2);
-        Button mAddButtonEmpty = view.findViewById(R.id.btn_tambah);
+        mAddButtonEmpty = view.findViewById(R.id.btn_tambah);
+        mButtonAdd = view.findViewById(R.id.btn_add);
 
         // Mengatur TabLayout
         mTabLayout = view.findViewById(R.id.tabLayout);
@@ -120,7 +135,7 @@ public class ViewTransaksiFragment extends Fragment {
                         status = "Selesai";
                         break;
                 }
-                loadData(user, status, imgDataEmpty, txtEmptyMessage, txtEmptyMessage2, mAddButtonEmpty);
+                loadData(user, status, imgDataEmpty, txtEmptyMessage, txtEmptyMessage2, mAddButtonEmpty, mButtonAdd);
             }
 
             @Override
@@ -132,7 +147,7 @@ public class ViewTransaksiFragment extends Fragment {
             }
         });
 
-        loadData(user, status, imgDataEmpty, txtEmptyMessage, txtEmptyMessage2, mAddButtonEmpty);
+        loadData(user, status, imgDataEmpty, txtEmptyMessage, txtEmptyMessage2, mAddButtonEmpty, mButtonAdd);
 
         mButtonSetting = view.findViewById(R.id.btn_setting);
         mButtonSetting.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +170,19 @@ public class ViewTransaksiFragment extends Fragment {
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(v.getContext());
                 View bottomSheetView = getLayoutInflater().inflate(R.layout.fragment_add_transaksi, null);
                 bottomSheetDialog.setContentView(bottomSheetView);
+
+                mEditTextTanggal = bottomSheetView.findViewById(R.id.tanggal_pickup);
+                mSpinnerDurasi = bottomSheetView.findViewById(R.id.cb_durasi);
+                mSpinnerAlamat = bottomSheetView.findViewById(R.id.cb_alamat);
+
+                getDataDurasi();;
+
+                mEditTextTanggal.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getTanggalPickUp();
+                    }
+                });
 
                 Button closeButton = bottomSheetView.findViewById(R.id.btn_kembali);
                 closeButton.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +218,7 @@ public class ViewTransaksiFragment extends Fragment {
         return view;
     }
 
-    private void loadData(UserModel user, String status, ImageView imgDataEmpty, TextView txtEmptyMessage, TextView txtEmptyMessage2, Button mAddButton) {
+    private void loadData(UserModel user, String status, ImageView imgDataEmpty, TextView txtEmptyMessage, TextView txtEmptyMessage2, Button mAddButtonEmpty, FloatingActionButton mButtonAdd) {
         if (user != null) {
             mAdapter.clear();
             mTransaksiListViewModel.getTransaksiByIdAndStatus(user.getIdUser(), status);
@@ -204,7 +232,8 @@ public class ViewTransaksiFragment extends Fragment {
                         imgDataEmpty.setVisibility(View.GONE);
                         txtEmptyMessage.setVisibility(View.GONE);
                         txtEmptyMessage2.setVisibility(View.GONE);
-                        mAddButton.setVisibility(View.GONE);
+                        mAddButtonEmpty.setVisibility(View.GONE);
+                        mButtonAdd.setVisibility(View.VISIBLE);
                     } else {
                         Log.e("ViewTransaksiFragment", "TransaksiListVO is null or empty");
                         mAdapter.setTransaksiList(new ArrayList<>()); // Clear the list if null or empty
@@ -212,7 +241,8 @@ public class ViewTransaksiFragment extends Fragment {
                         imgDataEmpty.setVisibility(View.VISIBLE);
                         txtEmptyMessage.setVisibility(View.VISIBLE);
                         txtEmptyMessage2.setVisibility(View.VISIBLE);
-                        mAddButton.setVisibility(View.VISIBLE);
+                        mAddButtonEmpty.setVisibility(View.VISIBLE);
+                        mButtonAdd.setVisibility(View.GONE);
                     }
                 }
             });
@@ -297,5 +327,70 @@ public class ViewTransaksiFragment extends Fragment {
                 mTanggalSelesai.setText("Estimasi Selesai: " + dateFormat.format(transaksi.getTanggalPengiriman()));
             }
         }
+    }
+
+    private void getDataDurasi(){
+        mDurasiViewModel.getDataDurasi();
+        mDurasiViewModel.getAllDurasiResponse().observe(getViewLifecycleOwner(), new Observer<DurasiVo>() {
+            @Override
+            public void onChanged(DurasiVo durasiVo) {
+                List<DurasiModel> durasiModels = durasiVo.getData();
+                List<String> dropdownValues = new ArrayList<>();
+                dropdownValues.add("--pilih durasi--");
+                for (DurasiModel model : durasiModels) {
+                    dropdownValues.add(model.getNamaDurasi());
+                }
+
+                // Buat dan setel adapter dengan data dari database
+                ArrayAdapter<String> mDropDownAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dropdownValues);
+                mDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                mSpinnerDurasi.setAdapter(mDropDownAdapter);
+
+                // Atur default selection (opsional)
+                mSpinnerDurasi.setSelection(0);
+            }
+        });
+    }
+
+    private void getTanggalPickUp(){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                getActivity(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month = month + 1;
+                        String date = dayOfMonth + "-" + month + "-" + year;
+                        mEditTextTanggal.setText(date);
+                    }
+                },
+                year, month, day);
+        dialog.show();
+    }
+
+    private void getDataAlamat(){
+        mDurasiViewModel.getDataDurasi();
+        mDurasiViewModel.getAllDurasiResponse().observe(getViewLifecycleOwner(), new Observer<DurasiVo>() {
+            @Override
+            public void onChanged(DurasiVo durasiVo) {
+                List<DurasiModel> durasiModels = durasiVo.getData();
+                List<String> dropdownValues = new ArrayList<>();
+                for (DurasiModel model : durasiModels) {
+                    dropdownValues.add(model.getNamaDurasi());
+                }
+
+                // Buat dan setel adapter dengan data dari database
+                ArrayAdapter<String> mDropDownAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, dropdownValues);
+                mDropDownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                mSpinnerDurasi.setAdapter(mDropDownAdapter);
+
+                // Atur default selection (opsional)
+                mSpinnerDurasi.setSelection(0);
+            }
+        });
     }
 }

@@ -26,7 +26,7 @@ public interface TransaksiService {
     Call<TransaksiListVO> batalkanTrsKurir(@Path("idTransaksi") String idTransaksi, @Query("catatan") String catatan);
 
     @POST("detailTransaksi/saveDetail")
-    Call<DetailTransaksiVO> createDetailTransaksi(@Body List<DetailTransaksiModel> detailTransaksi);
+    Call<DetailTransaksiVo> createDetailTransaksi(@Body List<DetailTransaksiModel> detailTransaksi);
     
     @GET("transaksi/getTransaksiByIdAndStatus")
     Call<TransaksiListVO> getTransaksiByIdAndStatus(@Query("idUser") Integer idUser, @Query("status") String status);
@@ -43,5 +43,6 @@ public interface TransaksiService {
     @GET("transaksi/getTransaksiDetail")
     Call<DetailTransaksiVo> getTransaksiDetail(@Query("idTransaksi") Integer idTransaksi);
 
-
+    @GET("transaksi/getTotalHarga")
+    Call<TransaksiListVO> getTotalHarga(@Query("idTransaksi") Integer idTransaksi);
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public class DurasiVo {
     private int status;
 
-    private DurasiModel data;
+    private List<DurasiModel> data;
 
     private String message;
 
@@ -19,11 +19,11 @@ public class DurasiVo {
         this.status = status;
     }
 
-    public DurasiModel getData() {
+    public List<DurasiModel> getData() {
         return data;
     }
 
-    public void setData(DurasiModel data) {
+    public void setData(List<DurasiModel> data) {
         this.data = data;
     }
 

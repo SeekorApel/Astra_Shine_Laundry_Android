@@ -60,4 +60,9 @@ public class TransaksiListViewModel extends ViewModel {
         detailResponse = mTransaksiRepository.getDetailTransaksi(idTransaksi);
     }
 
+    public void getHargaTotal(Integer idTransaksi) {
+        Log.i(TAG, "getDataTransaksiLiveData() called");
+        transaksiResponse = mTransaksiRepository.getHargaTotal(idTransaksi);
+    }
+
 }

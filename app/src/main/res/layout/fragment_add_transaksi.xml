@@ -22,34 +22,35 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_border"/>
+        android:background="@drawable/rounded_border"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:fontFamily="@font/maison_neue_bold"/>
 
-    <Button
+    <EditText
         android:id="@+id/tanggal_pickup"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/rounded_border"
+        android:ems="10"
         android:drawableStart="@drawable/ic_calendar"
+        android:drawablePadding="50dp"
         android:fontFamily="@font/maison_neue_bold"
+        android:focusable="false"
+        android:clickable="true"
         android:hint="Tanggal Pick Up"
         android:paddingStart="20dp"
         android:paddingEnd="55dp"
         android:textAllCaps="false"
         android:textColor="@color/black" />
 
-    <Button
-        android:id="@+id/alamat"
+    <Spinner
+        android:id="@+id/cb_alamat"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_border"
-        android:hint="Pilih Alamat"
-        android:textAllCaps="false"
-        android:paddingStart="25dp"
-        android:paddingEnd="55dp"
-        android:drawableLeft="@drawable/ic_maps"
-        android:fontFamily="@font/maison_neue_bold"/>
+        android:background="@drawable/rounded_border"/>
 
     <Button
         android:id="@+id/btn_pesan"
