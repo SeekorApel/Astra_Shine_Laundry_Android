@@ -71,9 +71,36 @@ public class TransaksiRepository {
         return dataLogin;
     }
 
-    public MutableLiveData<TransaksiListVO> getTransaksiByIdAndStatus(Integer idUser, String status) {
-        Log.i(TAG, "getUserByEmailAndPassword() called");
-        MutableLiveData<TransaksiListVO> dataTransaksi = new MutableLiveData<>();
+    public MutableLiveData<DetailTransaksiVO> getDetailTransaksi(String idTransaksi) {
+        Log.i(TAG, idTransaksi);
+        MutableLiveData<DetailTransaksiVO> dataLogin = new MutableLiveData<>();
+
+        Call<DetailTransaksiVO> call = mTransaksiService.getDetailTransaksi(idTransaksi);
+        call.enqueue(new Callback<DetailTransaksiVO>() {
+            @Override
+            public void onResponse(Call<DetailTransaksiVO> call, Response<DetailTransaksiVO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    dataLogin.setValue(response.body());
+                    Log.d(TAG, "getDetailTransaksi.onResponse() called");
+                    Log.d(TAG, response.body().getData().toString());
+                } else {
+                    // Logika untuk menangani kasus ketika response body null atau response tidak sukses
+                    Log.e(TAG, "Response unsuccessful or body is null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailTransaksiVO> call, Throwable throwable) {
+                Log.e("Error API Call : ", throwable.getMessage());
+            }
+        });
+
+        return dataLogin;
+    }
+
+    public MutableLiveData<TransaksiListVO> getTransaksiCustPickUp(String idUser) {
+        Log.i(TAG, "getTransaksiCustPickUp() called");
+        MutableLiveData<TransaksiListVO> dataLogin = new MutableLiveData<>();
 
         Call<TransaksiListVO> call = mTransaksiService.getTransaksiByIdAndStatus(idUser, status);
         call.enqueue(new Callback<TransaksiListVO>() {
@@ -148,7 +175,6 @@ public class TransaksiRepository {
                 Log.d(TAG, "createDetailTransaksi.onResponse() called");
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body().getMessage());
-                    Log.d(TAG, response.message());
                 } else {
                     callback.onError("Create Detail Transaksi Gagal");
                 }
