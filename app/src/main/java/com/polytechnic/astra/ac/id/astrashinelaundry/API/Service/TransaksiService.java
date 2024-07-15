@@ -28,7 +28,7 @@ public interface TransaksiService {
     Call<TransaksiListVO> getTransaksiCustPickUp(@Query("idUser") String idUser);
 
     @GET("transaksi/getTransaksiDetail")
-    Call<DetailTransaksiVO> getDetailTransaksi(@Query("idTransaksi") String idTransaksi);
+    Call<DetailTransaksiVo> getDetailTransaksi(@Query("idTransaksi") String idTransaksi);
 
     @POST("transaksi/batalkanTrsKurir/{idTransaksi}/")
     Call<TransaksiListVO> batalkanTrsKurir(@Path("idTransaksi") String idTransaksi, @Query("catatan") String catatan);

@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.LayananRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
-import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.LayananVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
@@ -28,7 +28,7 @@ public class DetailTransaksiKurirViewModel extends ViewModel {
     private MutableLiveData<Integer> totalHargaKg = new MutableLiveData<>(0);
 
     private MutableLiveData<LayananVO> LayananResponse = new MutableLiveData<>();
-    private MutableLiveData<DetailTransaksiVO> detailTransaksiResponse = new MutableLiveData<>();
+    private MutableLiveData<DetailTransaksiVo> detailTransaksiResponse = new MutableLiveData<>();
     public LiveData<Double> getTotalKg() {
         return totalKg;
     }
@@ -108,7 +108,7 @@ public class DetailTransaksiKurirViewModel extends ViewModel {
     public LiveData<LayananVO> getAllLayananResponse() {
         return LayananResponse;
     }
-    public LiveData<DetailTransaksiVO> getAllDetailResponse() {
+    public LiveData<DetailTransaksiVo> getAllDetailResponse() {
         return detailTransaksiResponse;
     }
     private MutableLiveData<String> createDetailMessage = new MutableLiveData<>();

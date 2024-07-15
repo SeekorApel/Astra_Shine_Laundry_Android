@@ -71,36 +71,9 @@ public class TransaksiRepository {
         return dataLogin;
     }
 
-    public MutableLiveData<DetailTransaksiVO> getDetailTransaksi(String idTransaksi) {
-        Log.i(TAG, idTransaksi);
-        MutableLiveData<DetailTransaksiVO> dataLogin = new MutableLiveData<>();
-
-        Call<DetailTransaksiVO> call = mTransaksiService.getDetailTransaksi(idTransaksi);
-        call.enqueue(new Callback<DetailTransaksiVO>() {
-            @Override
-            public void onResponse(Call<DetailTransaksiVO> call, Response<DetailTransaksiVO> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    dataLogin.setValue(response.body());
-                    Log.d(TAG, "getDetailTransaksi.onResponse() called");
-                    Log.d(TAG, response.body().getData().toString());
-                } else {
-                    // Logika untuk menangani kasus ketika response body null atau response tidak sukses
-                    Log.e(TAG, "Response unsuccessful or body is null");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DetailTransaksiVO> call, Throwable throwable) {
-                Log.e("Error API Call : ", throwable.getMessage());
-            }
-        });
-
-        return dataLogin;
-    }
-
-    public MutableLiveData<TransaksiListVO> getTransaksiCustPickUp(String idUser) {
-        Log.i(TAG, "getTransaksiCustPickUp() called");
-        MutableLiveData<TransaksiListVO> dataLogin = new MutableLiveData<>();
+    public MutableLiveData<TransaksiListVO> getTransaksiByIdAndStatus(Integer idUser, String status) {
+        Log.i(TAG, "getUserByEmailAndPassword() called");
+        MutableLiveData<TransaksiListVO> dataTransaksi = new MutableLiveData<>();
 
         Call<TransaksiListVO> call = mTransaksiService.getTransaksiByIdAndStatus(idUser, status);
         call.enqueue(new Callback<TransaksiListVO>() {
@@ -123,6 +96,32 @@ public class TransaksiRepository {
         });
 
         return dataTransaksi;
+    }
+
+    public MutableLiveData<DetailTransaksiVo> getDetailTransaksi(String idTransaksi) {
+        MutableLiveData<DetailTransaksiVo> dataLogin = new MutableLiveData<>();
+
+        Call<DetailTransaksiVo> call = mTransaksiService.getDetailTransaksi(idTransaksi);
+        call.enqueue(new Callback<DetailTransaksiVo>() {
+            @Override
+            public void onResponse(Call<DetailTransaksiVo> call, Response<DetailTransaksiVo> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    dataLogin.setValue(response.body());
+                    Log.d(TAG, "getDetailTransaksi.onResponse() called");
+                    Log.d(TAG, response.body().getData().toString());
+                } else {
+                    // Logika untuk menangani kasus ketika response body null atau response tidak sukses
+                    Log.e(TAG, "Response unsuccessful or body is null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DetailTransaksiVo> call, Throwable throwable) {
+                Log.e("Error API Call : ", throwable.getMessage());
+            }
+        });
+
+        return dataLogin;
     }
 
     public LiveData<TransaksiListVO> batalkanTrsKurir(String idTransaksi, String catatan) {
@@ -219,6 +218,8 @@ public class TransaksiRepository {
 
     public MutableLiveData<DurasiVo> getDurasiById(Integer idDurasi) {
         Log.i(TAG, "getDurasiById() called");
+        Log.i(TAG, "id Durasi : "+idDurasi);
+
         MutableLiveData<DurasiVo> dataDurasi = new MutableLiveData<>();
 
         Call<DurasiVo> call = mTransaksiService.getDurasiById(idDurasi);

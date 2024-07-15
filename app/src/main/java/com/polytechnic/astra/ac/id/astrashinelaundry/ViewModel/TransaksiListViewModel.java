@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
-import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
 
 import java.util.List;
@@ -42,11 +41,6 @@ public class TransaksiListViewModel extends ViewModel {
         transaksiResponse = mTransaksiRepository.getAllTransaksiByStatus(status);
     }
 
-
-    public void getDataTransaksibyUser(String idUser) {
-        Log.i(TAG, "getDataTransaksiLiveData() called");
-        transaksiResponse = mTransaksiRepository.getTransaksiCustPickUp(idUser);
-    }
 
     public void batalkanTrsKurir(String idTransaksi, String catatan) {
         Log.i(TAG, "batalkanTrsKurir() called");

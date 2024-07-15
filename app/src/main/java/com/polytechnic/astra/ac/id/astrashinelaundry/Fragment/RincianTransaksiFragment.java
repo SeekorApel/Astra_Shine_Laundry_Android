@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,13 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.LayananRepository;
-import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVO;
-import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.LayananVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
-import com.polytechnic.astra.ac.id.astrashinelaundry.Model.LayananModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DurasiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DetailTransaksiKurirViewModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DurasiViewModel;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -33,12 +33,16 @@ import java.util.Locale;
 
 public class RincianTransaksiFragment extends Fragment {
     private DetailTransaksiKurirViewModel mViewModel;
-    private String TAG = "RincianTransaksiFragment";
+    private DurasiViewModel mDurasiViewModel;
     private RecyclerView mLayananRecyclerView;
     private Button btnkonfirmasi;
-    private RincianTransaksiFragment.LayananAdapter mAdapter;
+    private LayananAdapter mAdapter;
+    private DurasiModel mDurasiModel;
     private TransaksiModel transaksi;
-    private Integer Total,totalSeluruh;
+    private Integer Total, totalSeluruh;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+    NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +52,7 @@ public class RincianTransaksiFragment extends Fragment {
         }
         LayananRepository.initialize(requireContext());
         mViewModel = new ViewModelProvider(this).get(DetailTransaksiKurirViewModel.class);
-        Log.d(TAG,"Total : "+Total);
+        mDurasiViewModel = new ViewModelProvider(this).get(DurasiViewModel.class);
     }
 
     @Override
@@ -57,23 +61,40 @@ public class RincianTransaksiFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_kurir_rincian_detail, container, false);
 
         btnkonfirmasi = view.findViewById(R.id.pesanan_siap);
-        TextView status = view.findViewById(R.id.status);
-        TextView tanggalPesanan = view.findViewById(R.id.tanggal_pesanan);
-        TextView tanggalSelesai = view.findViewById(R.id.tanggal_selesai);
-        TextView durasi = view.findViewById(R.id.durasi);
-        TextView statusBayar = view.findViewById(R.id.status_pembayaran);
+        TextView status = view.findViewById(R.id.statusDetail);
+        TextView tanggalPesanan = view.findViewById(R.id.tanggal_pesanan_detail);
+        TextView tanggalSelesai = view.findViewById(R.id.tanggal_selesai_detail);
+        TextView durasi = view.findViewById(R.id.durasi_detail);
+        TextView statusBayar = view.findViewById(R.id.status_pembayaran_detail);
         TextView totalLayanan = view.findViewById(R.id.total_layanan);
         TextView total = view.findViewById(R.id.total);
 
+        mDurasiViewModel.getDataDurasiById(transaksi.getIdDurasi());
+        mDurasiViewModel.getAllDurasiResponse().observe(getViewLifecycleOwner(), new Observer<DurasiVo>() {
+            @Override
+            public void onChanged(DurasiVo durasiVo) {
+                List<DurasiModel> dataList = durasiVo.getData();
+                if (dataList != null && !dataList.isEmpty()) {
+                    for (DurasiModel model : dataList) {
+                        totalSeluruh = (Total != null ? Total : 0) + model.getHargaDurasi();
+                        updateTotalFields(totalLayanan, total);
+                    }
+                } else {
+                    Log.d("Detail Name", "Daftar data detail transaksi kosong atau null");
+                }
+            }
+        });
+
         if (transaksi != null) {
             status.setText(transaksi.getStatusPesanan());
-            tanggalPesanan.setText(transaksi.getTanggalPesanan().toString());
-            tanggalSelesai.setText(transaksi.getTanggalPengiriman().toString());
+            tanggalPesanan.setText(dateFormat.format(transaksi.getTanggalPesanan()));
+            tanggalSelesai.setText(dateFormat.format(transaksi.getTanggalPengiriman()));
             durasi.setText(transaksi.getNamaDurasi());
             statusBayar.setText(transaksi.getStatusPembayaran());
-            totalLayanan.setText(Total);
-            total.setText(Total);
+            totalLayanan.setText(currencyFormat.format(Total != null ? Total : 0));
+            total.setText(currencyFormat.format(totalSeluruh != null ? totalSeluruh : 0));
         }
+
         mLayananRecyclerView = view.findViewById(R.id.listLayananDetail);
         mLayananRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -81,9 +102,9 @@ public class RincianTransaksiFragment extends Fragment {
         mLayananRecyclerView.setAdapter(mAdapter);
         mViewModel.getDetailTransaksi(transaksi.getIdTransaksi().toString());
 
-        mViewModel.getAllDetailResponse().observe(getViewLifecycleOwner(), new Observer<DetailTransaksiVO>() {
+        mViewModel.getAllDetailResponse().observe(getViewLifecycleOwner(), new Observer<DetailTransaksiVo>() {
             @Override
-            public void onChanged(DetailTransaksiVO layananVO) {
+            public void onChanged(DetailTransaksiVo layananVO) {
                 if (layananVO != null) {
                     mAdapter.setLayananList(layananVO.getData());
                 } else {
@@ -91,20 +112,33 @@ public class RincianTransaksiFragment extends Fragment {
                 }
             }
         });
+
+        btnkonfirmasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Logic for confirming the order goes here
+            }
+        });
         return view;
     }
-    public class LayananAdapter extends RecyclerView.Adapter<RincianTransaksiFragment.LayananAdapter.LayananViewHolder> {
+
+    private void updateTotalFields(TextView totalLayanan, TextView total) {
+        totalLayanan.setText(currencyFormat.format(Total != null ? Total : 0));
+        total.setText(currencyFormat.format(totalSeluruh != null ? totalSeluruh : 0));
+    }
+
+    public class LayananAdapter extends RecyclerView.Adapter<LayananAdapter.LayananViewHolder> {
         private List<DetailTransaksiModel> layananList = new ArrayList<>();
 
         @NonNull
         @Override
-        public RincianTransaksiFragment.LayananAdapter.LayananViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public LayananViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_layanan_detail, parent, false);
-            return new RincianTransaksiFragment.LayananAdapter.LayananViewHolder(view);
+            return new LayananViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RincianTransaksiFragment.LayananAdapter.LayananViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull LayananViewHolder holder, int position) {
             DetailTransaksiModel layanan = layananList.get(position);
             holder.bind(layanan);
         }
@@ -123,7 +157,6 @@ public class RincianTransaksiFragment extends Fragment {
         class LayananViewHolder extends RecyclerView.ViewHolder {
             private TextView mLayanan;
             private TextView mQty;
-            private DetailTransaksiModel currentLayananModel;
 
             public LayananViewHolder(@NonNull View itemView) {
                 super(itemView);
