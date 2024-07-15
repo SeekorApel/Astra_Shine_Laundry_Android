@@ -45,6 +45,7 @@ public class DetailTransaksiKurirFragment extends Fragment {
     private DetailTransaksiKurirViewModel mViewModel;
     private RecyclerView mLayananRecyclerView;
     private LayananAdapter mAdapter;
+    private TextView mTotal;
     private TransaksiModel transaksi;
     private TextView txtNamaCustomer,txtNoTelp;
 
@@ -65,7 +66,7 @@ public class DetailTransaksiKurirFragment extends Fragment {
 
         TextView mKg = view.findViewById(R.id.kg);
         TextView mPcs = view.findViewById(R.id.pcs);
-        TextView mTotal = view.findViewById(R.id.total_price);
+        mTotal = view.findViewById(R.id.total_price);
         Button mLanjut = view.findViewById(R.id.lanjut);
         txtNamaCustomer = view.findViewById(R.id.nama_customer);
         txtNoTelp = view.findViewById(R.id.no_telp);
@@ -104,13 +105,13 @@ public class DetailTransaksiKurirFragment extends Fragment {
             public void onClick(View v) {
                 if (mViewModel.getTotalKg().getValue() > 0.9) {
                     List<DetailTransaksiModel> selectedLayananList = mViewModel.getSelectedLayananList().getValue();
-                    Log.d("Cek Data","Halooooo : "+selectedLayananList.get(1).getIdLayanan().toString());
                     if (selectedLayananList != null && !selectedLayananList.isEmpty()) {
                         mViewModel.createDetailTransaksi(selectedLayananList);
                     }
                     RincianTransaksiFragment rincianTransaksiFragment = new RincianTransaksiFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("transaksi", transaksi);
+                    bundle.putSerializable("total",mViewModel.getTotalHarga().getValue());
                     rincianTransaksiFragment.setArguments(bundle);
 
                     getParentFragmentManager().beginTransaction()
