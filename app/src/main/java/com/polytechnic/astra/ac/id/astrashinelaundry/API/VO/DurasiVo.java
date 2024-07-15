@@ -1,13 +1,13 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.API.VO;
 
-import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DurasiModel;
 
 import java.util.List;
 
-public class DetailTransaksiVo {
+public class DurasiVo {
     private int status;
 
-    private List<DetailTransaksiModel> data;
+    private List<DurasiModel> data;
 
     private String message;
 
@@ -19,11 +19,11 @@ public class DetailTransaksiVo {
         this.status = status;
     }
 
-    public List<DetailTransaksiModel> getData() {
+    public List<DurasiModel> getData() {
         return data;
     }
 
-    public void setData(List<DetailTransaksiModel> data) {
+    public void setData(List<DurasiModel> data) {
         this.data = data;
     }
 

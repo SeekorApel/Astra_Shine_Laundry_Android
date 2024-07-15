@@ -20,6 +20,26 @@ public class DetailTransaksiModel {
     @Expose
     private Double qty;
 
+    public DetailTransaksiModel() {
+    }
+
+    public DetailTransaksiModel(Integer idTransaksi, Integer idLayanan, String namaLayanan, Double qty) {
+        this.idTransaksi = idTransaksi;
+        this.idLayanan = idLayanan;
+        this.namaLayanan = namaLayanan;
+        this.qty = qty;
+    }
+
+    @Override
+    public String toString() {
+        return "DurasiModel{" +
+                "idTransaksi=" + idTransaksi +
+                ", idLayanan=" + idLayanan +
+                ", namaLayanan='" + namaLayanan + '\'' +
+                ", qty=" + qty +
+                '}';
+    }
+
     public Integer getIdTransaksi() {
         return idTransaksi;
     }
