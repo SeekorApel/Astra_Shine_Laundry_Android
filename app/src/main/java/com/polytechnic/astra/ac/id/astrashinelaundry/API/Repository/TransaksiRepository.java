@@ -11,13 +11,7 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.TransaksiServic
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
-import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
-import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
-
-import java.util.List;
-
-import java.util.List;
 
 import java.util.List;
 

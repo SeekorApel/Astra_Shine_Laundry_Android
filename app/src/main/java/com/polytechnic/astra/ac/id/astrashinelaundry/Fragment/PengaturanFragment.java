@@ -20,6 +20,7 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 public class PengaturanFragment extends Fragment {
 
     private Button mBtnLogout, mBtnKembali;
+    private Button mButtonLogout;
 
     private ConstraintLayout cl1, cl2;
 
@@ -32,29 +33,24 @@ public class PengaturanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pengaturan,container,false);
-
         cl1 = view.findViewById(R.id.constraintLayoutPengaturanAkun);
         cl2 = view.findViewById(R.id.constraintLayoutPengaturanLokasi);
 
         cl1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PengaturanResetPasswordFragment fragmentForgetPassword = new PengaturanResetPasswordFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_pengaturan, fragmentForgetPassword);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                navigateToFragmentForgetPassword();
             }
         });
 
         cl2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                navigateToFragmentAlamat();
             }
         });
 
-        mBtnLogout = view.findViewById(R.id.btn_logout);
+        mBtnLogout = view.findViewById(R.id.btn_get_location);
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +62,7 @@ public class PengaturanFragment extends Fragment {
         mBtnKembali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logout();
+                navigateToList();
             }
         });
         return view;
@@ -81,5 +77,29 @@ public class PengaturanFragment extends Fragment {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    private void navigateToFragmentAlamat(){
+        AlamatFragment fragmentAlamat = new AlamatFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_view_transaksi, fragmentAlamat);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void navigateToFragmentForgetPassword(){
+        PengaturanResetPasswordFragment fragmentForgetPassword = new PengaturanResetPasswordFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_view_transaksi, fragmentForgetPassword);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private void navigateToList(){
+        ViewTransaksiFragment fragmentListTransaksiCus = new ViewTransaksiFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_view_transaksi, fragmentListTransaksiCus);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

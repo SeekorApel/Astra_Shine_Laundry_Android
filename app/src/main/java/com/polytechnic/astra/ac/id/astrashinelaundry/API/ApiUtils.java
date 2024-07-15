@@ -1,6 +1,7 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.API;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.LayananService;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.AlamatService;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.TransaksiService;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.UserService;
 
@@ -20,6 +21,10 @@ public class ApiUtils {
     }
     public static LayananService getAllLayanan(){
         return RetrofitClient.getClient(API_BASE_URL).create(LayananService.class);
+    }
+
+    public static AlamatService getAlamatService(){
+        return RetrofitClient.getClient(API_BASE_URL).create(AlamatService.class);
     }
 
 }

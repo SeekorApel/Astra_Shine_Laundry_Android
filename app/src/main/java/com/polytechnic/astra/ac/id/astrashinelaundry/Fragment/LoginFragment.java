@@ -25,8 +25,6 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserReposito
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.CustomerActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.KurirActivity;
-import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.PengaturanActivity;
-import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.TestCusActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.LoginViewModel;
@@ -56,11 +54,11 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        mEdtEmail = view.findViewById(R.id.edt_email);
+        mEdtEmail = view.findViewById(R.id.edt_title_alamat);
         mEdtPassword = view.findViewById(R.id.edt_password);
 
 
-        mBtnLogin = view.findViewById(R.id.btn_logout);
+        mBtnLogin = view.findViewById(R.id.btn_get_location);
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,7 +178,7 @@ public class LoginFragment extends Fragment {
         mLoginViewModel.getLoginResponse().observe(getViewLifecycleOwner(), new Observer<UserVO>() {
             @Override
             public void onChanged(UserVO userVO) {
-                if (userVO != null) {
+                if (userVO != null && userVO.getData() != null) {
                     Integer idUser = userVO.getData().getIdUser();
                     String namaUser = userVO.getData().getNamaUser();
                     String noTelp = userVO.getData().getNoTelp();
@@ -203,6 +201,5 @@ public class LoginFragment extends Fragment {
             }
         });
     }
-
 
 }
