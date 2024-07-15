@@ -1,9 +1,11 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,22 @@ import android.widget.Spinner;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DurasiViewModel;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.CustomerActivity;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DurasiModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.R;
+import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DurasiViewModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.TransaksiListViewModel;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class AddTransaksiFragment extends Fragment {
 

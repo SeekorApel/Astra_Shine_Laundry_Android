@@ -1,10 +1,12 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -169,5 +171,4 @@ public class CustomerRincianFragment extends Fragment {
             }
         }
     }
-
 }

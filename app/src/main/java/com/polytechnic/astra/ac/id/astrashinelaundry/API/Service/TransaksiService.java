@@ -11,6 +11,8 @@ import java.util.List;
 
 import java.util.List;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -45,4 +47,5 @@ public interface TransaksiService {
 
     @GET("transaksi/getTotalHarga")
     Call<TransaksiListVO> getTotalHarga(@Query("idTransaksi") Integer idTransaksi);
+
 }
