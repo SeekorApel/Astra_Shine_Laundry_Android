@@ -10,4 +10,5 @@ import retrofit2.http.Query;
 public interface LayananService {
     @GET("layanan/getAllLayanan")
     Call<LayananVO> getAllLayanan();
+
 }
