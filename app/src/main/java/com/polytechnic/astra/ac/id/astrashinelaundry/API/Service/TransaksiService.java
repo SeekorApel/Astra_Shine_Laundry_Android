@@ -42,5 +42,4 @@ public interface TransaksiService {
 
     @GET("transaksi/getTotalHarga")
     Call<TransaksiListVO> getTotalHarga(@Query("idTransaksi") Integer idTransaksi);
-
 }
