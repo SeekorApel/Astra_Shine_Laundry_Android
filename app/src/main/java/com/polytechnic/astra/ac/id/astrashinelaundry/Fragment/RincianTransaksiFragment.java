@@ -1,11 +1,16 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,12 +20,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.LayananRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.KurirActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DurasiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DetailTransaksiKurirViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DurasiViewModel;
@@ -36,10 +45,12 @@ public class RincianTransaksiFragment extends Fragment {
     private DurasiViewModel mDurasiViewModel;
     private RecyclerView mLayananRecyclerView;
     private Button btnkonfirmasi;
+    private ImageButton mBtnLokasi;
     private LayananAdapter mAdapter;
     private DurasiModel mDurasiModel;
     private TransaksiModel transaksi;
     private Integer Total, totalSeluruh;
+    private UserModel user;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
 
@@ -51,6 +62,8 @@ public class RincianTransaksiFragment extends Fragment {
             Total = (Integer) getArguments().getSerializable("total");
         }
         LayananRepository.initialize(requireContext());
+        user = getUserModel();
+
         mViewModel = new ViewModelProvider(this).get(DetailTransaksiKurirViewModel.class);
         mDurasiViewModel = new ViewModelProvider(this).get(DurasiViewModel.class);
     }
@@ -61,6 +74,8 @@ public class RincianTransaksiFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_kurir_rincian_detail, container, false);
 
         btnkonfirmasi = view.findViewById(R.id.pesanan_siap);
+        TextView customer = view.findViewById(R.id.txt_nama_customer);
+        TextView noTelp = view.findViewById(R.id.txt_no_telp);
         TextView status = view.findViewById(R.id.statusDetail);
         TextView tanggalPesanan = view.findViewById(R.id.tanggal_pesanan_detail);
         TextView tanggalSelesai = view.findViewById(R.id.tanggal_selesai_detail);
@@ -84,9 +99,27 @@ public class RincianTransaksiFragment extends Fragment {
                 }
             }
         });
+        mBtnLokasi = view.findViewById(R.id.btn_location);
+        mBtnLokasi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (transaksi != null) {
+                    String latitude = transaksi.getLatitude();
+                    String longitude = transaksi.getLongitude();
+                    if (latitude != null && longitude != null) {
+                        Uri gmmIntentUri = Uri.parse("geo:" + longitude + "," + latitude + "?q=" + longitude + "," + latitude + "(Lokasi+Pelanggan)");
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        startActivity(mapIntent);
+                    }
+                }
+            }
+        });
 
         if (transaksi != null) {
             status.setText(transaksi.getStatusPesanan());
+            customer.setText(transaksi.getNamaUser());
+            noTelp.setText(transaksi.getNoTelp());
             tanggalPesanan.setText(dateFormat.format(transaksi.getTanggalPesanan()));
             tanggalSelesai.setText(dateFormat.format(transaksi.getTanggalPengiriman()));
             durasi.setText(transaksi.getNamaDurasi());
@@ -116,10 +149,32 @@ public class RincianTransaksiFragment extends Fragment {
         btnkonfirmasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Logic for confirming the order goes here
+                mViewModel.saveTotal(transaksi.getIdTransaksi().toString(),totalSeluruh.toString());
+                mViewModel.getAllTransaksiResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiListVO>() {
+                    @Override
+                    public void onChanged(TransaksiListVO transaksiListVO) {
+                        if (transaksiListVO != null){
+                            Intent intent = new Intent(getActivity(), KurirActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }
+                });
             }
         });
         return view;
+    }
+    private UserModel getUserModel(){
+        Context context = getActivity();
+        if (context != null) {
+            SharedPreferences sharedPreferences = context.getSharedPreferences("loginSession", Context.MODE_PRIVATE);
+            String userJson = sharedPreferences.getString("dataUser", null);
+            // Use Gson to convert JSON string to object
+            Gson gson = new Gson();
+            UserModel user = gson.fromJson(userJson, UserModel.class);
+            return user;
+        }
+        return null;
     }
 
     private void updateTotalFields(TextView totalLayanan, TextView total) {
@@ -157,6 +212,7 @@ public class RincianTransaksiFragment extends Fragment {
         class LayananViewHolder extends RecyclerView.ViewHolder {
             private TextView mLayanan;
             private TextView mQty;
+
 
             public LayananViewHolder(@NonNull View itemView) {
                 super(itemView);

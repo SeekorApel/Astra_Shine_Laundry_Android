@@ -186,6 +186,33 @@ public class TransaksiRepository {
         });
     }
 
+    public MutableLiveData<TransaksiListVO> saveTotal(String idTranskasi, String total) {
+        Log.i(TAG, "saveTotal() called");
+        MutableLiveData<TransaksiListVO> dataTransaksi = new MutableLiveData<>();
+
+        Call<TransaksiListVO> call = mTransaksiService.saveTotal(idTranskasi, total);
+        call.enqueue(new Callback<TransaksiListVO>() {
+            @Override
+            public void onResponse(Call<TransaksiListVO> call, Response<TransaksiListVO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "saveTotal.onResponse() called");
+                    Log.d(TAG, response.body().getData().toString());
+                    dataTransaksi.setValue(response.body());
+                } else {
+                    // Logika untuk menangani kasus ketika response body null atau response tidak sukses
+                    Log.e(TAG, "Response unsuccessful or body is null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiListVO> call, Throwable throwable) {
+                Log.e("Error Save Total : ", throwable.getMessage());
+            }
+        });
+
+        return dataTransaksi;
+    }
+
     public interface messageCallback {
         void onSuccess(String message);
         void onError(String error);

@@ -29,6 +29,7 @@ public class DetailTransaksiKurirViewModel extends ViewModel {
 
     private MutableLiveData<LayananVO> LayananResponse = new MutableLiveData<>();
     private MutableLiveData<DetailTransaksiVo> detailTransaksiResponse = new MutableLiveData<>();
+    private MutableLiveData<TransaksiListVO> transaksiResponse = new MutableLiveData<>();
     public LiveData<Double> getTotalKg() {
         return totalKg;
     }
@@ -111,6 +112,9 @@ public class DetailTransaksiKurirViewModel extends ViewModel {
     public LiveData<DetailTransaksiVo> getAllDetailResponse() {
         return detailTransaksiResponse;
     }
+    public LiveData<TransaksiListVO> getAllTransaksiResponse() {
+        return transaksiResponse;
+    }
     private MutableLiveData<String> createDetailMessage = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
@@ -122,6 +126,11 @@ public class DetailTransaksiKurirViewModel extends ViewModel {
     public void getDetailTransaksi(String idTransaksi) {
         Log.d(TAG,"getDetailTransaksi()");
         detailTransaksiResponse = mTransaksiRepository.getDetailTransaksi(idTransaksi);
+    }
+    @SuppressLint("LongLogTag")
+    public void saveTotal(String idTransaksi, String total) {
+        Log.i(TAG, "saveTotal() called");
+        transaksiResponse = mTransaksiRepository.saveTotal(idTransaksi,total);
     }
 
     @SuppressLint("LongLogTag")
