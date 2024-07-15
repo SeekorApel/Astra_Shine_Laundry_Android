@@ -18,7 +18,6 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserReposito
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
-import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.LoginViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.RegisterViewModel;
 
 public class RegisterFragment extends Fragment {
@@ -43,7 +42,7 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register,container,false);
-        mEdtEmail = view.findViewById(R.id.edt_email);
+        mEdtEmail = view.findViewById(R.id.edt_title_alamat);
         mEdtPassword = view.findViewById(R.id.edt_password);
         mEdtNama = view.findViewById(R.id.edt_nama);
         mEdtNoTelephone = view.findViewById(R.id.edt_no_telp);

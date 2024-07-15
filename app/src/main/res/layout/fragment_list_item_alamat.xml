@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="horizontal"
+    android:background="?android:selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/image_location"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/ic_location_black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|left"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_title_alamat"
+            android:fontFamily="@font/maison_neue_bold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="Rumah 1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_alamat"
+            android:fontFamily="@font/maison_neue_demi_italic"
+            android:text="Perumahan Mega Regency Blok M13 no 25"/>
+
+    </LinearLayout>
+
+</LinearLayout>
