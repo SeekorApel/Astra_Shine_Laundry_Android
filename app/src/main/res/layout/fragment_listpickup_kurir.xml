@@ -18,7 +18,7 @@
 
     <LinearLayout
         android:id="@+id/linear"
-        android:layout_width="202dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@id/imageView"
@@ -35,7 +35,7 @@
 
         <TextView
             android:id="@+id/tanggal_pesanan"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tanggal Pesanan: 04/06/2024"
             android:layout_marginTop="8dp"
@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/tanggal_selesai"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Estimasi Selesai: 07/06/2024"
             android:layout_marginTop="8dp"
