@@ -25,6 +25,15 @@ public interface TransaksiService {
     @GET("transaksi/getAllTransaksiByStatus")
     Call<TransaksiListVO> getAllTransaksiByStatus(@Query("status") String status);
 
+    @GET("transaksi/getTransaksiCustPickUp")
+    Call<TransaksiListVO> getTransaksiCustPickUp(@Query("idUser") String idUser);
+
+    @GET("transaksi/getTransaksiDetail")
+    Call<DetailTransaksiVo> getDetailTransaksi(@Query("idTransaksi") String idTransaksi);
+
+    @POST("transaksi/saveTotal")
+    Call<TransaksiListVO> saveTotal(@Query("idTransaksi") String idTransaksi,@Query("total") String total);
+
     @POST("transaksi/batalkanTrsKurir/{idTransaksi}/")
     Call<TransaksiListVO> batalkanTrsKurir(@Path("idTransaksi") String idTransaksi, @Query("catatan") String catatan);
 

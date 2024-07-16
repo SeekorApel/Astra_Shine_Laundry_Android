@@ -1,6 +1,8 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,15 +28,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.LoginViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.TransaksiListViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,6 +65,30 @@ public class PickUpKurirFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_kurir_pickup, container, false);
+
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
+        String userJson = sharedPreferences.getString("dataUser", null);
+
+        final UserModel user;
+        if (userJson != null) {
+            Gson gson = new Gson();
+            user = gson.fromJson(userJson, UserModel.class);
+        } else {
+            user = null;
+        }
+
+        TextView txtName = view.findViewById(R.id.txt_name);
+        if (user != null) {
+            txtName.setText("Halo, " + user.getNamaUser());
+        } else {
+            txtName.setText("Halo, Pengguna");
+        }
+
+        TextView txtDate = view.findViewById(R.id.txt_date);
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMM yyyy", new Locale("id", "ID"));
+        String todayDate = dateFormat.format(calendar.getTime());
+        txtDate.setText(todayDate);
 
         mTransaksiRecyclerView = view.findViewById(R.id.listPickUpTransaksi);
         mTransaksiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
