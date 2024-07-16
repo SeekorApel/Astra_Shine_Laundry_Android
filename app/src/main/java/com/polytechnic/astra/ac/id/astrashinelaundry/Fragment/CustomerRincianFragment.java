@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,6 +41,7 @@ public class CustomerRincianFragment extends Fragment {
     private TransaksiModel mTransaksiModel;
     private DurasiViewModel mDurasiViewModel;
     private TransaksiListViewModel mTransaksiListViewModel;
+    private Integer posisiTab;
     Double totalHarga;
 
     SimpleDateFormat mDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -49,6 +51,7 @@ public class CustomerRincianFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mTransaksiModel = (TransaksiModel) getArguments().getSerializable("transaksi");
+            posisiTab = getArguments().getInt("posisiTab");
         }
         TransaksiRepository.initialize(requireContext());
         mTransaksiListViewModel = new ViewModelProvider(this).get(TransaksiListViewModel.class);
@@ -59,7 +62,6 @@ public class CustomerRincianFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_customer_rincian, container, false);
-
         mTextViewStatus = view.findViewById(R.id.status);
         mTextViewTanggal = view.findViewById(R.id.tanggal_pesanan);
         mTextViewEstimasi = view.findViewById(R.id.tanggal_selesai);
@@ -139,7 +141,15 @@ public class CustomerRincianFragment extends Fragment {
         mButtonKembali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().popBackStack();
+                ViewTransaksiFragment listTransaksi = new ViewTransaksiFragment();
+                Bundle args = new Bundle();
+                args.putInt("posisiTab", posisiTab);
+                listTransaksi.setArguments(args);
+
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_view_transaksi, listTransaksi)  // Make sure R.id.PickUpKurir is correct
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -170,5 +180,13 @@ public class CustomerRincianFragment extends Fragment {
                 super(itemView);
             }
         }
+    }
+
+    private void navigateToFragmentTransaksi(){
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_view_transaksi, new ViewTransaksiFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

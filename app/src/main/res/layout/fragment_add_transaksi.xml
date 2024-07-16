@@ -34,15 +34,14 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/rounded_border"
         android:ems="10"
-        android:drawableStart="@drawable/ic_calendar"
-        android:drawablePadding="50dp"
-        android:fontFamily="@font/maison_neue_bold"
+        android:fontFamily="@font/maison_neue_medium"
         android:focusable="false"
         android:clickable="true"
-        android:hint="Tanggal Pick Up"
-        android:paddingStart="20dp"
+        android:text="Tanggal Pick Up"
+        android:paddingStart="10dp"
         android:paddingEnd="55dp"
         android:textAllCaps="false"
+        android:textSize="16dp"
         android:textColor="@color/black" />
 
     <Spinner

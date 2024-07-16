@@ -1,10 +1,14 @@
 package com.polytechnic.astra.ac.id.astrashinelaundry.API.Service;
 
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.AlamatVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.AlamatModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiListModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import java.util.List;
 
@@ -44,4 +48,7 @@ public interface TransaksiService {
 
     @GET("transaksi/getTotalHarga")
     Call<TransaksiListVO> getTotalHarga(@Query("idTransaksi") Integer idTransaksi);
+
+    @POST("transaksi/saveTransaksi")
+    Call<TransaksiListVO> saveTransaksi(@Body TransaksiListModel transaksiModel);
 }
