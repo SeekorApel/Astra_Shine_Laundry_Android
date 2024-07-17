@@ -10,9 +10,11 @@
 
     <View
         android:id="@+id/viewBackground"
-        android:layout_width="0dp"
-        android:layout_height="158dp"
-        android:background="@drawable/border_atas"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/biru_tua"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

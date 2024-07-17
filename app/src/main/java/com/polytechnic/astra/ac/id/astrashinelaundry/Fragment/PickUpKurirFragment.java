@@ -2,6 +2,7 @@ package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +33,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
@@ -44,6 +47,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class PickUpKurirFragment extends Fragment {
+    private Button mBtnLogout;
     private TransaksiListViewModel mTransaksiListViewModel;
     private RecyclerView mTransaksiRecyclerView;
     private TransaksiAdapter mAdapter;
@@ -141,6 +145,14 @@ public class PickUpKurirFragment extends Fragment {
             }
         });
 
+        mBtnLogout = view.findViewById(R.id.btn_logout);
+        mBtnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
+
         return view;
     }
 
@@ -207,4 +219,16 @@ public class PickUpKurirFragment extends Fragment {
             }
         }
     }
+
+    private void logout(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
 }

@@ -8,12 +8,22 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.ApiUtils;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.TransaksiService;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.AlamatVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.AlamatModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiListModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import java.util.List;
+
+import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -314,5 +324,27 @@ public class TransaksiRepository {
         });
 
         return dataTransaksi;
+    }
+
+    public void saveTransaksi(TransaksiListModel transaksi, final TransaksiRepository.messageCallback callback){
+        Log.i(TAG, "saveTransaksi() called");
+        Call<TransaksiListVO> call = mTransaksiService.saveTransaksi(transaksi);
+        call.enqueue(new Callback<TransaksiListVO>() {
+            @Override
+            public void onResponse(Call<TransaksiListVO> call, Response<TransaksiListVO> response) {
+                Log.d(TAG, "saveTransaksi.onResponse() called");
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getMessage());
+                    Log.d(TAG, response.message());
+                } else {
+                    callback.onError("Save Alamat Gagal");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiListVO> call, Throwable throwable) {
+                Log.e("Error API Call : ", throwable.getMessage());
+            }
+        });
     }
 }

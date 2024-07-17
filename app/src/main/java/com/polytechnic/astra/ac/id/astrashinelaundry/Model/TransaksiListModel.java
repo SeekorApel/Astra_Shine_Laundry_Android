@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TransaksiModel implements Serializable {
+public class TransaksiListModel implements Serializable {
     @SerializedName("idTransaksi")
     @Expose
     private Integer idTransaksi;
@@ -29,11 +29,11 @@ public class TransaksiModel implements Serializable {
 
     @SerializedName("longitude")
     @Expose
-    private Double longitude;
+    private String longitude;
 
     @SerializedName("latitude")
     @Expose
-    private Double latitude;
+    private String latitude;
 
     @SerializedName("idDurasi")
     @Expose
@@ -49,7 +49,7 @@ public class TransaksiModel implements Serializable {
 
     @SerializedName("tanggalPesanan")
     @Expose
-    private Date tanggalPesanan;
+    private String tanggalPesanan;
 
     @SerializedName("tanggalPengiriman")
     @Expose
@@ -71,11 +71,11 @@ public class TransaksiModel implements Serializable {
     @Expose
     private Integer totalHarga;
 
-    public TransaksiModel() {
+    public TransaksiListModel() {
     }
 
 
-    public TransaksiModel(Integer idTransaksi, Integer idUser, String namaUser, String noTelp, Integer idAlamat, Double longitude, Double latitude, Integer idDurasi, String namaDurasi, String catatan, Date tanggalPesanan, Date tanggalPengiriman, String statusPembayaran, String statusPesanan, Integer ongkir, Integer totalHarga) {
+    public TransaksiListModel(Integer idTransaksi, Integer idUser, String namaUser, String noTelp, Integer idAlamat, String longitude, String latitude, Integer idDurasi, String namaDurasi, String catatan, String tanggalPesanan, Date tanggalPengiriman, String statusPembayaran, String statusPesanan, Integer ongkir, Integer totalHarga) {
 
         this.idTransaksi = idTransaksi;
         this.idUser = idUser;
@@ -95,7 +95,7 @@ public class TransaksiModel implements Serializable {
         this.totalHarga = totalHarga;
     }
 
-    public TransaksiModel(Integer idUser, Integer idAlamat, Integer idDurasi, Date tanggalPesanan, Integer ongkir, Integer totalHarga) {
+    public TransaksiListModel(Integer idUser, Integer idAlamat, Integer idDurasi, String tanggalPesanan, Integer ongkir, Integer totalHarga) {
         this.idUser = idUser;
         this.idAlamat = idAlamat;
         this.idDurasi = idDurasi;
@@ -104,19 +104,19 @@ public class TransaksiModel implements Serializable {
         this.totalHarga = totalHarga;
     }
 
-    public Double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-    public Double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
@@ -184,11 +184,11 @@ public class TransaksiModel implements Serializable {
         this.catatan = catatan;
     }
 
-    public Date getTanggalPesanan() {
+    public String getTanggalPesanan() {
         return tanggalPesanan;
     }
 
-    public void setTanggalPesanan(Date tanggalPesanan) {
+    public void setTanggalPesanan(String tanggalPesanan) {
         this.tanggalPesanan = tanggalPesanan;
     }
 

@@ -45,7 +45,6 @@ public class RincianTransaksiFragment extends Fragment {
     private DurasiViewModel mDurasiViewModel;
     private RecyclerView mLayananRecyclerView;
     private Button btnkonfirmasi;
-    private ImageButton mBtnLokasi;
     private LayananAdapter mAdapter;
     private DurasiModel mDurasiModel;
     private TransaksiModel transaksi;
@@ -96,22 +95,6 @@ public class RincianTransaksiFragment extends Fragment {
                     }
                 } else {
                     Log.d("Detail Name", "Daftar data detail transaksi kosong atau null");
-                }
-            }
-        });
-        mBtnLokasi = view.findViewById(R.id.btn_location);
-        mBtnLokasi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (transaksi != null) {
-                    String latitude = transaksi.getLatitude();
-                    String longitude = transaksi.getLongitude();
-                    if (latitude != null && longitude != null) {
-                        Uri gmmIntentUri = Uri.parse("geo:" + longitude + "," + latitude + "?q=" + longitude + "," + latitude + "(Lokasi+Pelanggan)");
-                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                        mapIntent.setPackage("com.google.android.apps.maps");
-                        startActivity(mapIntent);
-                    }
                 }
             }
         });
