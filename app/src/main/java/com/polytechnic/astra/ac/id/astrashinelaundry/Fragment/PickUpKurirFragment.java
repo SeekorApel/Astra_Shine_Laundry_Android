@@ -2,7 +2,6 @@ package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,7 +31,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
-import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
@@ -47,7 +44,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class PickUpKurirFragment extends Fragment {
-    private Button mBtnLogout;
     private TransaksiListViewModel mTransaksiListViewModel;
     private RecyclerView mTransaksiRecyclerView;
     private TransaksiAdapter mAdapter;
@@ -63,6 +59,7 @@ public class PickUpKurirFragment extends Fragment {
         super.onCreate(savedInstanceState);
         TransaksiRepository.initialize(requireContext());
         mTransaksiListViewModel = new ViewModelProvider(this).get(TransaksiListViewModel.class);
+        mTransaksiListViewModel.getDataTransaksi("Pick Up");
     }
 
     @Override
@@ -113,9 +110,11 @@ public class PickUpKurirFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0: // Tab "PickUp"
+                        Log.d("kocakk","Pick UP");
                         mTransaksiListViewModel.getDataTransaksi("Pick Up");
                         break;
                     case 1: // Tab "Antar"
+                        Log.d("kocakk","Antar");
                         mTransaksiListViewModel.getDataTransaksi("Proses");
                         break;
                 }
@@ -133,23 +132,16 @@ public class PickUpKurirFragment extends Fragment {
         });
 
         // Initial data load
-        mTransaksiListViewModel.getDataTransaksi("Pick Up");
+
         mTransaksiListViewModel.getAllTransaksiResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiListVO>() {
             @Override
             public void onChanged(TransaksiListVO transaksiListVO) {
                 if (transaksiListVO != null) {
+                    Log.d("kocakk",transaksiListVO.getData().toString());
                     mAdapter.setTransaksiList(transaksiListVO.getData());
                 } else {
                     mAdapter.setTransaksiList(new ArrayList<>()); // Clear the list if null
                 }
-            }
-        });
-
-        mBtnLogout = view.findViewById(R.id.btn_logout);
-        mBtnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
             }
         });
 
@@ -219,16 +211,4 @@ public class PickUpKurirFragment extends Fragment {
             }
         }
     }
-
-    private void logout(){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
-
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-        getActivity().finish();
-    }
-
 }
