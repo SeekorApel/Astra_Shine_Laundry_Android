@@ -144,9 +144,10 @@
             android:src="@drawable/ic_location_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.915"
+            app:layout_constraintHorizontal_bias="0.88"
             app:layout_constraintStart_toEndOf="@+id/txt_nama_customer"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.481" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -176,19 +177,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.74" />
+            app:layout_constraintGuide_percent="0.75" />
 
         <TextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
+            android:layout_marginStart="24dp"
             android:fontFamily="@font/maison_neue_demi"
             android:text="Pick Up"
             android:textColor="#000000"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toEndOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -205,8 +206,8 @@
 
         <TextView
             android:id="@+id/tanggal_selesai"
-            android:layout_width="82dp"
-            android:layout_height="19dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/maison_neue_demi"
             android:text="07/06/2024"
@@ -217,23 +218,26 @@
 
         <TextView
             android:id="@+id/durasi"
-            android:layout_width="68dp"
-            android:layout_height="18dp"
-            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="18dp"
             android:fontFamily="@font/maison_neue_demi"
+            android:gravity="end"
             android:text=" Same Day"
             android:textColor="#000000"
             android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/tanggal_selesai" />
 
         <TextView
             android:id="@+id/status_pembayaran"
-            android:layout_width="82dp"
-            android:layout_height="19dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/maison_neue_demi"
+            android:gravity="end"
             android:text="Belum Bayar"
             android:textColor="#FF0000"
             android:textSize="14sp"
@@ -244,7 +248,7 @@
             android:id="@+id/label_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:fontFamily="@font/maison_neue_demi"
             android:text="Status"
             android:textColor="#000000"
@@ -256,7 +260,7 @@
             android:id="@+id/label_tanggal_pesanan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/maison_neue_demi"
             android:text="Tanggal Pesanan"
@@ -269,7 +273,7 @@
             android:id="@+id/label_tanggal_selesai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/maison_neue_demi"
             android:text="Estimasi Selesai"
@@ -282,7 +286,7 @@
             android:id="@+id/label_durasi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/maison_neue_demi"
             android:text="Durasi"
@@ -295,7 +299,7 @@
             android:id="@+id/label_status_pembayaran"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/maison_neue_demi"
             android:text="Status Pembayaran"
@@ -303,6 +307,13 @@
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/label_durasi" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.98" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
