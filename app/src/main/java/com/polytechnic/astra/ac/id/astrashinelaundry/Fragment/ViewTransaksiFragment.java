@@ -458,7 +458,6 @@ public class ViewTransaksiFragment extends Fragment {
                 Double jarak;
                 Integer total_harga, ongkir;
                 String tanggal_pickup;
-
                 tanggal_pickup = mEditTextTanggal.getText().toString();
 
                 String durasi = mSpinnerDurasi.getSelectedItem().toString();
@@ -467,10 +466,12 @@ public class ViewTransaksiFragment extends Fragment {
                 int durasiIndex = mSpinnerDurasi.getSelectedItemPosition();
                 int alamatIndex = mSpinnerAlamat.getSelectedItemPosition();
 
+                Log.d("tanggal",String.valueOf(tanggal_pickup));
                 if (durasiIndex > 0) {
                     durasiId = mDurasiModelList.get(durasiIndex - 1).getIdDurasi();
                     alamatId = mAlamatModels.get(alamatIndex - 1).getIdAlamat();
                     jarak = mAlamatModels.get(alamatIndex - 1).getJarak();
+
 
                     if (jarak < 3.0){
                         ongkir = 0;
@@ -480,6 +481,7 @@ public class ViewTransaksiFragment extends Fragment {
                         ongkir = 10000;
                     }
 
+                    Log.d("tolong",String.valueOf(ongkir));
 
                     total_harga = Integer.valueOf(String.valueOf(ongkir));
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
@@ -496,7 +498,6 @@ public class ViewTransaksiFragment extends Fragment {
                     SimpleDateFormat logDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                     String formattedDatePickup = logDateFormat.format(datePickup);
                     Log.d("tanggal", formattedDatePickup);
-                    Log.d("tanggal",String.valueOf(datePickup));
 
                     TransaksiListModel transaksiModel = new TransaksiListModel(idUser, alamatId, durasiId, formattedDatePickup, ongkir, total_harga);
                     mTransaksiListViewModel.saveTransaksi(transaksiModel);
