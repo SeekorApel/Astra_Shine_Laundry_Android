@@ -2,15 +2,12 @@ package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,7 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -40,7 +36,6 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRep
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.AlamatListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
-import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.AlamatModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DurasiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiListModel;
@@ -458,7 +453,6 @@ public class ViewTransaksiFragment extends Fragment {
                 Double jarak;
                 Integer total_harga, ongkir;
                 String tanggal_pickup;
-
                 tanggal_pickup = mEditTextTanggal.getText().toString();
 
                 String durasi = mSpinnerDurasi.getSelectedItem().toString();
@@ -467,10 +461,12 @@ public class ViewTransaksiFragment extends Fragment {
                 int durasiIndex = mSpinnerDurasi.getSelectedItemPosition();
                 int alamatIndex = mSpinnerAlamat.getSelectedItemPosition();
 
+                Log.d("tanggal",String.valueOf(tanggal_pickup));
                 if (durasiIndex > 0) {
                     durasiId = mDurasiModelList.get(durasiIndex - 1).getIdDurasi();
                     alamatId = mAlamatModels.get(alamatIndex - 1).getIdAlamat();
                     jarak = mAlamatModels.get(alamatIndex - 1).getJarak();
+
 
                     if (jarak < 3.0){
                         ongkir = 0;
@@ -480,6 +476,7 @@ public class ViewTransaksiFragment extends Fragment {
                         ongkir = 10000;
                     }
 
+                    Log.d("tolong",String.valueOf(ongkir));
 
                     total_harga = Integer.valueOf(String.valueOf(ongkir));
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
@@ -496,7 +493,6 @@ public class ViewTransaksiFragment extends Fragment {
                     SimpleDateFormat logDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                     String formattedDatePickup = logDateFormat.format(datePickup);
                     Log.d("tanggal", formattedDatePickup);
-                    Log.d("tanggal",String.valueOf(datePickup));
 
                     TransaksiListModel transaksiModel = new TransaksiListModel(idUser, alamatId, durasiId, formattedDatePickup, ongkir, total_harga);
                     mTransaksiListViewModel.saveTransaksi(transaksiModel);

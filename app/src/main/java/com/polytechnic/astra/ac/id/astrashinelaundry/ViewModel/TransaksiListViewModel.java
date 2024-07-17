@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
-import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiListModel;
 
@@ -25,7 +24,6 @@ public class TransaksiListViewModel extends ViewModel {
     private LiveData<TransaksiListVO> transaksiRspns = new MutableLiveData<>();
     private MutableLiveData<String> successMessage = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
-
     private final TransaksiRepository mTransaksiRepository;
 
     public TransaksiListViewModel(){
