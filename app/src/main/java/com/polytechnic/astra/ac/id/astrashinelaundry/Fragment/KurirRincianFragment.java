@@ -78,11 +78,7 @@ public class KurirRincianFragment extends Fragment {
         mBtnKembali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Replace the current fragment with fragment_kurir_pickup
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.PickUpKurir, new PickUpKurirFragment());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                getFragmentManager().popBackStack();
             }
         });
 
@@ -120,10 +116,10 @@ public class KurirRincianFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (transaksi != null) {
-                    String latitude = transaksi.getLatitude();
-                    String longitude = transaksi.getLongitude();
+                    Double latitude = transaksi.getLatitude();
+                    Double longitude = transaksi.getLongitude();
                     if (latitude != null && longitude != null) {
-                        Uri gmmIntentUri = Uri.parse("geo:" + longitude + "," + latitude + "?q=" + longitude + "," + latitude + "(Lokasi+Pelanggan)");
+                        Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude + "?q=" + latitude + "," + longitude + "(Lokasi+Pelanggan)");
                         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                         mapIntent.setPackage("com.google.android.apps.maps");
                         startActivity(mapIntent);
