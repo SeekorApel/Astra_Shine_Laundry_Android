@@ -103,7 +103,7 @@ public class DetailTransaksiKurirFragment extends Fragment {
         mLanjut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mViewModel.getTotalKg().getValue() > 0.9) {
+                if (mViewModel.getTotalKg().getValue() > 0.9 || mViewModel.getTotalKg().getValue() < 0.1 && mViewModel.getTotalPcs().getValue() > 0 ){
                     List<DetailTransaksiModel> selectedLayananList = mViewModel.getSelectedLayananList().getValue();
                     if (selectedLayananList != null && !selectedLayananList.isEmpty()) {
                         mViewModel.createDetailTransaksi(selectedLayananList);
