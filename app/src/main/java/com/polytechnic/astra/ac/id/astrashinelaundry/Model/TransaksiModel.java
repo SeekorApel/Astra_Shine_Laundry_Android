@@ -29,11 +29,11 @@ public class TransaksiModel implements Serializable {
 
     @SerializedName("longitude")
     @Expose
-    private String longitude;
+    private Double longitude;
 
     @SerializedName("latitude")
     @Expose
-    private String latitude;
+    private Double latitude;
 
     @SerializedName("idDurasi")
     @Expose
@@ -75,7 +75,7 @@ public class TransaksiModel implements Serializable {
     }
 
 
-    public TransaksiModel(Integer idTransaksi, Integer idUser, String namaUser, String noTelp, Integer idAlamat, String longitude, String latitude, Integer idDurasi, String namaDurasi, String catatan, Date tanggalPesanan, Date tanggalPengiriman, String statusPembayaran, String statusPesanan, Integer ongkir, Integer totalHarga) {
+    public TransaksiModel(Integer idTransaksi, Integer idUser, String namaUser, String noTelp, Integer idAlamat, Double longitude, Double latitude, Integer idDurasi, String namaDurasi, String catatan, Date tanggalPesanan, Date tanggalPengiriman, String statusPembayaran, String statusPesanan, Integer ongkir, Integer totalHarga) {
 
         this.idTransaksi = idTransaksi;
         this.idUser = idUser;
@@ -104,19 +104,19 @@ public class TransaksiModel implements Serializable {
         this.totalHarga = totalHarga;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
