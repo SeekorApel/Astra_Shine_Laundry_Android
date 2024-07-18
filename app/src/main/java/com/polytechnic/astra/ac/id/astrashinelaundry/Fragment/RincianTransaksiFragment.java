@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -33,6 +34,7 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DetailTransaksiKurirViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.DurasiViewModel;
+import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.TransaksiListViewModel;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -42,13 +44,14 @@ import java.util.Locale;
 
 public class RincianTransaksiFragment extends Fragment {
     private DetailTransaksiKurirViewModel mViewModel;
+    private TransaksiListViewModel mTransaksiListViewModel;
     private DurasiViewModel mDurasiViewModel;
     private RecyclerView mLayananRecyclerView;
-    private Button btnkonfirmasi;
+    private Button btnkonfirmasi,btnPembayaran;
     private LayananAdapter mAdapter;
     private DurasiModel mDurasiModel;
     private TransaksiModel transaksi;
-    private Integer Total, totalSeluruh;
+    private Integer Total, totalSeluruh,posisiTab;
     private UserModel user;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
@@ -63,6 +66,8 @@ public class RincianTransaksiFragment extends Fragment {
         LayananRepository.initialize(requireContext());
         user = getUserModel();
 
+        mTransaksiListViewModel = new TransaksiListViewModel();
+
         mViewModel = new ViewModelProvider(this).get(DetailTransaksiKurirViewModel.class);
         mDurasiViewModel = new ViewModelProvider(this).get(DurasiViewModel.class);
     }
@@ -73,8 +78,7 @@ public class RincianTransaksiFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_kurir_rincian_detail, container, false);
 
         btnkonfirmasi = view.findViewById(R.id.pesanan_siap);
-        TextView customer = view.findViewById(R.id.txt_nama_customer);
-        TextView noTelp = view.findViewById(R.id.txt_no_telp);
+        btnPembayaran = view.findViewById(R.id.pembayaran);
         TextView status = view.findViewById(R.id.statusDetail);
         TextView tanggalPesanan = view.findViewById(R.id.tanggal_pesanan_detail);
         TextView tanggalSelesai = view.findViewById(R.id.tanggal_selesai_detail);
@@ -101,8 +105,6 @@ public class RincianTransaksiFragment extends Fragment {
 
         if (transaksi != null) {
             status.setText(transaksi.getStatusPesanan());
-            customer.setText(transaksi.getNamaUser());
-            noTelp.setText(transaksi.getNoTelp());
             tanggalPesanan.setText(dateFormat.format(transaksi.getTanggalPesanan()));
             tanggalSelesai.setText(dateFormat.format(transaksi.getTanggalPengiriman()));
             durasi.setText(transaksi.getNamaDurasi());
@@ -126,6 +128,25 @@ public class RincianTransaksiFragment extends Fragment {
                 } else {
                     mAdapter.setLayananList(new ArrayList<>()); // Clear the list if null
                 }
+            }
+        });
+
+        btnPembayaran.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTransaksiListViewModel.updatePembayaran(transaksi.getIdTransaksi().toString());
+                Toast.makeText(getContext(), "Pembayaran berhasil", Toast.LENGTH_SHORT).show();
+                mViewModel.saveTotal(transaksi.getIdTransaksi().toString(),totalSeluruh.toString());
+                mViewModel.getAllTransaksiResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiListVO>() {
+                    @Override
+                    public void onChanged(TransaksiListVO transaksiListVO) {
+                        if (transaksiListVO != null){
+                            Intent intent = new Intent(getActivity(), KurirActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                    }
+                });
             }
         });
 

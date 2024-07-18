@@ -54,6 +54,7 @@ public class PickUpKurirFragment extends Fragment {
     private TabLayout mTabLayout;
     private View mViewBackground;
     private LinearLayout mHeaderLayout;
+    private Integer currentTabPosition = 0;
 
     public PickUpKurirFragment() {
     }
@@ -63,7 +64,9 @@ public class PickUpKurirFragment extends Fragment {
         super.onCreate(savedInstanceState);
         TransaksiRepository.initialize(requireContext());
         mTransaksiListViewModel = new ViewModelProvider(this).get(TransaksiListViewModel.class);
-        mTransaksiListViewModel.getDataTransaksi("Pick Up");
+        if (getArguments() != null) {
+            currentTabPosition = getArguments().getInt("posisiTab");
+        }
     }
 
     @Override
@@ -73,6 +76,7 @@ public class PickUpKurirFragment extends Fragment {
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
         String userJson = sharedPreferences.getString("dataUser", null);
+        mTransaksiListViewModel.getDataTransaksi("Pick Up");
 
         final UserModel user;
         if (userJson != null) {
@@ -122,6 +126,7 @@ public class PickUpKurirFragment extends Fragment {
                         mTransaksiListViewModel.getDataTransaksi("Proses");
                         break;
                 }
+                currentTabPosition = tab.getPosition();
             }
 
             @Override
@@ -134,6 +139,21 @@ public class PickUpKurirFragment extends Fragment {
                 // No action needed here
             }
         });
+
+        if (currentTabPosition == 0){
+            mTransaksiListViewModel.getDataTransaksi("Pick Up");
+        }else {
+            TabLayout.Tab tab = mTabLayout.getTabAt(currentTabPosition);
+            if (tab != null) {
+                tab.select();
+                mTransaksiListViewModel.getDataTransaksi("Pick Up");
+                if (currentTabPosition == 0){
+                    mTransaksiListViewModel.getDataTransaksi("Pick Up");
+                } else if (currentTabPosition == 1) {
+                    mTransaksiListViewModel.getDataTransaksi("Proses");
+                }
+            }
+        }
 
         // Initial data load
 
@@ -180,16 +200,31 @@ public class PickUpKurirFragment extends Fragment {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Open the detail fragment with the selected transaction
-                    KurirRincianFragment kurirRincianFragment = new KurirRincianFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("transaksi", transaksi);
-                    kurirRincianFragment.setArguments(bundle);
+                    if(transaksi.getStatusPesanan().equals("Pick Up")){
+                        KurirRincianFragment kurirRincianFragment = new KurirRincianFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("transaksi", transaksi);
+                        bundle.putInt("posisiTab", currentTabPosition);
+                        kurirRincianFragment.setArguments(bundle);
 
-                    getParentFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_kurir, kurirRincianFragment)  // Make sure R.id.PickUpKurir is correct
-                            .addToBackStack(null)
-                            .commit();
+                        getParentFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container_kurir, kurirRincianFragment)  // Make sure R.id.PickUpKurir is correct
+                                .addToBackStack(null)
+                                .commit();
+                    }else{
+                        KurirRincianSelesaiFragment kurirRincianFragment = new KurirRincianSelesaiFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("transaksi", transaksi);
+                        bundle.putInt("posisiTab", currentTabPosition);
+                        kurirRincianFragment.setArguments(bundle);
+
+                        getParentFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container_kurir, kurirRincianFragment)  // Make sure R.id.PickUpKurir is correct
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                    // Open the detail fragment with the selected transaction
+
                 }
             });
         }

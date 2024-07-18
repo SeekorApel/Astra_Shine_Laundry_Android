@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiListModel;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class TransaksiListViewModel extends ViewModel {
     private MutableLiveData<DetailTransaksiVo> detailResponse = new MutableLiveData<>();
 
     private LiveData<TransaksiListVO> transaksiRspns = new MutableLiveData<>();
+    private LiveData<TransaksiVO> transaksiRps = new MutableLiveData<>();
     private MutableLiveData<String> successMessage = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final TransaksiRepository mTransaksiRepository;
@@ -32,6 +34,9 @@ public class TransaksiListViewModel extends ViewModel {
 
     public LiveData<TransaksiListVO> getAllTransaksiResponse() {
         return transaksiResponse;
+    }
+    public LiveData<TransaksiVO> getTransaksiResponse() {
+        return transaksiRps;
     }
     public LiveData<DetailTransaksiVo> getAllDetailResponse() {
         return detailResponse;
@@ -51,6 +56,16 @@ public class TransaksiListViewModel extends ViewModel {
     public void batalkanTrsKurir(String idTransaksi, String catatan) {
         Log.i(TAG, "batalkanTrsKurir() called");
         transaksiRspns = mTransaksiRepository.batalkanTrsKurir(idTransaksi, catatan);
+    }
+
+    public void updatePembayaran(String idTransaksi) {
+        Log.i(TAG, "updatePembayaran() called");
+        transaksiRps = mTransaksiRepository.updatePembayaran(idTransaksi);
+    }
+
+    public void updateStatus(String idTransaksi) {
+        Log.i(TAG, "updateStatus() called");
+        transaksiRps = mTransaksiRepository.updateStatus(idTransaksi);
     }
 
     public void getTransaksiByIdAndStatus(Integer idUser, String status) {

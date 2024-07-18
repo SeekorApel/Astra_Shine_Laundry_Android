@@ -12,6 +12,7 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.AlamatVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.AlamatModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiListModel;
@@ -98,6 +99,7 @@ public class TransaksiRepository {
 
     public MutableLiveData<DetailTransaksiVo> getDetailTransaksi(String idTransaksi) {
         MutableLiveData<DetailTransaksiVo> dataLogin = new MutableLiveData<>();
+        Log.d("Sini", "Id transaksi : "+ idTransaksi);
 
         Call<DetailTransaksiVo> call = mTransaksiService.getDetailTransaksi(idTransaksi);
         call.enqueue(new Callback<DetailTransaksiVo>() {
@@ -127,6 +129,58 @@ public class TransaksiRepository {
         MutableLiveData<TransaksiListVO> dataTransaksi = new MutableLiveData<>();
 
         Call<TransaksiListVO> call = mTransaksiService.batalkanTrsKurir(idTransaksi, catatan);
+        return dataTransaksi;
+    }
+
+    public MutableLiveData<TransaksiVO> updatePembayaran(String idTransaksi) {
+        Log.i(TAG, "updatePembayaran() called");
+        MutableLiveData<TransaksiVO> dataTransaksi = new MutableLiveData<>();
+
+        Call<TransaksiVO> call = mTransaksiService.updatePembayaran(idTransaksi);
+        call.enqueue(new Callback<TransaksiVO>() {
+            @Override
+            public void onResponse(Call<TransaksiVO> call, Response<TransaksiVO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "updatePembayaran.onResponse() called");
+                    Log.d(TAG, response.body().getData().toString());
+                    dataTransaksi.setValue(response.body());
+                } else {
+                    // Logika untuk menangani kasus ketika response body null atau response tidak sukses
+                    Log.e(TAG, "Response unsuccessful or body is null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiVO> call, Throwable throwable) {
+
+            }
+        });
+        return dataTransaksi;
+    }
+
+    public MutableLiveData<TransaksiVO> updateStatus(String idTransaksi) {
+        Log.i(TAG, "updateStatus() called");
+        MutableLiveData<TransaksiVO> dataTransaksi = new MutableLiveData<>();
+
+        Call<TransaksiVO> call = mTransaksiService.updateStatus(idTransaksi);
+        call.enqueue(new Callback<TransaksiVO>() {
+            @Override
+            public void onResponse(Call<TransaksiVO> call, Response<TransaksiVO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "updateStatus.onResponse() called");
+                    Log.d(TAG, response.body().getData().toString());
+                    dataTransaksi.setValue(response.body());
+                } else {
+                    // Logika untuk menangani kasus ketika response body null atau response tidak sukses
+                    Log.e(TAG, "Response unsuccessful or body is null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiVO> call, Throwable throwable) {
+
+            }
+        });
         return dataTransaksi;
     }
 
