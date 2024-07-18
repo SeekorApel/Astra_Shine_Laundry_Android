@@ -4,6 +4,7 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.AlamatVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.AlamatModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
@@ -33,6 +34,12 @@ public interface TransaksiService {
 
     @POST("transaksi/batalkanTrsKurir/{idTransaksi}/")
     Call<TransaksiListVO> batalkanTrsKurir(@Path("idTransaksi") String idTransaksi, @Query("catatan") String catatan);
+
+    @POST("transaksi/updatePembayaran/{idTransaksi}/")
+    Call<TransaksiVO> updatePembayaran(@Path("idTransaksi") String idTransaksi);
+
+    @POST("transaksi/updateStatus/{idTransaksi}/")
+    Call<TransaksiVO> updateStatus(@Path("idTransaksi") String idTransaksi);
 
     @POST("detailTransaksi/saveDetail")
     Call<DetailTransaksiVo> createDetailTransaksi(@Body List<DetailTransaksiModel> detailTransaksi);
