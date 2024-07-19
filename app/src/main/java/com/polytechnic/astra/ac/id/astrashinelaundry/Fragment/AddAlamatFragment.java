@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,10 +57,10 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.AlamatViewModel;
 
-public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback {
+public class AddAlamatFragment extends Fragment implements OnMapReadyCallback {
     private MapView mMapView;
     private GoogleMap mGoogleMap;
-    private Button mBtnSimpan, mBtnGetLocation;
+    private Button mBtnSimpan, mBtnKembali, mBtnGetLocation;
     private EditText mEdtNamaAlamat, mEdtAlamat;
     private FusedLocationProviderClient mFusedLocationClient;
     private static final int REQUEST_LOCATION_SETTINGS = 1001;
@@ -69,7 +70,7 @@ public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback
 
     private static final String TAG = "TambahAlamatFragment";
 
-    public TambahAlamatFragment() {
+    public AddAlamatFragment() {
 
     }
 
@@ -90,11 +91,12 @@ public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tambah_alamat, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_alamat, container, false);
         mBtnSimpan = view.findViewById(R.id.btn_simpan);
         mBtnGetLocation = view.findViewById(R.id.btn_get_location);
         mEdtNamaAlamat = view.findViewById(R.id.edt_nama_alamat);
         mEdtAlamat = view.findViewById(R.id.edt_alamat);
+        mBtnKembali = view.findViewById(R.id.btn_kembali);
 
         mMapView = view.findViewById(R.id.maps_view);
         mMapView.onCreate(savedInstanceState);
@@ -120,6 +122,18 @@ public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback
                 String namaAlamat = mEdtNamaAlamat.getText().toString().trim();
                 String alamatString = mEdtAlamat.getText().toString().trim();
 
+                if (TextUtils.isEmpty(namaAlamat)) {
+                    mEdtNamaAlamat.setError("Title wajib Di isi");
+                    mEdtNamaAlamat.requestFocus();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(alamatString)) {
+                    mEdtAlamat.setError("Alamat wajib Di isi");
+                    mEdtAlamat.requestFocus();
+                    return;
+                }
+
                 AlamatModel alamat = new AlamatModel(user.getIdUser(), namaAlamat, alamatString, mLaTitude, mLongTitude, resultJarak);
                 mAlamatViewModel.saveAlamat(alamat);
 
@@ -131,6 +145,13 @@ public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback
                 mAlamatViewModel.getErrorResponse().observe(getViewLifecycleOwner(), error -> {
                     Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
                 });
+            }
+        });
+
+        mBtnKembali.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToFragmentAlamat();
             }
         });
 
@@ -194,7 +215,7 @@ public class TambahAlamatFragment extends Fragment implements OnMapReadyCallback
     private void navigateToFragmentAlamat(){
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_view_transaksi, new AlamatFragment());
+        fragmentTransaction.replace(R.id.fragment_container_customer, new AlamatFragment());
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

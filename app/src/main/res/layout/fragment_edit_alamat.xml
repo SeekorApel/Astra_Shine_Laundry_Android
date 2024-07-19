@@ -50,7 +50,7 @@
             android:background="@drawable/rounded_border"
             android:ems="10"
             android:fontFamily="@font/maison_neue_medium"
-            android:hint="Title Alamat"
+            android:hint="Title Alamat ex.. Rumah 1, Rumah 2"
             android:inputType="text"
             android:paddingStart="12dp"
             android:paddingRight="12dp"
@@ -109,6 +109,7 @@
             app:layout_constraintTop_toBottomOf="@+id/maps_view" />
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -121,8 +122,8 @@
             <Button
                 android:id="@+id/btn_ubah"
                 android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
                 android:background="@drawable/rounded_button_login"
                 android:fontFamily="@font/maison_neue_bold"
                 android:text="Ubah"
@@ -134,7 +135,7 @@
             <Button
                 android:id="@+id/btn_delete"
                 android:layout_width="150dp"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/rounded_button_delete"
                 android:backgroundTint="@color/merah"
@@ -148,6 +149,22 @@
                 tools:layout_editor_absoluteY="359dp" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_kembali"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/rounded_button_kembali"
+            android:fontFamily="@font/maison_neue_bold"
+            android:text="Kembali"
+            android:textColor="@color/biru_tua"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +58,7 @@ public class EditAlamatFragment extends Fragment implements OnMapReadyCallback {
 
     private MapView mMapView;
     private GoogleMap mGoogleMap;
-    private Button mBtnUbah, mBtnGetLocation, mBtnDelete;
+    private Button mBtnUbah, mBtnGetLocation, mBtnKembali, mBtnDelete;
     private EditText mEdtNamaAlamat, mEdtAlamat;
     private FusedLocationProviderClient mFusedLocationClient;
     private double mLaTitude, mLaTitudeTemp, mLongTitude, mLongTitudeTemp, mLaTLaundry, mLongLaundry;
@@ -94,6 +95,7 @@ public class EditAlamatFragment extends Fragment implements OnMapReadyCallback {
         mBtnGetLocation = view.findViewById(R.id.btn_get_location);
         mEdtNamaAlamat = view.findViewById(R.id.edt_nama_alamat);
         mEdtAlamat = view.findViewById(R.id.edt_alamat);
+        mBtnKembali = view.findViewById(R.id.btn_kembali);
 
         mMapView = view.findViewById(R.id.maps_view);
         mMapView.onCreate(savedInstanceState);
@@ -113,6 +115,18 @@ public class EditAlamatFragment extends Fragment implements OnMapReadyCallback {
                 String status = "Aktif";
                 double updateLat = 0;
                 double updateLong = 0;
+
+                if (TextUtils.isEmpty(namaAlamat)) {
+                    mEdtNamaAlamat.setError("Title wajib Di isi");
+                    mEdtNamaAlamat.requestFocus();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(alamat)) {
+                    mEdtAlamat.setError("Alamat wajib Di isi");
+                    mEdtAlamat.requestFocus();
+                    return;
+                }
 
                 if(mLaTitude != mLaTitudeTemp && mLongTitude != mLongTitudeTemp){
                     updateLat = mLaTitude;
@@ -141,6 +155,13 @@ public class EditAlamatFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 checkLocationSettings();
+            }
+        });
+
+        mBtnKembali.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToFragmentAlamat();
             }
         });
 
@@ -306,7 +327,7 @@ public class EditAlamatFragment extends Fragment implements OnMapReadyCallback {
     private void navigateToFragmentAlamat(){
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_view_transaksi, new AlamatFragment());
+        fragmentTransaction.replace(R.id.fragment_container_customer, new AlamatFragment());
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

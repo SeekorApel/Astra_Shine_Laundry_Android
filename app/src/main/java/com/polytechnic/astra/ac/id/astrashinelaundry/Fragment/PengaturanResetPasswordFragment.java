@@ -7,11 +7,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,12 +53,12 @@ public class PengaturanResetPasswordFragment extends Fragment {
 
                 mForgetPasswordViewModel.resetPasswordById(idUser , newPassword);
 
-                mForgetPasswordViewModel.getResetPasswordMessage().observe(getViewLifecycleOwner(), message -> {
+                mForgetPasswordViewModel.getSuccessResponse().observe(getViewLifecycleOwner(), message -> {
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                     navigateToFragment();
                 });
 
-                mForgetPasswordViewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
+                mForgetPasswordViewModel.getErrorResponse().observe(getViewLifecycleOwner(), error -> {
                     Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
                 });
 
@@ -96,7 +91,7 @@ public class PengaturanResetPasswordFragment extends Fragment {
     private void navigateToFragment(){
         Fragment pengaturanFragment = new PengaturanFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_view_transaksi, pengaturanFragment);
+        transaction.replace(R.id.fragment_container_customer, pengaturanFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

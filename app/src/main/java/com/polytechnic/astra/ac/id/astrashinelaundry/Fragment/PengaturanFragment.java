@@ -82,7 +82,7 @@ public class PengaturanFragment extends Fragment {
     private void navigateToFragmentAlamat(){
         AlamatFragment fragmentAlamat = new AlamatFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_view_transaksi, fragmentAlamat);
+        transaction.replace(R.id.fragment_container_customer, fragmentAlamat);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -90,7 +90,7 @@ public class PengaturanFragment extends Fragment {
     private void navigateToFragmentForgetPassword(){
         PengaturanResetPasswordFragment fragmentForgetPassword = new PengaturanResetPasswordFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_view_transaksi, fragmentForgetPassword);
+        transaction.replace(R.id.fragment_container_customer, fragmentForgetPassword);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -98,7 +98,7 @@ public class PengaturanFragment extends Fragment {
     private void navigateToList(){
         ViewTransaksiFragment fragmentListTransaksiCus = new ViewTransaksiFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_view_transaksi, fragmentListTransaksiCus);
+        transaction.replace(R.id.fragment_container_customer, fragmentListTransaksiCus);
         transaction.addToBackStack(null);
         transaction.commit();
     }

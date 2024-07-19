@@ -38,7 +38,7 @@ public class CustomerActivity extends AppCompatActivity {
 
             // Tambahkan fragment ke activity
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_view_transaksi, fragmentViewTransaksi)
+                    .add(R.id.fragment_container_customer, fragmentViewTransaksi)
                     .commit();
         }
 
