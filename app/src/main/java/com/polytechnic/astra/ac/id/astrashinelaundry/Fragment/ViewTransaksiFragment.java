@@ -2,10 +2,12 @@ package com.polytechnic.astra.ac.id.astrashinelaundry.Fragment;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -71,6 +73,7 @@ public class ViewTransaksiFragment extends Fragment {
     private List<DurasiModel> mDurasiModelList;
     private List<AlamatModel> mAlamatModels;
     private Integer currentTabPosition = 0;
+    private Integer sizeAlamat = 0;
     public ViewTransaksiFragment() {
         // Required empty public constructor
     }
@@ -106,7 +109,38 @@ public class ViewTransaksiFragment extends Fragment {
         }
 
         idUser = user.getIdUser();
-        // Mengambil TextView dari layout
+
+        mAlamatViewModel.getDataAlamat(idUser);
+        mAlamatViewModel.getAllAlamatResponse().observe(getViewLifecycleOwner(), new Observer<AlamatListVO>() {
+            @Override
+            public void onChanged(AlamatListVO alamatListVO) {
+                sizeAlamat = alamatListVO.getData().size();
+
+                if(sizeAlamat == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                    builder.setTitle("Warning");
+                    builder.setMessage("Apakah anda ingin menambahkan alamat?");
+
+                    builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            navigateToFragmentAlamat();
+                        }
+                    });
+
+                    builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
+
         TextView txtName = view.findViewById(R.id.txt_name);
         if (user != null) {
             txtName.setText("Halo, " + user.getNamaUser());
@@ -212,6 +246,7 @@ public class ViewTransaksiFragment extends Fragment {
 
                 saveTransaksi(idUser,bottomSheetDialog);
 
+
                 Button closeButton = bottomSheetView.findViewById(R.id.btn_kembali);
                 closeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -228,31 +263,55 @@ public class ViewTransaksiFragment extends Fragment {
         mAddButtonEmpty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(v.getContext());
-                View bottomSheetView = getLayoutInflater().inflate(R.layout.fragment_add_transaksi, null);
-                bottomSheetDialog.setContentView(bottomSheetView);
-
-                mEditTextTanggal = bottomSheetView.findViewById(R.id.tanggal_pickup);
-                mSpinnerDurasi = bottomSheetView.findViewById(R.id.cb_durasi);
-                mSpinnerAlamat = bottomSheetView.findViewById(R.id.cb_alamat);
-                mButtonPesan = bottomSheetView.findViewById(R.id.btn_pesan);
-
-                getDataDurasi();
-
-
-                getDataAlamat(idUser);
-
-                saveTransaksi(idUser,bottomSheetDialog);
-
-                Button closeButton = bottomSheetView.findViewById(R.id.btn_kembali);
-                closeButton.setOnClickListener(new View.OnClickListener() {
+                mAlamatViewModel.getDataAlamat(idUser);
+                mAlamatViewModel.getAllAlamatResponse().observe(getViewLifecycleOwner(), new Observer<AlamatListVO>() {
                     @Override
-                    public void onClick(View v) {
-                        bottomSheetDialog.dismiss();
+                    public void onChanged(AlamatListVO alamatListVO) {
+                        sizeAlamat = alamatListVO.getData().size();
+                        Log.d("sizedor",String.valueOf(sizeAlamat));
+                        if(sizeAlamat == 0){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                            builder.setTitle("Warning");
+                            builder.setMessage("Apakah anda ingin menambahkan alamat?");
+
+                            builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    navigateToFragmentAlamat();
+                                }
+                            });
+
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }else {
+                            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(v.getContext());
+                            View bottomSheetView = getLayoutInflater().inflate(R.layout.fragment_add_transaksi, null);
+                            bottomSheetDialog.setContentView(bottomSheetView);
+
+                            mEditTextTanggal = bottomSheetView.findViewById(R.id.tanggal_pickup);
+                            mSpinnerDurasi = bottomSheetView.findViewById(R.id.cb_durasi);
+                            mSpinnerAlamat = bottomSheetView.findViewById(R.id.cb_alamat);
+                            mButtonPesan = bottomSheetView.findViewById(R.id.btn_pesan);
+
+                            getDataDurasi();
+
+
+                            getDataAlamat(idUser);
+
+                            saveTransaksi(idUser,bottomSheetDialog);
+
+                            Button closeButton = bottomSheetView.findViewById(R.id.btn_kembali);
+                            closeButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    bottomSheetDialog.dismiss();
+                                }
+                            });
+
+                            bottomSheetDialog.show();
+                        }
                     }
                 });
-
-                bottomSheetDialog.show();
             }
         });
 
@@ -485,7 +544,7 @@ public class ViewTransaksiFragment extends Fragment {
                         datePickup = dateFormat.parse(tanggal_pickup);
                     } catch (ParseException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Data Tidak Boleh Kosong", Toast.LENGTH_LONG).show();
                         return;
                     }
 
@@ -509,7 +568,7 @@ public class ViewTransaksiFragment extends Fragment {
                         Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
                     });
                 }else {
-                    Toast.makeText(getContext(), "Pilih Durasi dan Alamat", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Data Tidak Boleh Kosong", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -523,4 +582,13 @@ public class ViewTransaksiFragment extends Fragment {
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+    private void navigateToFragmentAlamat(){
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_view_transaksi, new AlamatFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 }
