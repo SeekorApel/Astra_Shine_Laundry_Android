@@ -221,7 +221,7 @@ public class ViewTransaksiFragment extends Fragment {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
                 // Ganti fragment dan tambahkan ke back stack
-                transaction.replace(R.id.fragment_view_transaksi, fragmentPengaturan);
+                transaction.replace(R.id.fragment_container_customer, fragmentPengaturan);
                 transaction.addToBackStack(null);  // Menambahkan ke back stack untuk bisa kembali
                 transaction.commit();
             }
@@ -352,7 +352,7 @@ public class ViewTransaksiFragment extends Fragment {
                         customerRincianFragment.setArguments(args);
 
                         getParentFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_view_transaksi, customerRincianFragment)  // Make sure R.id.PickUpKurir is correct
+                                .replace(R.id.fragment_container_customer, customerRincianFragment)  // Make sure R.id.PickUpKurir is correct
                                 .addToBackStack(null)
                                 .commit();
                     }
@@ -578,7 +578,7 @@ public class ViewTransaksiFragment extends Fragment {
     private void navigateToFragmentTransaksi(){
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_view_transaksi, new ViewTransaksiFragment());
+        fragmentTransaction.replace(R.id.fragment_container_customer, new ViewTransaksiFragment());
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -586,7 +586,7 @@ public class ViewTransaksiFragment extends Fragment {
     private void navigateToFragmentAlamat(){
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_view_transaksi, new AlamatFragment());
+        fragmentTransaction.replace(R.id.fragment_container_customer, new AlamatFragment());
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

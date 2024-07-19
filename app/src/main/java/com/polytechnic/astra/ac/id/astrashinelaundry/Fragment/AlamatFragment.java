@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,6 +41,8 @@ public class AlamatFragment extends Fragment {
 
     private ListAlamatAdapter mListAlamatAdapter;
 
+    private ImageView mBtnKembali;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,7 @@ public class AlamatFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_alamat, container, false);
 
         mBtnAdd = view.findViewById(R.id.btn_add);
+        mBtnKembali = view.findViewById(R.id.btn_kembali);
         mListAlamatRecyclerView = view.findViewById(R.id.list_view_item_alamat);
         mListAlamatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -67,6 +71,17 @@ public class AlamatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 navigateToFragmentAddAlamat();
+            }
+        });
+
+        mBtnKembali.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PengaturanFragment fragmentPengaturan = new PengaturanFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container_customer, fragmentPengaturan);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -143,7 +158,7 @@ public class AlamatFragment extends Fragment {
                     editAlamatFragment.setArguments(bundle);
 
                     getParentFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_view_transaksi, editAlamatFragment)  // Make sure R.id.PickUpKurir is correct
+                            .replace(R.id.fragment_container_customer, editAlamatFragment)  // Make sure R.id.PickUpKurir is correct
                             .addToBackStack(null)
                             .commit();
                 }
@@ -163,9 +178,9 @@ public class AlamatFragment extends Fragment {
     }
 
     private void navigateToFragmentAddAlamat(){
-        TambahAlamatFragment fragmentTambahAlamat = new TambahAlamatFragment();
+        AddAlamatFragment fragmentTambahAlamat = new AddAlamatFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_view_transaksi, fragmentTambahAlamat);
+        transaction.replace(R.id.fragment_container_customer, fragmentTambahAlamat);
         transaction.addToBackStack(null);
         transaction.commit();
     }

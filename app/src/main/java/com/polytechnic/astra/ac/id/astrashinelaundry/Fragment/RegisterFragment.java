@@ -95,12 +95,12 @@ public class RegisterFragment extends Fragment {
 
                 mRegisterViewModel.registerUser(registerUser);
 
-                mRegisterViewModel.getRegisterMessage().observe(getViewLifecycleOwner(), message -> {
+                mRegisterViewModel.getSuccessResponse().observe(getViewLifecycleOwner(), message -> {
                     Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
                     navigateToMainActivity();
                 });
 
-                mRegisterViewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
+                mRegisterViewModel.getErrorResponse().observe(getViewLifecycleOwner(), error -> {
                     Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
                 });
             }

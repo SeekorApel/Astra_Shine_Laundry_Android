@@ -17,13 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.TransaksiRepository;
-import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
-import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DurasiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
@@ -147,7 +144,7 @@ public class CustomerRincianFragment extends Fragment {
                 listTransaksi.setArguments(args);
 
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_view_transaksi, listTransaksi)  // Make sure R.id.PickUpKurir is correct
+                        .replace(R.id.fragment_container_customer, listTransaksi)  // Make sure R.id.PickUpKurir is correct
                         .addToBackStack(null)
                         .commit();
             }
@@ -185,7 +182,7 @@ public class CustomerRincianFragment extends Fragment {
     private void navigateToFragmentTransaksi(){
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_view_transaksi, new ViewTransaksiFragment());
+        fragmentTransaction.replace(R.id.fragment_container_customer, new ViewTransaksiFragment());
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

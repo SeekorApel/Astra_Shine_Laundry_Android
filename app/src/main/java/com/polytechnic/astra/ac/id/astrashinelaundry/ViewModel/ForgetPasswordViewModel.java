@@ -12,7 +12,7 @@ public class ForgetPasswordViewModel extends ViewModel {
 
     private static final String TAG = "ForgetPasswordViewModel";
 
-    private MutableLiveData<String> resetPasswordMessage = new MutableLiveData<>();
+    private MutableLiveData<String> successMessage = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     private final UserRepository mUserRepository;
@@ -21,11 +21,11 @@ public class ForgetPasswordViewModel extends ViewModel {
         mUserRepository = UserRepository.get();
     }
 
-    public LiveData<String> getResetPasswordMessage() {
-        return resetPasswordMessage;
+    public LiveData<String> getSuccessResponse() {
+        return successMessage;
     }
 
-    public LiveData<String> getErrorMessage() {
+    public LiveData<String> getErrorResponse() {
         return errorMessage;
     }
 
@@ -34,7 +34,7 @@ public class ForgetPasswordViewModel extends ViewModel {
         mUserRepository.resetPasswordByEmail(email, new UserRepository.messageCallback() {
             @Override
             public void onSuccess(String message) {
-                resetPasswordMessage.postValue(message);
+                successMessage.postValue(message);
             }
 
             @Override
@@ -49,7 +49,7 @@ public class ForgetPasswordViewModel extends ViewModel {
         mUserRepository.resetPasswordById(idUser, newPassword, new UserRepository.messageCallback() {
             @Override
             public void onSuccess(String message) {
-                resetPasswordMessage.postValue(message);
+                successMessage.postValue(message);
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -64,14 +65,20 @@ public class ForgetPasswordFragment extends Fragment {
                 }
 
                 mForgetPasswordViewModel.resetPasswordByEmail(email);
-
-                mForgetPasswordViewModel.getResetPasswordMessage().observe(getViewLifecycleOwner(), message -> {
-                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                    navigateToMainActivity();
+                mForgetPasswordViewModel.getSuccessResponse().observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @Override
+                    public void onChanged(String messsage) {
+                        Toast.makeText(getContext(), messsage, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
                 });
-
-                mForgetPasswordViewModel.getErrorMessage().observe(getViewLifecycleOwner(), error -> {
-                    Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+                mForgetPasswordViewModel.getErrorResponse().observe(getViewLifecycleOwner(), new Observer<String>() {
+                    @Override
+                    public void onChanged(String error) {
+                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                    }
                 });
             }
         });
@@ -90,11 +97,5 @@ public class ForgetPasswordFragment extends Fragment {
     private boolean isValidEmail(String email) {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         return email.matches(emailPattern);
-    }
-
-    private void navigateToMainActivity(){
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        startActivity(intent);
-        getActivity().finish();
     }
 }

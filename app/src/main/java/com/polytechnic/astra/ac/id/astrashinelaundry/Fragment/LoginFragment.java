@@ -72,11 +72,11 @@ public class LoginFragment extends Fragment {
                     return;
                 }
 
-//                if (!isValidEmail(email)) {
-//                    mEdtEmail.setError("Format Email Tidak Valid abc@gmail.com");
-//                    mEdtEmail.requestFocus();
-//                    return;
-//                }
+                if (!isValidEmail(email)) {
+                    mEdtEmail.setError("Format Email Tidak Valid abc@gmail.com");
+                    mEdtEmail.requestFocus();
+                    return;
+                }
 
                 if (TextUtils.isEmpty(password)) {
                     mEdtPassword.setError("Password Wajib di isi");
@@ -98,7 +98,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 ForgetPasswordFragment fragmentForgetPassword = new ForgetPasswordFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_login, fragmentForgetPassword);
+                transaction.replace(R.id.fragment_container_main, fragmentForgetPassword);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -111,7 +111,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 RegisterFragment fragmentRegister = new RegisterFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_login, fragmentRegister);
+                transaction.replace(R.id.fragment_container_main, fragmentRegister);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -124,7 +124,7 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 RegisterFragment fragmentRegister = new RegisterFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_login, fragmentRegister);
+                transaction.replace(R.id.fragment_container_main, fragmentRegister);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -186,15 +186,18 @@ public class LoginFragment extends Fragment {
                     String status = userVO.getData().getStatus();
                     UserModel dataLogin = new UserModel(idUser, namaUser, noTelp, role, status);
 
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    Gson gson = new Gson();
-                    String userJson = gson.toJson(dataLogin);
-                    editor.putString("dataUser", userJson);
-                    editor.apply();
-
-                    Toast.makeText(getActivity(), "Login Berhasil", Toast.LENGTH_SHORT).show();
-                    navigateToNewActivity(role);
+                    if(dataLogin.getRole().equals("Owner")){
+                        Toast.makeText(getActivity(), "Email dan password Salah", Toast.LENGTH_SHORT).show();
+                    }else{
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        Gson gson = new Gson();
+                        String userJson = gson.toJson(dataLogin);
+                        editor.putString("dataUser", userJson);
+                        editor.apply();
+                        Toast.makeText(getActivity(), "Login Berhasil", Toast.LENGTH_SHORT).show();
+                        navigateToNewActivity(role);
+                    }
                 } else {
                     Toast.makeText(getActivity(), "Email dan password Salah", Toast.LENGTH_SHORT).show();
                 }

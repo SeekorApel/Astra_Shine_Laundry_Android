@@ -67,8 +67,13 @@ public class UserRepository {
             @Override
             public void onResponse(Call<ForgetPasswordVO> call, Response<ForgetPasswordVO> response) {
                 Log.d(TAG, "resetPasswordByEmail.onResponse() called");
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().getMessage());
+                if (response.isSuccessful()) {
+                    int status = response.body().getStatus();
+                    if(status == 200){
+                        callback.onSuccess(response.body().getMessage());
+                    }else if(status == 500) {
+                        callback.onError(response.body().getMessage());
+                    }
                 } else {
                     callback.onError("Failed to reset password");
                 }
@@ -89,9 +94,13 @@ public class UserRepository {
             @Override
             public void onResponse(Call<UserVO> call, Response<UserVO> response) {
                 Log.d(TAG, "registerUser.onResponse() called");
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().getMessage());
-                    Log.d(TAG, response.message());
+                if (response.isSuccessful()) {
+                    int status = response.body().getStatus();
+                    if(status == 200){
+                        callback.onSuccess(response.body().getMessage());
+                    }else if(status == 500) {
+                        callback.onError(response.body().getMessage());
+                    }
                 } else {
                     callback.onError("Registrasi Gagal");
                 }

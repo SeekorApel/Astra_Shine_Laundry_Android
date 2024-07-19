@@ -11,7 +11,7 @@ public class RegisterViewModel extends ViewModel {
 
     private static final String TAG = "RegisterViewModel";
 
-    private MutableLiveData<String> registerMessage = new MutableLiveData<>();
+    private MutableLiveData<String> successMessage = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     private final UserRepository mUserRepository;
@@ -20,11 +20,11 @@ public class RegisterViewModel extends ViewModel {
        this.mUserRepository = UserRepository.get();
     }
 
-    public LiveData<String> getRegisterMessage() {
-        return registerMessage;
+    public LiveData<String> getSuccessResponse() {
+        return successMessage;
     }
 
-    public LiveData<String> getErrorMessage() {
+    public LiveData<String> getErrorResponse() {
         return errorMessage;
     }
 
@@ -33,7 +33,7 @@ public class RegisterViewModel extends ViewModel {
         mUserRepository.registerUser(user, new UserRepository.messageCallback() {
             @Override
             public void onSuccess(String message) {
-                registerMessage.postValue(message);
+                successMessage.postValue(message);
             }
 
             @Override
