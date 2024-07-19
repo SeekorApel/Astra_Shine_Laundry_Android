@@ -26,6 +26,7 @@ import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.LayananRepos
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DurasiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.KurirActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DurasiModel;
@@ -135,16 +136,21 @@ public class RincianTransaksiFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mTransaksiListViewModel.updatePembayaran(transaksi.getIdTransaksi().toString());
-                Toast.makeText(getContext(), "Pembayaran berhasil", Toast.LENGTH_SHORT).show();
-                mViewModel.saveTotal(transaksi.getIdTransaksi().toString(),totalSeluruh.toString());
-                mViewModel.getAllTransaksiResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiListVO>() {
+                mTransaksiListViewModel.getTransaksiResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiVO>() {
                     @Override
-                    public void onChanged(TransaksiListVO transaksiListVO) {
-                        if (transaksiListVO != null){
-                            Intent intent = new Intent(getActivity(), KurirActivity.class);
-                            startActivity(intent);
-                            getActivity().finish();
-                        }
+                    public void onChanged(TransaksiVO transaksiVO) {
+                        Toast.makeText(getContext(), "Pembayaran berhasil", Toast.LENGTH_SHORT).show();
+                        mViewModel.saveTotal(transaksi.getIdTransaksi().toString(),totalSeluruh.toString());
+                        mViewModel.getAllTransaksiResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiListVO>() {
+                            @Override
+                            public void onChanged(TransaksiListVO transaksiListVO) {
+                                if (transaksiListVO != null){
+                                    Intent intent = new Intent(getActivity(), KurirActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                }
+                            }
+                        });
                     }
                 });
             }

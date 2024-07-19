@@ -210,22 +210,18 @@ public class TransaksiRepository {
 
         return dataTransaksi;
     }
-    
-    public void createDetailTransaksi(List<DetailTransaksiModel> detailTransaksi,final TransaksiRepository.messageCallback callback) {
+
+    public MutableLiveData<DetailTransaksiVo> createDetailTransaksi(List<DetailTransaksiModel> detailTransaksi,final TransaksiRepository.messageCallback callback) {
         Log.i(TAG, "createDetailTransaksi() called");
+        MutableLiveData<DetailTransaksiVo> dataDetailTransaksi = new MutableLiveData<>();
         Call<DetailTransaksiVo> call = mTransaksiService.createDetailTransaksi(detailTransaksi);
-        for(int i = 0;i < detailTransaksi.size();i++){
-            Log.d(TAG,"ID Transaksi :"+detailTransaksi.get(i).getIdTransaksi().toString());
-            Log.d(TAG,"ID Layanan :"+detailTransaksi.get(i).getIdLayanan().toString());
-            Log.d(TAG,"Nama Layanan :"+detailTransaksi.get(i).getNamaLayanan().toString());
-            Log.d(TAG,"Qty Layanan :"+detailTransaksi.get(i).getQty().toString());
-        }
         call.enqueue(new Callback<DetailTransaksiVo>() {
             @Override
             public void onResponse(Call<DetailTransaksiVo> call, Response<DetailTransaksiVo> response) {
                 Log.d(TAG, "createDetailTransaksi.onResponse() called");
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body().getMessage());
+                    dataDetailTransaksi.setValue(response.body());
                 } else {
                     callback.onError("Create Detail Transaksi Gagal");
                 }
@@ -236,6 +232,7 @@ public class TransaksiRepository {
                 Log.e(TAG, "Error API Call: " + throwable.getMessage());
             }
         });
+        return dataDetailTransaksi;
     }
 
     public MutableLiveData<TransaksiListVO> saveTotal(String idTranskasi, String total) {
