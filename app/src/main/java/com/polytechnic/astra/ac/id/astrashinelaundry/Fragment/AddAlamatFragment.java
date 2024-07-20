@@ -65,7 +65,7 @@ public class AddAlamatFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient mFusedLocationClient;
     private static final int REQUEST_LOCATION_SETTINGS = 1001;
     private static final int REQUEST_LOCATION_PERMISSION = 1;
-    private double mLaTitude, mLongTitude, mLaTLaundry, mLongLaundry;
+    private double mLaTitude, mLaTitudeTemp, mLongTitude, mLongTitudeTemp, mLaTLaundry, mLongLaundry;
     private AlamatViewModel mAlamatViewModel;
 
     private static final String TAG = "TambahAlamatFragment";
@@ -131,6 +131,11 @@ public class AddAlamatFragment extends Fragment implements OnMapReadyCallback {
                 if (TextUtils.isEmpty(alamatString)) {
                     mEdtAlamat.setError("Alamat wajib Di isi");
                     mEdtAlamat.requestFocus();
+                    return;
+                }
+
+                if(mLaTitudeTemp == mLaTitude && mLongTitudeTemp == mLongTitude){
+                    Toast.makeText(getContext(), "Alamat wajib di isi", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -264,6 +269,10 @@ public class AddAlamatFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.mGoogleMap = googleMap;
         LatLng location = new LatLng(-6.2088, 106.8456);
+        mLaTitudeTemp = location.latitude;
+        mLongTitudeTemp = location.longitude;
+        mLaTitude = location.latitude;
+        mLongTitude = location.longitude;
         googleMap.addMarker(new MarkerOptions().position(location));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12));
     }

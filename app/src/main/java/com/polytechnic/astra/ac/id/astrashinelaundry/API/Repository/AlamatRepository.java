@@ -92,7 +92,6 @@ public class AlamatRepository {
                 Log.d(TAG, "saveAlamat.onResponse() called");
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body().getMessage());
-                    Log.d(TAG, response.message());
                 } else {
                     callback.onError("Save Alamat Gagal");
                 }
