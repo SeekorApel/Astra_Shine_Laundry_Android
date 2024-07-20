@@ -5,14 +5,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 
 public class RegisterViewModel extends ViewModel {
 
     private static final String TAG = "RegisterViewModel";
 
-    private MutableLiveData<String> successMessage = new MutableLiveData<>();
-    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
+    private MutableLiveData<UserVO> response = new MutableLiveData<>();
 
     private final UserRepository mUserRepository;
 
@@ -20,27 +20,13 @@ public class RegisterViewModel extends ViewModel {
        this.mUserRepository = UserRepository.get();
     }
 
-    public LiveData<String> getSuccessResponse() {
-        return successMessage;
-    }
-
-    public LiveData<String> getErrorResponse() {
-        return errorMessage;
+    public LiveData<UserVO> getResponse() {
+        return response;
     }
 
     public void registerUser(UserModel user) {
         Log.i(TAG, "registerUser() called");
-        mUserRepository.registerUser(user, new UserRepository.messageCallback() {
-            @Override
-            public void onSuccess(String message) {
-                successMessage.postValue(message);
-            }
-
-            @Override
-            public void onError(String error) {
-                errorMessage.postValue(error);
-            }
-        });
+        response = mUserRepository.registerUser(user);
     }
 
 }

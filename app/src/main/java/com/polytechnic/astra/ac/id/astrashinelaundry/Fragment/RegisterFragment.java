@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
@@ -81,6 +83,12 @@ public class RegisterFragment extends Fragment {
                     return;
                 }
 
+                if (!isNamaValid(nama)) {
+                    mEdtNama.setError("Nama hanya bisa berisi huruf");
+                    mEdtNama.requestFocus();
+                    return;
+                }
+
                 if (TextUtils.isEmpty(noTelp)) {
                     mEdtNoTelephone.setError("No Telephone wajib Di isi");
                     mEdtNoTelephone.requestFocus();
@@ -94,14 +102,16 @@ public class RegisterFragment extends Fragment {
                 }
 
                 mRegisterViewModel.registerUser(registerUser);
-
-                mRegisterViewModel.getSuccessResponse().observe(getViewLifecycleOwner(), message -> {
-                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                    navigateToMainActivity();
-                });
-
-                mRegisterViewModel.getErrorResponse().observe(getViewLifecycleOwner(), error -> {
-                    Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+                mRegisterViewModel.getResponse().observe(getViewLifecycleOwner(), new Observer<UserVO>() {
+                    @Override
+                    public void onChanged(UserVO userVO) {
+                        if(userVO.getStatus() == 200){
+                            Toast.makeText(getActivity(), userVO.getMessage(), Toast.LENGTH_SHORT).show();
+                            navigateToMainActivity();
+                        }else if(userVO.getStatus() == 500){
+                            Toast.makeText(getActivity(), userVO.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 });
             }
         });
@@ -118,6 +128,10 @@ public class RegisterFragment extends Fragment {
     private boolean isValidEmail(String email) {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         return email.matches(emailPattern);
+    }
+
+    private boolean isNamaValid(String nama) {
+        return nama.matches("[a-zA-Z\\s]+");
     }
 
     private void navigateToMainActivity(){

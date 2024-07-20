@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.ApiUtils;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Service.UserService;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.AlamatVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.ForgetPasswordVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
@@ -87,22 +88,17 @@ public class UserRepository {
         });
     }
 
-    public void registerUser(UserModel user, final messageCallback callback){
-        Log.i(TAG, "registerUser() called");
+    public MutableLiveData<UserVO> registerUser(UserModel user){
+        MutableLiveData<UserVO> data = new MutableLiveData<>();
         Call<UserVO> call = mUserService.registerUser(user);
         call.enqueue(new Callback<UserVO>() {
             @Override
             public void onResponse(Call<UserVO> call, Response<UserVO> response) {
                 Log.d(TAG, "registerUser.onResponse() called");
-                if (response.isSuccessful()) {
-                    int status = response.body().getStatus();
-                    if(status == 200){
-                        callback.onSuccess(response.body().getMessage());
-                    }else if(status == 500) {
-                        callback.onError(response.body().getMessage());
-                    }
-                } else {
-                    callback.onError("Registrasi Gagal");
+                if(response.isSuccessful()){
+                    data.setValue(response.body());
+                }else {
+                    Log.e("Error API Call : ", "Gagal Registrasi akun");
                 }
             }
 
@@ -111,6 +107,7 @@ public class UserRepository {
                 Log.e("Error API Call : ", throwable.getMessage());
             }
         });
+        return data;
     }
 
     public void resetPasswordById(Integer idUser, String newPassword, final messageCallback callback){
