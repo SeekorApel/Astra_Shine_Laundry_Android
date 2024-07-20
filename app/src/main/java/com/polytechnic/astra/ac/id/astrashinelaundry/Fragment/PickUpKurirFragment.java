@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,7 +48,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class PickUpKurirFragment extends Fragment {
-    private Button mBtnLogout;
+    private Button mBtnLogout,mBtnRefresh;
     private TransaksiListViewModel mTransaksiListViewModel;
     private RecyclerView mTransaksiRecyclerView;
     private TransaksiAdapter mAdapter;
@@ -55,6 +56,7 @@ public class PickUpKurirFragment extends Fragment {
     private View mViewBackground;
     private LinearLayout mHeaderLayout;
     private Integer currentTabPosition = 0;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     public PickUpKurirFragment() {
     }
@@ -99,11 +101,25 @@ public class PickUpKurirFragment extends Fragment {
         String todayDate = dateFormat.format(calendar.getTime());
         txtDate.setText(todayDate);
 
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         mTransaksiRecyclerView = view.findViewById(R.id.listPickUpTransaksi);
         mTransaksiRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mAdapter = new TransaksiAdapter();
         mTransaksiRecyclerView.setAdapter(mAdapter);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i("posisi","Posisi Tab : "+currentTabPosition);
+                if (currentTabPosition == 0) {
+                    mTransaksiListViewModel.getDataTransaksi("Pick Up");
+                } else if (currentTabPosition == 1) {
+                    mTransaksiListViewModel.getDataTransaksi("Antar");
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         mTabLayout = view.findViewById(R.id.tabLayout);
         mViewBackground = view.findViewById(R.id.viewBackground);
@@ -123,7 +139,7 @@ public class PickUpKurirFragment extends Fragment {
                         break;
                     case 1: // Tab "Antar"
                         Log.d("kocakk","Antar");
-                        mTransaksiListViewModel.getDataTransaksi("Proses");
+                        mTransaksiListViewModel.getDataTransaksi("Antar");
                         break;
                 }
                 currentTabPosition = tab.getPosition();
@@ -176,8 +192,6 @@ public class PickUpKurirFragment extends Fragment {
                 logout();
             }
         });
-
-
         return view;
     }
 
@@ -253,7 +267,7 @@ public class PickUpKurirFragment extends Fragment {
             }
 
             public void bind(TransaksiModel transaksi) {
-                mCustomer.setText(transaksi.getNamaUser());
+                mCustomer.setText("NOTA-" +transaksi.getIdTransaksi());
                 mTanggalPesanan.setText("Tanggal Pesanan: " + dateFormat.format(transaksi.getTanggalPesanan()));
                 mTanggalSelesai.setText("Estimasi Selesai: " + dateFormat.format(transaksi.getTanggalPengiriman()));
             }
