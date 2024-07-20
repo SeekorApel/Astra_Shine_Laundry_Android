@@ -136,7 +136,7 @@ public class DetailTransaksiKurirViewModel extends ViewModel {
     @SuppressLint("LongLogTag")
     public void createDetailTransaksi(List<DetailTransaksiModel> detailTransaksi) {
         Log.i(TAG, "createDetailTransaksi() called");
-        mTransaksiRepository.createDetailTransaksi(detailTransaksi, new TransaksiRepository.messageCallback() {
+        detailTransaksiResponse = mTransaksiRepository.createDetailTransaksi(detailTransaksi, new TransaksiRepository.messageCallback() {
             @Override
             public void onSuccess(String message) {
                 createDetailMessage.postValue(message);

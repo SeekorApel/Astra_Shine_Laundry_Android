@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.LayananRepository;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.DetailTransaksiVo;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.LayananVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.DetailTransaksiModel;
@@ -108,16 +109,21 @@ public class DetailTransaksiKurirFragment extends Fragment {
                     if (selectedLayananList != null && !selectedLayananList.isEmpty()) {
                         mViewModel.createDetailTransaksi(selectedLayananList);
                     }
-                    RincianTransaksiFragment rincianTransaksiFragment = new RincianTransaksiFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("transaksi", transaksi);
-                    bundle.putSerializable("total",mViewModel.getTotalHarga().getValue());
-                    rincianTransaksiFragment.setArguments(bundle);
+                    mViewModel.getAllDetailResponse().observe(getViewLifecycleOwner(), new Observer<DetailTransaksiVo>() {
+                        @Override
+                        public void onChanged(DetailTransaksiVo detailTransaksiVo) {
+                            RincianTransaksiFragment rincianTransaksiFragment = new RincianTransaksiFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("transaksi", transaksi);
+                            bundle.putSerializable("total",mViewModel.getTotalHarga().getValue());
+                            rincianTransaksiFragment.setArguments(bundle);
 
-                    getParentFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_kurir, rincianTransaksiFragment)  // Make sure R.id.PickUpKurir is correct
-                            .addToBackStack(null)
-                            .commit();
+                            getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.fragment_container_kurir, rincianTransaksiFragment)  // Make sure R.id.PickUpKurir is correct
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+                    });
 
             } else {
                 // Tampilkan pesan bahwa minimal Kg harus 1
