@@ -33,7 +33,7 @@ public interface TransaksiService {
     Call<TransaksiListVO> saveTotal(@Query("idTransaksi") String idTransaksi,@Query("total") String total);
 
     @POST("transaksi/batalkanTrsKurir/{idTransaksi}/")
-    Call<TransaksiListVO> batalkanTrsKurir(@Path("idTransaksi") String idTransaksi, @Query("catatan") String catatan);
+    Call<TransaksiVO> batalkanTrsKurir(@Path("idTransaksi") String idTransaksi, @Query("catatan") String catatan);
 
     @POST("transaksi/updatePembayaran/{idTransaksi}/")
     Call<TransaksiVO> updatePembayaran(@Path("idTransaksi") String idTransaksi);
