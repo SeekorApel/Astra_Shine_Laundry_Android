@@ -162,7 +162,6 @@ public class PickUpKurirFragment extends Fragment {
             TabLayout.Tab tab = mTabLayout.getTabAt(currentTabPosition);
             if (tab != null) {
                 tab.select();
-                mTransaksiListViewModel.getDataTransaksi("Pick Up");
                 if (currentTabPosition == 0){
                     mTransaksiListViewModel.getDataTransaksi("Pick Up");
                 } else if (currentTabPosition == 1) {
