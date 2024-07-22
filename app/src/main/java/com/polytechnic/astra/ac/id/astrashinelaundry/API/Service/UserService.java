@@ -22,5 +22,5 @@ public interface UserService {
     Call<UserVO> registerUser(@Body UserModel user);
 
     @POST("user/resetPassword")
-    Call<ForgetPasswordVO> resetPasswordById(@Query("idUser") Integer idUser, @Query("password") String password);
+    Call<UserVO> resetPasswordById(@Query("idUser") Integer idUser, @Query("newPassword") String newPassword, @Query("oldPassword") String oldPassword);
 }

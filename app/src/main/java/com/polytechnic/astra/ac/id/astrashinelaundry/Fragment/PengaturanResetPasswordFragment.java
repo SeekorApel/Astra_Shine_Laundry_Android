@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.UserModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.ForgetPasswordViewModel;
@@ -65,15 +67,18 @@ public class PengaturanResetPasswordFragment extends Fragment {
                     return;
                 }
 
-                mForgetPasswordViewModel.resetPasswordById(idUser , newPassword);
+                mForgetPasswordViewModel.resetPasswordById(idUser, newPassword, oldPassword);
 
-                mForgetPasswordViewModel.getSuccessResponse().observe(getViewLifecycleOwner(), message -> {
-                    Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
-                    navigateToFragment();
-                });
-
-                mForgetPasswordViewModel.getErrorResponse().observe(getViewLifecycleOwner(), error -> {
-                    Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
+                mForgetPasswordViewModel.getResponse().observe(getViewLifecycleOwner(), new Observer<UserVO>() {
+                    @Override
+                    public void onChanged(UserVO userVO) {
+                        if(userVO.getStatus() == 500){
+                            Toast.makeText(getActivity(), userVO.getMessage(), Toast.LENGTH_SHORT).show();
+                        }else if (userVO.getStatus() == 200){
+                            Toast.makeText(getActivity(), userVO.getMessage(), Toast.LENGTH_SHORT).show();
+                            navigateToFragment();
+                        }
+                    }
                 });
 
 

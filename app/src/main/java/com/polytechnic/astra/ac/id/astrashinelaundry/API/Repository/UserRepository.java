@@ -110,26 +110,26 @@ public class UserRepository {
         return data;
     }
 
-    public void resetPasswordById(Integer idUser, String newPassword, final messageCallback callback){
-        Log.i(TAG, "resetPasswordById() called");
-        Call<ForgetPasswordVO> call = mUserService.resetPasswordById(idUser, newPassword);
-        call.enqueue(new Callback<ForgetPasswordVO>() {
+    public MutableLiveData<UserVO> resetPasswordById(Integer idUser, String newPassword, String oldPassword){
+        MutableLiveData<UserVO> data = new MutableLiveData<>();
+        Call<UserVO> call = mUserService.resetPasswordById(idUser, newPassword, oldPassword);
+        call.enqueue(new Callback<UserVO>() {
             @Override
-            public void onResponse(Call<ForgetPasswordVO> call, Response<ForgetPasswordVO> response) {
-                Log.d(TAG, "resetPasswordById.onResponse() called");
-                if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body().getMessage());
-                } else {
-                    callback.onError("Failed to reset password");
+            public void onResponse(Call<UserVO> call, Response<UserVO> response) {
+                if(response.isSuccessful()){
+                    data.setValue(response.body());
+                }else {
+                    Log.e("Error API Call : ", "Gagal Mengubah password");
                 }
             }
 
             @Override
-            public void onFailure(Call<ForgetPasswordVO> call, Throwable throwable) {
+            public void onFailure(Call<UserVO> call, Throwable throwable) {
                 Log.e("Error API Call : ", throwable.getMessage());
-                callback.onError(throwable.getMessage());
             }
         });
+
+        return data;
     }
 
     public interface messageCallback {
