@@ -22,7 +22,7 @@ public class TransaksiListViewModel extends ViewModel {
 
     private MutableLiveData<DetailTransaksiVo> detailResponse = new MutableLiveData<>();
 
-    private LiveData<TransaksiListVO> transaksiRspns = new MutableLiveData<>();
+    private LiveData<TransaksiVO> transaksiRspns = new MutableLiveData<>();
     private LiveData<TransaksiVO> transaksiRps = new MutableLiveData<>();
     private LiveData<TransaksiVO> update = new MutableLiveData<>();
     private MutableLiveData<String> successMessage = new MutableLiveData<>();
@@ -35,6 +35,9 @@ public class TransaksiListViewModel extends ViewModel {
 
     public LiveData<TransaksiListVO> getAllTransaksiResponse() {
         return transaksiResponse;
+    }
+    public LiveData<TransaksiVO> getBatalResponse() {
+        return transaksiRspns;
     }
     public LiveData<TransaksiVO> getTransaksiResponse() {
         return transaksiRps;

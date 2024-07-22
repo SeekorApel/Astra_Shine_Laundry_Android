@@ -69,6 +69,7 @@ public class PickUpKurirFragment extends Fragment {
         if (getArguments() != null) {
             currentTabPosition = getArguments().getInt("posisiTab");
         }
+        mTransaksiListViewModel.getDataTransaksi("Pick Up");
     }
 
     @Override
@@ -78,7 +79,6 @@ public class PickUpKurirFragment extends Fragment {
 
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("loginSession", Context.MODE_PRIVATE);
         String userJson = sharedPreferences.getString("dataUser", null);
-        mTransaksiListViewModel.getDataTransaksi("Pick Up");
 
         final UserModel user;
         if (userJson != null) {
@@ -165,7 +165,7 @@ public class PickUpKurirFragment extends Fragment {
                 if (currentTabPosition == 0){
                     mTransaksiListViewModel.getDataTransaksi("Pick Up");
                 } else if (currentTabPosition == 1) {
-                    mTransaksiListViewModel.getDataTransaksi("Proses");
+                    mTransaksiListViewModel.getDataTransaksi("Antar");
                 }
             }
         }

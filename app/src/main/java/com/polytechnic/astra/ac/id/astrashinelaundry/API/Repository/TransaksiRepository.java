@@ -124,11 +124,29 @@ public class TransaksiRepository {
         return dataLogin;
     }
 
-    public LiveData<TransaksiListVO> batalkanTrsKurir(String idTransaksi, String catatan) {
+    public LiveData<TransaksiVO> batalkanTrsKurir(String idTransaksi, String catatan) {
         Log.i(TAG, "batalkanTrsKurir() called");
-        MutableLiveData<TransaksiListVO> dataTransaksi = new MutableLiveData<>();
+        MutableLiveData<TransaksiVO> dataTransaksi = new MutableLiveData<>();
 
-        Call<TransaksiListVO> call = mTransaksiService.batalkanTrsKurir(idTransaksi, catatan);
+        Call<TransaksiVO> call = mTransaksiService.batalkanTrsKurir(idTransaksi, catatan);
+        call.enqueue(new Callback<TransaksiVO>() {
+            @Override
+            public void onResponse(Call<TransaksiVO> call, Response<TransaksiVO> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "batalkanTrsKurir.onResponse() called");
+                    Log.d(TAG, response.body().getData().toString());
+                    dataTransaksi.setValue(response.body());
+                } else {
+                    // Logika untuk menangani kasus ketika response body null atau response tidak sukses
+                    Log.e(TAG, "Response unsuccessful or body is null");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransaksiVO> call, Throwable throwable) {
+
+            }
+        });
         return dataTransaksi;
     }
 

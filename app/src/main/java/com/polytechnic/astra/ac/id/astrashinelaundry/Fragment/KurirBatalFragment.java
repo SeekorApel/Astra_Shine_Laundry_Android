@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiListVO;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.TransaksiVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Model.TransaksiModel;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.TransaksiListViewModel;
@@ -56,12 +57,18 @@ public class KurirBatalFragment extends BottomSheetDialogFragment {
                 String catatan = mEditCatatan.getText().toString();
                 if (!catatan.isEmpty() && transaksi != null) {
                     mTransaksiListViewModel.batalkanTrsKurir(transaksi.getIdTransaksi().toString(), catatan);
-                    Toast.makeText(getContext(), "Catatan pembatalan berhasil dibuat", Toast.LENGTH_SHORT).show();
-                    dismiss();
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.PickUpKurir, new PickUpKurirFragment());
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    mTransaksiListViewModel.getBatalResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiVO>() {
+                        @Override
+                        public void onChanged(TransaksiVO transaksiVO) {
+                            Toast.makeText(getContext(), "Catatan pembatalan berhasil dibuat", Toast.LENGTH_SHORT).show();
+                            dismiss();
+                            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragment_container_kurir, new PickUpKurirFragment());
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                        }
+                    });
+
                 } else {
 
                     Toast.makeText(getContext(), "Catatan tidak boleh kosong", Toast.LENGTH_SHORT).show();
