@@ -232,7 +232,9 @@ public class RincianTransaksiFragment extends Fragment {
 
             public void bind(DetailTransaksiModel layanan) {
                 mLayanan.setText(layanan.getNamaLayanan());
-                mQty.setText(layanan.getQty().toString());
+                Log.d("QTYYY",layanan.getQty().toString());
+                Double qty =  Math.ceil(layanan.getQty());
+                mQty.setText(String.valueOf(qty));
             }
         }
     }
