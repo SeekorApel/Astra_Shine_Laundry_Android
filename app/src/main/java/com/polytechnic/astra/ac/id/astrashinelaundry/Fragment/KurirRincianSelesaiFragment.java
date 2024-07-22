@@ -141,18 +141,24 @@ public class KurirRincianSelesaiFragment extends Fragment {
                     mTransaksiListViewModel.getTransaksiResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiVO>() {
                         @Override
                         public void onChanged(TransaksiVO transaksiListVO) {
-                            if (transaksiListVO != null){
-                                PickUpKurirFragment listTransaksi = new PickUpKurirFragment();
-                                Bundle args = new Bundle();
-                                args.putInt("posisiTab", posisiTab);
-                                args.putString("userJson", userJson);
-                                listTransaksi.setArguments(args);
+                            mTransaksiListViewModel.getTransaksiUpdateResponse().observe(getViewLifecycleOwner(), new Observer<TransaksiVO>() {
+                                @Override
+                                public void onChanged(TransaksiVO transaksiVO) {
+                                    if (transaksiListVO != null){
+                                        PickUpKurirFragment listTransaksi = new PickUpKurirFragment();
+                                        Bundle args = new Bundle();
+                                        args.putInt("posisiTab", posisiTab);
+                                        args.putString("userJson", userJson);
+                                        listTransaksi.setArguments(args);
 
-                                getParentFragmentManager().beginTransaction()
-                                        .replace(R.id.fragment_container_kurir, listTransaksi)  // Make sure R.id.PickUpKurir is correct
-                                        .addToBackStack(null)
-                                        .commit();
-                            }
+                                        getParentFragmentManager().beginTransaction()
+                                                .replace(R.id.fragment_container_kurir, listTransaksi)  // Make sure R.id.PickUpKurir is correct
+                                                .addToBackStack(null)
+                                                .commit();
+                                    }
+                                }
+                            });
+
                         }
                     });
                 }

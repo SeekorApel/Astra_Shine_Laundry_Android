@@ -24,6 +24,7 @@ public class TransaksiListViewModel extends ViewModel {
 
     private LiveData<TransaksiListVO> transaksiRspns = new MutableLiveData<>();
     private LiveData<TransaksiVO> transaksiRps = new MutableLiveData<>();
+    private LiveData<TransaksiVO> update = new MutableLiveData<>();
     private MutableLiveData<String> successMessage = new MutableLiveData<>();
     private MutableLiveData<String> errorMessage = new MutableLiveData<>();
     private final TransaksiRepository mTransaksiRepository;
@@ -37,6 +38,9 @@ public class TransaksiListViewModel extends ViewModel {
     }
     public LiveData<TransaksiVO> getTransaksiResponse() {
         return transaksiRps;
+    }
+    public LiveData<TransaksiVO> getTransaksiUpdateResponse() {
+        return update;
     }
     public LiveData<DetailTransaksiVo> getAllDetailResponse() {
         return detailResponse;
@@ -65,7 +69,7 @@ public class TransaksiListViewModel extends ViewModel {
 
     public void updateStatus(String idTransaksi) {
         Log.i(TAG, "updateStatus() called");
-        transaksiRps = mTransaksiRepository.updateStatus(idTransaksi);
+        update = mTransaksiRepository.updateStatus(idTransaksi);
     }
 
     public void getTransaksiByIdAndStatus(Integer idUser, String status) {
