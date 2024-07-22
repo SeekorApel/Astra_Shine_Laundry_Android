@@ -48,8 +48,21 @@ public class PengaturanResetPasswordFragment extends Fragment {
         mBtnUbah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String oldPassword = mEdtPasswordLama.getText().toString().trim();
                 String newPassword = mEdtPasswordBaru.getText().toString().trim();
                 Integer idUser = getUserId();
+
+                if (TextUtils.isEmpty(oldPassword)) {
+                    mEdtPasswordLama.setError("Password lama wajib di isi");
+                    mEdtPasswordLama.requestFocus();
+                    return;
+                }
+
+                if (TextUtils.isEmpty(newPassword)) {
+                    mEdtPasswordBaru.setError("Password baru wajib di isi");
+                    mEdtPasswordBaru.requestFocus();
+                    return;
+                }
 
                 mForgetPasswordViewModel.resetPasswordById(idUser , newPassword);
 
