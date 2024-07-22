@@ -179,6 +179,9 @@ public class ViewTransaksiFragment extends Fragment {
                         status = "Proses";
                         break;
                     case 2: // Tab "Selesai"
+                        status = "Antar";
+                        break;
+                    case 3: // Tab "Selesai"
                         status = "Selesai";
                         break;
                 }
@@ -207,6 +210,8 @@ public class ViewTransaksiFragment extends Fragment {
                 if (currentTabPosition == 1){
                     status = "Proses";
                 } else if (currentTabPosition == 2) {
+                    status = "Antar";
+                } else if (currentTabPosition == 3) {
                     status = "Selesai";
                 }
             }
