@@ -453,7 +453,7 @@ public class ViewTransaksiFragment extends Fragment {
         });
     }
 
-    private void getTanggalPickUp(){
+    private void getTanggalPickUp() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -470,6 +470,10 @@ public class ViewTransaksiFragment extends Fragment {
                     }
                 },
                 year, month, day);
+
+        // Set the minimum date to today
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
         dialog.show();
     }
 
@@ -521,7 +525,7 @@ public class ViewTransaksiFragment extends Fragment {
                 int alamatIndex = mSpinnerAlamat.getSelectedItemPosition();
 
                 Log.d("tanggal",String.valueOf(tanggal_pickup));
-                if (durasiIndex > 0) {
+                if (durasiIndex > 0 && alamatIndex > 0) {
                     durasiId = mDurasiModelList.get(durasiIndex - 1).getIdDurasi();
                     alamatId = mAlamatModels.get(alamatIndex - 1).getIdAlamat();
                     jarak = mAlamatModels.get(alamatIndex - 1).getJarak();
@@ -539,12 +543,26 @@ public class ViewTransaksiFragment extends Fragment {
 
                     total_harga = Integer.valueOf(String.valueOf(ongkir));
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy");
+                    Date today = new Date();
                     Date datePickup = null;
                     try {
                         datePickup = dateFormat.parse(tanggal_pickup);
+                        today = dateFormat.parse(dateFormat.format(today));
+                        if (datePickup.before(today)){
+                            Toast.makeText(getContext(), "Tanggal pick up tidak boleh kurang dari hari ini", Toast.LENGTH_LONG).show();
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
-                        Toast.makeText(getContext(), "Data Tidak Boleh Kosong", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Data tidak boleh kosong", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Calendar calendar = Calendar.getInstance();
+
+                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+                    if (datePickup.equals(today) && hour > 19){
+                        Toast.makeText(getContext(), "Pick up hanya sampai jam 7", Toast.LENGTH_LONG).show();
                         return;
                     }
 
@@ -558,6 +576,7 @@ public class ViewTransaksiFragment extends Fragment {
 
                     navigateToFragmentTransaksi();
                     bottomSheetDialog.dismiss();
+                    Toast.makeText(getContext(), "Data berhasil disimpan", Toast.LENGTH_LONG).show();
 
                     mTransaksiListViewModel.getSuccessResponse().observe(getViewLifecycleOwner(), message -> {
                         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
