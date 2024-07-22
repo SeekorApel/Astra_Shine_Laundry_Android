@@ -36,18 +36,7 @@ public class ForgetPasswordViewModel extends ViewModel {
     }
 
     public void resetPasswordByEmail(String email) {
-        Log.i(TAG, "resetPasswordByEmail() called");
-        mUserRepository.resetPasswordByEmail(email, new UserRepository.messageCallback() {
-            @Override
-            public void onSuccess(String message) {
-                successMessage.postValue(message);
-            }
-
-            @Override
-            public void onError(String error) {
-                errorMessage.postValue(error);
-            }
-        });
+        response = mUserRepository.resetPasswordByEmail(email);
     }
 
     public void resetPasswordById(Integer idUser, String newPassword, String oldPassword){

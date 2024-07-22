@@ -16,7 +16,7 @@ public interface UserService {
     Call<UserVO> getUserByEmailAndPassword(@Query("email") String email, @Query("password") String password);
 
     @POST("user/resetPasswordByEmail")
-    Call<ForgetPasswordVO> resetPasswordByEmail(@Query("email") String email);
+    Call<UserVO> resetPasswordByEmail(@Query("email") String email);
 
     @POST("user/registerUser")
     Call<UserVO> registerUser(@Body UserModel user);

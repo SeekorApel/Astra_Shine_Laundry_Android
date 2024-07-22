@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.polytechnic.astra.ac.id.astrashinelaundry.API.Repository.UserRepository;
+import com.polytechnic.astra.ac.id.astrashinelaundry.API.VO.UserVO;
 import com.polytechnic.astra.ac.id.astrashinelaundry.Activity.MainActivity;
 import com.polytechnic.astra.ac.id.astrashinelaundry.R;
 import com.polytechnic.astra.ac.id.astrashinelaundry.ViewModel.ForgetPasswordViewModel;
@@ -65,19 +66,18 @@ public class ForgetPasswordFragment extends Fragment {
                 }
 
                 mForgetPasswordViewModel.resetPasswordByEmail(email);
-                mForgetPasswordViewModel.getSuccessResponse().observe(getViewLifecycleOwner(), new Observer<String>() {
+                mForgetPasswordViewModel.getResponse().observe(getViewLifecycleOwner(), new Observer<UserVO>() {
                     @Override
-                    public void onChanged(String messsage) {
-                        Toast.makeText(getContext(), messsage, Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActivity(), MainActivity.class);
-                        startActivity(intent);
-                        getActivity().finish();
-                    }
-                });
-                mForgetPasswordViewModel.getErrorResponse().observe(getViewLifecycleOwner(), new Observer<String>() {
-                    @Override
-                    public void onChanged(String error) {
-                        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+                    public void onChanged(UserVO userVO) {
+                        if(userVO.getStatus() == 200){
+                            Toast.makeText(getContext(), userVO.getMessage(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            startActivity(intent);
+                            getActivity().finish();
+                        }
+                        else if(userVO.getStatus() == 500){
+                            Toast.makeText(getContext(), userVO.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
